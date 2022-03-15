@@ -1,0 +1,4 @@
+disruptive>=1.2.0
+pyyaml>=6.0
+click>=8.0.4
+pyinstaller>=4.10
