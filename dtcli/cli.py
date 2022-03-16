@@ -29,7 +29,7 @@ def get_options(f):
     f = click.option(
         '-o', '--output',
         type=click.Choice(
-            ['wide', 'csv'],
+            ['wide', 'csv', 'tsv', 'json'],
             case_sensitive=False,
         ),
         default=None,

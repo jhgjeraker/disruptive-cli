@@ -44,8 +44,8 @@ def events(**kwargs):
 
     # Do a workaround to print header immediately.
     if table.opts['header']:
-        table._resolve_row_func()(None, header=True)
+        dtcli.output.stdout(table._resolve_row_func()(None, header=True))
         table.row_count += 1
 
     for event in disruptive.Stream.event_stream(**args):
-        table.new_row(event)
+        table.new_entry(event)

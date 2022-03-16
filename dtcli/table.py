@@ -71,16 +71,21 @@ class Table():
                 if attr_width > col.width:
                     self.columns[i].width = attr_width
 
-    def _csv_row_func(self, obj: object, header: bool = False):
+    def _csv_entry_func(self, obj: object, header: bool = False):
         line = ''
         for col in self.columns:
-            if header:
-                value = col.attr_name
-            else:
-                value = col.get_obj_attr_str(obj)
-            line += f'{str(value):<{col.width}}' + ','
+            value = col.attr_name if header else col.get_obj_attr_str(obj)
+            line += str(value) + ','
+        return line[:-1]
 
-    def _table_row_func(self, obj: object, header: bool = False):
+    def _tsv_entry_func(self, obj: object, header: bool = False):
+        line = ''
+        for col in self.columns:
+            value = col.attr_name if header else col.get_obj_attr_str(obj)
+            line += str(value) + '\t'
+        return line[:-1]
+
+    def _table_entry_func(self, obj: object, header: bool = False):
         line = ''
         for col in self.columns:
             if header:
@@ -89,26 +94,39 @@ class Table():
                 value = col.get_obj_attr_str(obj)
             line += f'{str(value):<{col.width}}'
             line += ' ' * dtcli.cfg['output']['padding']
-        dtcli.output.stdout(line[:-dtcli.cfg['output']['padding']])
+        return line[:-dtcli.cfg['output']['padding']]
+
+    def _json_entry_func(self, obj: object, header: bool = False):
+        if header:
+            return ''
+
+        if isinstance(obj, disruptive.outputs.OutputBase):
+            return json.dumps(obj._raw)
+        else:
+            return ''
 
     def _resolve_row_func(self):
         if 'csv' in self.opts['output']:
-            pass
+            return self._csv_entry_func
         elif 'tsv' in self.opts['output']:
-            pass
+            return self._tsv_entry_func
+        elif 'json' in self.opts['output']:
+            return self._json_entry_func
         else:
-            return self._table_row_func
+            return self._table_entry_func
 
-    def new_row(self, obj: object):
-        row_func = self._resolve_row_func()
+    def new_entry(self, obj: object):
+        entry_func = self._resolve_row_func()
 
         # Print header only on first try.
         if self.row_count == 0 and self.opts['header']:
-            row_func(obj, header=True)
+            header_str = entry_func(obj, header=True)
+            if len(header_str) > 0:
+                dtcli.output.stdout(header_str)
 
-        row_func(obj)
+        dtcli.output.stdout(entry_func(obj))
         self.row_count += 1
 
-    def print_rows(self, objects: list[object]):
+    def new_entries(self, objects: list[object]):
         for obj in objects:
-            self.new_row(obj)
+            self.new_entry(obj)

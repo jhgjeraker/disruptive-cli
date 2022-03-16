@@ -16,7 +16,7 @@ def _devices(devices: list[disruptive.Device], **kwargs):
         opts=kwargs,
     )
     table.expand_rows(devices)
-    table.print_rows(devices)
+    table.new_entries(devices)
 
 
 def device(**kwargs):
@@ -49,7 +49,7 @@ def _projects(projects: list[disruptive.Project], **kwargs):
         opts=kwargs,
     )
     table.expand_rows(projects)
-    table.print_rows(projects)
+    table.new_entries(projects)
 
 
 def project(**kwargs):
@@ -96,4 +96,4 @@ def history(**kwargs):
     )
 
     table.expand_rows(history)
-    table.print_rows(history)
+    table.new_entries(history)
