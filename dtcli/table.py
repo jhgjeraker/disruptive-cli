@@ -5,9 +5,9 @@ import disruptive
 
 
 class Column():
-    def __init__(self, name: str, hide: bool, width: int | None = None):
+    def __init__(self, name: str, hidden: bool, width: int | None = None):
         self.name = name
-        self.hide = hide
+        self.hidden = hidden
         self.width = width if width is not None else len(name)
 
     @property
@@ -40,18 +40,13 @@ class Table():
         self.row_count = 0
         self.columns = self._parse_columns(default_columns)
 
-    def _parse_columns(self, default_columns: list[Column]):
-        # If no columns opts are given, use default.
-        if self.opts['columns'] is None:
-            use_columns = default_columns
+    def _parse_columns(self, columns: list[Column]):
+        # Make a copy of input.
+        use_columns = [c for c in columns]
 
-            # If `wide` option not provided, hide some of the columns.
-            if 'wide' not in self.opts['output']:
-                use_columns = [c for c in use_columns if not c.hide]
-
-        else:
-            use_columns = self.opts['columns'].split(',')
-            use_columns = [Column.from_opts(c) for c in use_columns]
+        # If `--full` is not provided, show only partial output.
+        if not self.opts['full']:
+            use_columns = [c for c in use_columns if not c.hidden]
 
         # Prune excluded columns if option is given.
         if self.opts['exclude'] is not None:
@@ -106,11 +101,11 @@ class Table():
             return ''
 
     def _resolve_row_func(self):
-        if 'csv' in self.opts['output']:
+        if self.opts['csv']:
             return self._csv_entry_func
-        elif 'tsv' in self.opts['output']:
+        elif self.opts['tsv']:
             return self._tsv_entry_func
-        elif 'json' in self.opts['output']:
+        elif self.opts['json']:
             return self._json_entry_func
         else:
             return self._table_entry_func
@@ -119,7 +114,7 @@ class Table():
         entry_func = self._resolve_row_func()
 
         # Print header only on first try.
-        if self.row_count == 0 and self.opts['header']:
+        if self.row_count == 0 and not self.opts['no_header']:
             header_str = entry_func(obj, header=True)
             if len(header_str) > 0:
                 dtcli.output.stdout(header_str)

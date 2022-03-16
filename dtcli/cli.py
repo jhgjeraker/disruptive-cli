@@ -26,18 +26,12 @@ def get():
 
 # Common options for all get calls.
 def get_options(f):
-    f = click.option(
-        '-o', '--output',
-        type=click.Choice(
-            ['wide', 'csv', 'tsv', 'json'],
-            case_sensitive=False,
-        ),
-        default=None,
-        multiple=True,
-    )(f)
-    f = click.option('-c', '--columns')(f)
     f = click.option('-x', '--exclude')(f)
-    f = click.option('--header/--no-header', default=True)(f)
+    f = click.option('--no-header', is_flag=True)(f)
+    f = click.option('--csv', is_flag=True)(f)
+    f = click.option('--tsv', is_flag=True)(f)
+    f = click.option('--json', is_flag=True)(f)
+    f = click.option('--full', is_flag=True)(f)
     return f
 
 
