@@ -1,4 +1,5 @@
-import dtcli
+import dtcli.cli
+import dtcli.config
 
 
 def main():
@@ -6,7 +7,7 @@ def main():
     dtcli.cfg = dtcli.config._load_config()
 
     # Launch the click cli.
-    dtcli.cli.cli_root()
+    dtcli.cli.entry_point()
 
 
 if __name__ == '__main__':

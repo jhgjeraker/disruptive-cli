@@ -1,7 +1,8 @@
 import json
 
-import dtcli
 import disruptive
+
+import dtcli.format
 
 
 class Column():

@@ -1,6 +1,24 @@
 import click
+from click_option_group import optgroup
 
-import dtcli
+import dtcli.auth
+import dtcli.output
+
+import dtcli.resources.project
+import dtcli.resources.device
+import dtcli.resources.history
+
+
+GLOBAL_OPTS = [
+    optgroup.group('\n  Filters'),
+    optgroup.option('--no-header', is_flag=True),
+    optgroup.option('--full', is_flag=True),
+    optgroup.option('-x', '--exclude', help='Excludes one- or more columns.'),
+    optgroup.group('\n  Formatting'),
+    optgroup.option('--csv', is_flag=True),
+    optgroup.option('--tsv', is_flag=True),
+    optgroup.option('--json', is_flag=True, help='Output JSON format.'),
+]
 
 
 def add_options(options):
@@ -12,34 +30,26 @@ def add_options(options):
 
 
 @click.group()
-def cli_root():
+def entry_point():
     pass
 
 
 # --------------------------------------------------
 #                       GET
 #
-@cli_root.group()
+GET_GROUP_OPTS = [] + GLOBAL_OPTS
+
+
+@entry_point.group()
 def get():
-    dtcli.auth()
-
-
-# Common options for all get calls.
-def get_options(f):
-    f = click.option('-x', '--exclude')(f)
-    f = click.option('--no-header', is_flag=True)(f)
-    f = click.option('--csv', is_flag=True)(f)
-    f = click.option('--tsv', is_flag=True)(f)
-    f = click.option('--json', is_flag=True)(f)
-    f = click.option('--full', is_flag=True)(f)
-    return f
+    dtcli.auth.auth()
 
 
 # GET DEVICE
 # ----------
 @get.command()
-@get_options
 @click.argument('device-id')
+@add_options(GET_GROUP_OPTS)
 def device(**kwargs):
     dtcli.get.device(**kwargs)
 
@@ -47,13 +57,13 @@ def device(**kwargs):
 # GET DEVICES
 # -----------
 @get.command()
-@get_options
 @click.argument('project-id')
 @click.option('--query')
 @click.option('--device-ids')
 @click.option('--device-types')
 @click.option('--label-filters')
 @click.option('--order-by')
+@add_options(GET_GROUP_OPTS)
 def devices(**kwargs):
     dtcli.get.devices(**kwargs)
 
@@ -61,31 +71,36 @@ def devices(**kwargs):
 # GET PROJECT
 # -----------
 @get.command()
-@get_options
 @click.argument('project-id')
+@add_options(GET_GROUP_OPTS)
 def project(**kwargs):
-    dtcli.get.project(**kwargs)
+    dtcli.resources.project.get_project(**kwargs)
 
 
 # GET PROJECTS
 # ------------
 @get.command()
-@get_options
-@click.option('--organization-id')
-@click.option('--query')
+@optgroup.group('Parameters')
+@optgroup.option('--organization-id', help='Organization ID')
+@optgroup.option('--query')
+@add_options(GET_GROUP_OPTS)
 def projects(**kwargs):
-    dtcli.get.projects(**kwargs)
+    """
+    Docstrings work here too!
+
+    """
+    dtcli.resources.project.get_projects(**kwargs)
 
 
 # GET HISTORY
 # -----------
 @get.command()
-@get_options
 @click.argument('device-id')
 @click.argument('project-id')
 @click.option('--event-types')
 @click.option('--start-time')
 @click.option('--end-time')
+@add_options(GET_GROUP_OPTS)
 def history(**kwargs):
     dtcli.get.history(**kwargs)
 
@@ -93,18 +108,21 @@ def history(**kwargs):
 # --------------------------------------------------
 #                       STREAM
 #
-@cli_root.group()
+STREAM_GROUP_OPTS = [] + GLOBAL_OPTS
+
+
+@entry_point.group()
 def stream():
     dtcli.auth()
 
 
 @stream.command()
-@get_options
 @click.argument('project-id')
 @click.option('--device-ids')
 @click.option('--label-filters')
 @click.option('--device-types')
 @click.option('--event-types')
+@add_options(STREAM_GROUP_OPTS)
 def events(**kwargs):
     dtcli.stream.events(**kwargs)
 
@@ -112,22 +130,28 @@ def events(**kwargs):
 # --------------------------------------------------
 #                      CONFIG
 #
-@cli_root.group()
+CONFIG_GROUP_OPTS = [] + GLOBAL_OPTS
+
+
+@entry_point.group()
 def config():
     pass
 
 
 @config.command()
+@add_options(CONFIG_GROUP_OPTS)
 def default():
     dtcli.config.set_default()
 
 
 @config.group()
+@add_options(CONFIG_GROUP_OPTS)
 def set():
     pass
 
 
 @set.command()
 @click.argument('spaces')
+@add_options(CONFIG_GROUP_OPTS)
 def padding(**kwargs):
     dtcli.config.set_padding(**kwargs)
