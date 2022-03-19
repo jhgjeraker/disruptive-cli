@@ -9,5 +9,5 @@ def auth():
     try:
         disruptive.default_auth.refresh()
     except disruptive.errors.Unauthorized:
-        dtcli.output.stderr('Unauthorized')
+        dtcli.format.stderr('Unauthorized')
         sys.exit(1)

@@ -1,6 +1,6 @@
 import disruptive
 
-import dtcli.table
+import dtcli
 
 
 def _devices(devices: list[disruptive.Device], **kwargs):
@@ -20,14 +20,14 @@ def _devices(devices: list[disruptive.Device], **kwargs):
     table.new_entries(devices)
 
 
-def device(**kwargs):
+def get_device(**kwargs):
     _devices(disruptive.Device.get_device(
         device_id=kwargs['device_id'],
         project_id=kwargs['project_id'],
     ), **kwargs)
 
 
-def devices(**kwargs):
+def get_devices(**kwargs):
     _devices(disruptive.Device.list_devices(
         project_id=kwargs['project_id'],
         query=kwargs['query'],

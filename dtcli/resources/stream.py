@@ -2,7 +2,7 @@ import dtcli
 import disruptive
 
 
-def events(**kwargs):
+def stream_events(**kwargs):
     if kwargs['event_types'] is None:
         ignore = [
             disruptive.events.NETWORK_STATUS,
@@ -43,8 +43,8 @@ def events(**kwargs):
     )
 
     # Do a workaround to print header immediately.
-    if table.opts['header']:
-        dtcli.output.stdout(table._resolve_row_func()(None, header=True))
+    if not table.opts['no_header']:
+        dtcli.format.stdout(table._resolve_row_func()(None, header=True))
         table.row_count += 1
 
     for event in disruptive.Stream.event_stream(**args):

@@ -118,9 +118,9 @@ class Table():
         if self.row_count == 0 and not self.opts['no_header']:
             header_str = entry_func(obj, header=True)
             if len(header_str) > 0:
-                dtcli.output.stdout(header_str)
+                dtcli.format.stdout(header_str)
 
-        dtcli.output.stdout(entry_func(obj))
+        dtcli.format.stdout(entry_func(obj))
         self.row_count += 1
 
     def new_entries(self, objects: list[object]):

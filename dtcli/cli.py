@@ -1,157 +1,62 @@
-import click
-from click_option_group import optgroup
+import argparse
+import importlib
 
-import dtcli.auth
-import dtcli.output
-
-import dtcli.resources.project
-import dtcli.resources.device
-import dtcli.resources.history
+import dtcli
 
 
-GLOBAL_OPTS = [
-    optgroup.group('\n  Filters'),
-    optgroup.option('--no-header', is_flag=True),
-    optgroup.option('--full', is_flag=True),
-    optgroup.option('-x', '--exclude', help='Excludes one- or more columns.'),
-    optgroup.group('\n  Formatting'),
-    optgroup.option('--csv', is_flag=True),
-    optgroup.option('--tsv', is_flag=True),
-    optgroup.option('--json', is_flag=True, help='Output JSON format.'),
-]
+def _common_opts(parser):
+    table_group = parser.add_argument_group('table')
+    table_group.add_argument('--full', action='store_true')
+    table_group.add_argument('--no-header', action='store_true')
+    table_group.add_argument('--exclude')
+
+    format_group = parser.add_argument_group('formatting')
+    format_group.add_argument('--csv', action='store_true')
+    format_group.add_argument('--tsv', action='store_true')
+    format_group.add_argument('--json', action='store_true')
 
 
-def add_options(options):
-    def _add_options(func):
-        for opt in reversed(options):
-            func = opt(func)
-        return func
-    return _add_options
-
-
-@click.group()
 def entry_point():
-    pass
+    parser = argparse.ArgumentParser(
+        formatter_class=dtcli.format.SubcommandHelpFormatter,
+    )
+
+    # Create one subparser per command.
+    # Global flags are provided by the _common_opts function.
+    subparser = parser.add_subparsers(
+        title='available commands',
+        dest='command',
+        metavar=None,
+    )
+    subs = {}
+    subs['get'] = dtcli.commands.get.add_command(subparser, _common_opts)
+    subs['create'] = dtcli.commands.create.add_command(subparser, _common_opts)
+    subs['delete'] = dtcli.commands.delete.add_command(subparser, _common_opts)
+    subs['stream'] = dtcli.commands.stream.add_command(subparser, _common_opts)
+    subs['config'] = dtcli.commands.config.add_command(subparser, _common_opts)
+
+    # Finally, once the parser and subparsers are constructed, build the
+    # output dictionary of arguments which we will use for executing functions.
+    args = vars(parser.parse_args())
+
+    # Also, for some reason, argparse converts all argument-dashes (-) to
+    # underscore, **except** for positional arguments. There is probably a
+    # good reason for this, but it is one I do not need. For constistency's
+    # sake, I convert them all to underscore myself.
+    args = dtcli.format.args_replace_dash(args)
+
+    # The initialization phase is wrapped in a general function cli_init().
+    # This is mainly to avoid running the auth-sequence when no command
+    # is provided, but also separates the setup from actual cli executions.
+    if args['command'] is not None:
+        cli_init(args['command'], subs[args['command']], args)
+    else:
+        print(parser.format_help())
 
 
-# --------------------------------------------------
-#                       GET
-#
-GET_GROUP_OPTS = [] + GLOBAL_OPTS
+def cli_init(command: str, parser, args):
+    # Load config from file if it exists.
+    dtcli.cfg = dtcli.config.load_config()
 
-
-@entry_point.group()
-def get():
-    dtcli.auth.auth()
-
-
-# GET DEVICE
-# ----------
-@get.command()
-@click.argument('device-id')
-@add_options(GET_GROUP_OPTS)
-def device(**kwargs):
-    dtcli.get.device(**kwargs)
-
-
-# GET DEVICES
-# -----------
-@get.command()
-@click.argument('project-id')
-@click.option('--query')
-@click.option('--device-ids')
-@click.option('--device-types')
-@click.option('--label-filters')
-@click.option('--order-by')
-@add_options(GET_GROUP_OPTS)
-def devices(**kwargs):
-    dtcli.get.devices(**kwargs)
-
-
-# GET PROJECT
-# -----------
-@get.command()
-@click.argument('project-id')
-@add_options(GET_GROUP_OPTS)
-def project(**kwargs):
-    dtcli.resources.project.get_project(**kwargs)
-
-
-# GET PROJECTS
-# ------------
-@get.command()
-@optgroup.group('Parameters')
-@optgroup.option('--organization-id', help='Organization ID')
-@optgroup.option('--query')
-@add_options(GET_GROUP_OPTS)
-def projects(**kwargs):
-    """
-    Docstrings work here too!
-
-    """
-    dtcli.resources.project.get_projects(**kwargs)
-
-
-# GET HISTORY
-# -----------
-@get.command()
-@click.argument('device-id')
-@click.argument('project-id')
-@click.option('--event-types')
-@click.option('--start-time')
-@click.option('--end-time')
-@add_options(GET_GROUP_OPTS)
-def history(**kwargs):
-    dtcli.get.history(**kwargs)
-
-
-# --------------------------------------------------
-#                       STREAM
-#
-STREAM_GROUP_OPTS = [] + GLOBAL_OPTS
-
-
-@entry_point.group()
-def stream():
-    dtcli.auth()
-
-
-@stream.command()
-@click.argument('project-id')
-@click.option('--device-ids')
-@click.option('--label-filters')
-@click.option('--device-types')
-@click.option('--event-types')
-@add_options(STREAM_GROUP_OPTS)
-def events(**kwargs):
-    dtcli.stream.events(**kwargs)
-
-
-# --------------------------------------------------
-#                      CONFIG
-#
-CONFIG_GROUP_OPTS = [] + GLOBAL_OPTS
-
-
-@entry_point.group()
-def config():
-    pass
-
-
-@config.command()
-@add_options(CONFIG_GROUP_OPTS)
-def default():
-    dtcli.config.set_default()
-
-
-@config.group()
-@add_options(CONFIG_GROUP_OPTS)
-def set():
-    pass
-
-
-@set.command()
-@click.argument('spaces')
-@add_options(CONFIG_GROUP_OPTS)
-def padding(**kwargs):
-    dtcli.config.set_padding(**kwargs)
+    cmd_module = importlib.import_module(f'dtcli.commands.{command}')
+    cmd_module.do(parser, **args)
