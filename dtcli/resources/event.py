@@ -2,6 +2,44 @@ import dtcli
 import disruptive
 
 
+def list_events(**kwargs):
+    if kwargs['event_types'] is None:
+        ignore = [
+            disruptive.events.NETWORK_STATUS,
+            disruptive.events.ETHERNET_STATUS,
+            disruptive.events.CELLULAR_STATUS,
+            disruptive.events.BATTERY_STATUS,
+            disruptive.events.CONNECTION_STATUS,
+        ]
+        types = [e for e in disruptive.events.EVENT_TYPES if e not in ignore]
+    else:
+        types = kwargs['event_types'].split(',')
+
+    args = {
+        'device_id': kwargs['device_id'],
+        'project_id': kwargs['project_id'],
+        'event_types': types if kwargs['event_types'] is None else [
+            t for t in kwargs['event_types'].split(',')
+        ],
+        'start_time': kwargs['start_time'],
+        'end_time': kwargs['end_time'],
+    }
+
+    table = dtcli.table.Table(
+        default_columns=[
+            dtcli.table.Column('event_id', False, 20),
+            dtcli.table.Column('event_type', False, 15),
+            dtcli.table.Column('device_id', False, 23),
+            dtcli.table.Column('project_id', True, 20),
+            dtcli.table.Column('data', False),
+        ],
+        opts=kwargs,
+    )
+
+    for event in disruptive.EventHistory.list_events(**args):
+        table.new_entry(event)
+
+
 def stream_events(**kwargs):
     if kwargs['event_types'] is None:
         ignore = [
@@ -24,10 +62,10 @@ def stream_events(**kwargs):
             f for f in kwargs['label_filters'].split(',')
         ],
         'device_types': None if kwargs['device_types'] is None else [
-            t for t in kwargs['device_types']
+            t for t in kwargs['device_types'].split(',')
         ],
         'event_types': types if kwargs['event_types'] is None else [
-            t for t in kwargs['event_types']
+            t for t in kwargs['event_types'].split(',')
         ],
     }
 

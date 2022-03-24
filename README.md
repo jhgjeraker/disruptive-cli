@@ -10,16 +10,16 @@ export DT_SERVICE_ACCOUNT_EMAIL="<SERVICE_ACCOUNT_EMAIL>"
 ```
 
 ## Usage
-The CLI is structured in a `<VERB>` -> `<SUBJECT>` format with plurality.
+The CLI is structured in a `<NOUN>` -> `<VERB>` format.
 
 - Fetch a single device.
 ```bash
-dt get device <DEVICE_ID>
+dt device get <DEVICE_ID>
 ```
 
 - Fetch all devices in a project.
 ```bash
-dt get devices <PROJECT_ID>
+dt device list <PROJECT_ID>
 ```
 
 ## Development

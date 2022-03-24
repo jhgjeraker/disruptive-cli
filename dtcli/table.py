@@ -27,7 +27,7 @@ class Column():
         if hasattr(obj, self.attr_name):
             attr = getattr(obj, self.attr_name)
             if isinstance(attr, disruptive.outputs.OutputBase):
-                attr = json.dumps(attr._raw)
+                attr = json.dumps(attr.raw)
             elif isinstance(attr, dict):
                 attr = json.dumps(attr)
             return str(attr)
@@ -36,7 +36,8 @@ class Column():
 
 
 class Table():
-    def __init__(self, default_columns: list[Column], opts: dict):
+    def __init__(self, default_columns: list, cfg: dict, opts: dict):
+        self.cfg = cfg
         self.opts = opts
         self.row_count = 0
         self.columns = self._parse_columns(default_columns)
@@ -45,22 +46,25 @@ class Table():
         # Make a copy of input.
         use_columns = [c for c in columns]
 
+        # If --include is provided, only use columns specified.
+        if self.opts['include'] is not None:
+            names = self.opts['include'].split(',')
+            names = [dtcli.format.str_attr_format(n) for n in names]
+            return [c for c in use_columns if c.attr_name in names]
+
         # If `--full` is not provided, show only partial output.
         if not self.opts['full']:
-            use_columns = [c for c in use_columns if not c.hidden]
-
-        # Prune excluded columns if option is given.
-        if self.opts['exclude'] is not None:
-            filt = self.opts['exclude'].split(',')
-            filt = [dtcli.format.str_attr_format(name) for name in filt]
-            use_columns = [c for c in use_columns if c.attr_name not in filt]
+            return [c for c in use_columns if not c.hidden]
 
         return use_columns
 
-    def _print_header(self):
-        pass
+    def _should_print_header(self):
+        if self.opts['no_header'] or len(self.columns) < 2:
+            return False
+        else:
+            return True
 
-    def expand_rows(self, objects: list[object]):
+    def expand_rows(self, objects: list):
         for i, col in enumerate(self.columns):
             for obj in objects:
                 attr_width = len(col.get_obj_attr_str(obj))
@@ -89,15 +93,15 @@ class Table():
             else:
                 value = col.get_obj_attr_str(obj)
             line += f'{str(value):<{col.width}}'
-            line += ' ' * dtcli.cfg['output']['padding']
-        return line[:-dtcli.cfg['output']['padding']]
+            line += ' ' * self.cfg['output']['padding']
+        return line[:-self.cfg['output']['padding']]
 
     def _json_entry_func(self, obj: object, header: bool = False):
         if header:
             return ''
 
         if isinstance(obj, disruptive.outputs.OutputBase):
-            return json.dumps(obj._raw)
+            return json.dumps(obj.raw)
         else:
             return ''
 
@@ -115,7 +119,7 @@ class Table():
         entry_func = self._resolve_row_func()
 
         # Print header only on first try.
-        if self.row_count == 0 and not self.opts['no_header']:
+        if self.row_count == 0 and self._should_print_header():
             header_str = entry_func(obj, header=True)
             if len(header_str) > 0:
                 dtcli.format.stdout(header_str)
@@ -123,6 +127,6 @@ class Table():
         dtcli.format.stdout(entry_func(obj))
         self.row_count += 1
 
-    def new_entries(self, objects: list[object]):
+    def new_entries(self, objects: list):
         for obj in objects:
             self.new_entry(obj)

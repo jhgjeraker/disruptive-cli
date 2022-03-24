@@ -34,7 +34,7 @@ def _write_config(cfg: dict[str, Any]) -> None:
 
 
 def set_default():
-    _write_config()
+    _write_config(_default_cfg)
 
 
 def set_padding(**kwargs):

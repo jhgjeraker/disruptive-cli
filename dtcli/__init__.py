@@ -1,4 +1,9 @@
 
-from dtcli import cli, format, auth, table  # noqa
-from dtcli.commands import get, create, delete, stream, config  # noqa
-from dtcli.resources import project, device, stream  # noqa
+import dtcli.cli as cli
+import dtcli.format as format
+import dtcli.auth as auth
+import dtcli.table as table
+import dtcli.errors as errors
+
+import dtcli.commands as commands
+import dtcli.resources as resources
