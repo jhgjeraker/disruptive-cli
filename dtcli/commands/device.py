@@ -1,6 +1,82 @@
 import dtcli
 
 
+GET_ARGS = dtcli.parser.CmdArgs([
+    dtcli.parser.Arg(
+        key='device_id',
+        flags=['device-id'],
+        xid=True,
+        format=dtcli.format.to_string,
+    ),
+    dtcli.parser.Arg(
+        key='project_id',
+        flags=['--project-id'],
+        xid=True,
+        metavar='',
+        format=dtcli.format.to_string,
+    )
+])
+
+LIST_ARGS = dtcli.parser.CmdArgs([
+    dtcli.parser.Arg(
+        key='project_id',
+        flags=['project-id'],
+        xid=True,
+        help='identifier of owning project',
+        format=dtcli.format.to_string,
+    ),
+    dtcli.parser.Arg(
+        key='query',
+        flags=['--query'],
+        help='keyword-based device search',
+        metavar='',
+        format=dtcli.format.to_string,
+    ),
+    dtcli.parser.Arg(
+        key='device_ids',
+        flags=['--device-ids'],
+        metavar='',
+        help='comma-separated device identifiers',
+        format=dtcli.format.str2list,
+    ),
+    dtcli.parser.Arg(
+        key='device_types',
+        flags=['--device-types'],
+        metavar='',
+        help='comma-separated device types',
+        format=dtcli.format.str2list,
+    ),
+    dtcli.parser.Arg(
+        key='label_filters',
+        flags=['--label-filters'],
+        metavar='',
+        help='comma-separated key=value labels',
+        format=dtcli.format.to_string,
+    )
+])
+
+TRANSFER_ARGS = dtcli.parser.CmdArgs([
+    dtcli.parser.Arg(
+        key='device_ids',
+        flags=['device-ids'],
+        help='comma-separated device identifiers',
+        format=dtcli.format.str2list,
+    ),
+    dtcli.parser.Arg(
+        key='source_project_id',
+        flags=['source-project-id'],
+        help='source project identifier',
+        format=dtcli.format.to_string,
+    ),
+    dtcli.parser.Arg(
+        key='target_project_id',
+        flags=['target-project-id'],
+        help='target project identifier',
+        format=dtcli.format.to_string,
+    ),
+])
+
+
 def add(subparser, common_opts):
     device_parser = subparser.add_parser(
         name='device',
@@ -14,21 +90,12 @@ def add(subparser, common_opts):
     )
 
     # ----------
-    # Device Get
+    # device get
     get_parser = device_subparser.add_parser(
         name='get',
         help='Get a single device.',
     )
-    get_parser.add_argument(
-        'device-id',
-        help='Device identifier.'
-    )
-    get_parser.add_argument(
-        '--project-id',
-        default='-',
-        metavar='',
-        help='Owning project identifier.'
-    )
+    GET_ARGS.to_parser(get_parser)
     common_opts(get_parser)
 
     # -----------
@@ -37,30 +104,7 @@ def add(subparser, common_opts):
         name='list',
         help='Get one or more devices.',
     )
-    list_parser.add_argument(
-        'project-ids',
-        help='Device identifier.'
-    )
-    list_parser.add_argument(
-        '--query',
-        metavar='',
-        help='Keyword-based device search.',
-    )
-    list_parser.add_argument(
-        '--device-ids',
-        metavar='',
-        help='Space-separated device identifiers.',
-    )
-    list_parser.add_argument(
-        '--device-types',
-        metavar='',
-        help='Comma-separeted device types.',
-    )
-    list_parser.add_argument(
-        '--label-filters',
-        metavar='',
-        help='Space-separated key=value labels.',
-    )
+    LIST_ARGS.to_parser(list_parser)
     common_opts(list_parser)
 
     # ----------------
@@ -69,12 +113,7 @@ def add(subparser, common_opts):
         name='transfer',
         help='Transfer one or more devices.'
     )
-    transfer_parser.add_argument(
-        'device-ids',
-        help='Comma-separated device IDs to be transferred.',
-    )
-    transfer_parser.add_argument('source')
-    transfer_parser.add_argument('target')
+    TRANSFER_ARGS.to_parser(transfer_parser)
     common_opts(transfer_parser)
 
     # ------------
@@ -89,7 +128,7 @@ def add(subparser, common_opts):
 
 def do(parsers: dict, cfg: dict, **kwargs):
     if kwargs['device'] == 'get':
-        dtcli.resources.device.device_list(cfg, **kwargs)
+        dtcli.resources.device.device_get(cfg, **kwargs)
     elif kwargs['device'] == 'list':
         dtcli.resources.device.device_list(cfg, **kwargs)
     elif kwargs['device'] == 'transfer':
