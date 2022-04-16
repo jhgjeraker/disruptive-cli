@@ -19,9 +19,11 @@ def _projects(projects: list[dt.Project], cfg: dict, **kwargs):
     table.expand_rows(projects)
     table.new_entries(projects)
 
+    return table
+
 
 def project_get(cfg: dict, **kwargs):
-    _projects(
+    return _projects(
         projects=dtcli.commands.project.GET_ARGS.call(
             method=dt.Project.get_project,
             **kwargs,
@@ -32,7 +34,7 @@ def project_get(cfg: dict, **kwargs):
 
 
 def project_list(cfg: dict, **kwargs):
-    _projects(
+    return _projects(
         projects=dtcli.commands.project.LIST_ARGS.call(
             method=dt.Project.list_projects,
             **kwargs,

@@ -75,10 +75,10 @@ def add(subparser, common_opts):
 
 def do(parser, cfg, **kwargs):
     if kwargs['project'] == 'get':
-        dtcli.resources.project.project_get(cfg, **kwargs)
+        return dtcli.resources.project.project_get(cfg, **kwargs)
     elif kwargs['project'] == 'list':
-        dtcli.resources.project.project_list(cfg, **kwargs)
+        return dtcli.resources.project.project_list(cfg, **kwargs)
     elif kwargs['project'] == 'create':
-        dtcli.resources.project.project_create(cfg, **kwargs)
+        return dtcli.resources.project.project_create(cfg, **kwargs)
     else:
         print(parser['project'].format_help())

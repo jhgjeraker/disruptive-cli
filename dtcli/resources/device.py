@@ -20,23 +20,25 @@ def _devices(devices: list[dt.Device], cfg, **kwargs):
     table.expand_rows(devices)
     table.new_entries(devices)
 
+    return table
 
-def device_get(cfg, **kwargs) -> None:
+
+def device_get(cfg, **kwargs):
     results = dtcli.commands.device.GET_ARGS.call(
         method=dt.Device.get_device,
         **kwargs,
     )
 
-    _devices(results, cfg, **kwargs)
+    return _devices(results, cfg, **kwargs)
 
 
-def device_list(cfg, **kwargs) -> None:
+def device_list(cfg, **kwargs):
     results = dtcli.commands.device.LIST_ARGS.call(
         method=dt.Device.list_devices,
         **kwargs,
     )
 
-    _devices(results, cfg, **kwargs)
+    return _devices(results, cfg, **kwargs)
 
 
 def _errors(errors: list, cfg, **kwargs):
@@ -54,9 +56,11 @@ def _errors(errors: list, cfg, **kwargs):
     table.expand_rows(errors)
     table.new_entries(errors)
 
+    return table
+
 
 def device_transfer(cfg, **kwargs):
-    _errors(
+    return _errors(
         errors=dtcli.commands.device.TRANSFER_ARGS.call(
             method=dt.Device.transfer_devices,
             **kwargs,
@@ -67,7 +71,7 @@ def device_transfer(cfg, **kwargs):
 
 
 def device_label_set(cfg, **kwargs):
-    _errors(
+    return _errors(
         errors=dtcli.commands.device_label.SET_ARGS.call(
             method=dt.Device.batch_update_labels,
             **kwargs,
@@ -78,7 +82,7 @@ def device_label_set(cfg, **kwargs):
 
 
 def device_label_remove(cfg, **kwargs):
-    _errors(
+    return _errors(
         errors=dtcli.commands.device_label.REMOVE_ARGS.call(
             method=dt.Device.batch_update_labels,
             **kwargs,

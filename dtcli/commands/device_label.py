@@ -79,8 +79,8 @@ def add_command(subparser, common_opts):
 
 def do(parsers: dict, cfg: dict, **kwargs):
     if kwargs['label'] == 'set':
-        dtcli.resources.device.device_label_set(cfg, **kwargs)
+        return dtcli.resources.device.device_label_set(cfg, **kwargs)
     elif kwargs['label'] == 'remove':
-        dtcli.resources.device.device_label_remove(cfg, **kwargs)
+        return dtcli.resources.device.device_label_remove(cfg, **kwargs)
     else:
         print(parsers['label'].format_help())
