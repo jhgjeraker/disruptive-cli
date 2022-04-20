@@ -1,6 +1,49 @@
 import dtcli
 
 
+SET_ARGS = dtcli.parser.CmdArgs([
+    dtcli.parser.Arg(
+        key='device_ids',
+        flags=['device-ids'],
+        help='comma-separated device identifiers',
+        format=dtcli.format.str2list,
+    ),
+    dtcli.parser.Arg(
+        key='project_id',
+        flags=['project-id'],
+        help='identifier of owning project',
+        format=dtcli.format.to_string,
+    ),
+    dtcli.parser.Arg(
+        key='set_labels',
+        flags=['labels'],
+        help='comma-separated key=value labels',
+        format=dtcli.format.str2dict,
+    ),
+])
+
+REMOVE_ARGS = dtcli.parser.CmdArgs([
+    dtcli.parser.Arg(
+        key='device_ids',
+        flags=['device-ids'],
+        help='comma-separated device identifiers',
+        format=dtcli.format.str2list,
+    ),
+    dtcli.parser.Arg(
+        key='project_id',
+        flags=['project-id'],
+        help='owning project identifier',
+        format=dtcli.format.to_string,
+    ),
+    dtcli.parser.Arg(
+        key='remove_labels',
+        flags=['labels'],
+        help='comma-separated label keys',
+        format=dtcli.format.str2list,
+    ),
+])
+
+
 def add_command(subparser, common_opts):
     label_parser = subparser.add_parser(
         name='label',
@@ -19,18 +62,7 @@ def add_command(subparser, common_opts):
         name='set',
         help='Set or update a label.',
     )
-    set_parser.add_argument(
-        'device-ids',
-        help='Comma-separated device IDs to add labels to.',
-    )
-    set_parser.add_argument(
-        'project-id',
-        help='Identifier of project holding devices.'
-    )
-    set_parser.add_argument(
-        'labels',
-        help='Comma-separated key=value label pairs.',
-    )
+    SET_ARGS.to_parser(set_parser)
     common_opts(set_parser)
 
     # ------------
@@ -39,18 +71,7 @@ def add_command(subparser, common_opts):
         name='remove',
         help='Remove one- or more labels.',
     )
-    remove_parser.add_argument(
-        'device-ids',
-        help='Comma-separated device IDs from which to remove labels.',
-    )
-    remove_parser.add_argument(
-        'project-id',
-        help='Identifier of project holding devices.'
-    )
-    remove_parser.add_argument(
-        'labels',
-        help='Comma-separated list of label keys to remove.',
-    )
+    REMOVE_ARGS.to_parser(remove_parser)
     common_opts(remove_parser)
 
     return label_parser
@@ -58,8 +79,8 @@ def add_command(subparser, common_opts):
 
 def do(parsers: dict, cfg: dict, **kwargs):
     if kwargs['label'] == 'set':
-        dtcli.resources.device.device_label_set(cfg, **kwargs)
+        return dtcli.resources.device.device_label_set(cfg, **kwargs)
     elif kwargs['label'] == 'remove':
-        dtcli.resources.device.device_label_remove(cfg, **kwargs)
+        return dtcli.resources.device.device_label_remove(cfg, **kwargs)
     else:
         print(parsers['label'].format_help())

@@ -39,8 +39,12 @@ class Table():
     def __init__(self, default_columns: list, cfg: dict, opts: dict):
         self.cfg = cfg
         self.opts = opts
-        self.row_count = 0
+        self.n_rows = 0
         self.columns = self._parse_columns(default_columns)
+        self.n_columns = len(self.columns)
+
+        # This attribute will be appended for each new stdout print.
+        self.rows = []
 
     def _parse_columns(self, columns: list[Column]):
         # Make a copy of input.
@@ -115,17 +119,21 @@ class Table():
         else:
             return self._table_entry_func
 
+    def _row_to_stdout(self, entry):
+        dtcli.format.stdout(entry)
+        self.rows.append(entry)
+        self.n_rows += 1
+
     def new_entry(self, obj: object):
         entry_func = self._resolve_row_func()
 
         # Print header only on first try.
-        if self.row_count == 0 and self._should_print_header():
+        if self.n_rows == 0 and self._should_print_header():
             header_str = entry_func(obj, header=True)
             if len(header_str) > 0:
-                dtcli.format.stdout(header_str)
+                self._row_to_stdout(header_str)
 
-        dtcli.format.stdout(entry_func(obj))
-        self.row_count += 1
+        self._row_to_stdout(entry_func(obj))
 
     def new_entries(self, objects: list):
         for obj in objects:

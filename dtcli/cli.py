@@ -1,3 +1,4 @@
+import sys
 import argparse
 
 import dtcli
@@ -6,6 +7,11 @@ import dtcli
 def _common_opts(parser):
     table_group = parser.add_argument_group('table')
     table_group.add_argument(
+        '-i', '--interactive',
+        action='store_true',
+        help='Enabled interactive mode if available.',
+    )
+    table_group.add_argument(
         '--include',
         metavar='',
         help='Exclusively include named columns.',
@@ -13,35 +19,36 @@ def _common_opts(parser):
     table_group.add_argument(
         '--full',
         action='store_true',
-        help='Show all available columns.'
+        help='Show all available columns.',
     )
     table_group.add_argument(
         '--no-header',
         action='store_true',
-        help='Excludes table header from output.'
+        help='Excludes table header from output.',
     )
 
     format_group = parser.add_argument_group('formatting')
     format_group.add_argument(
         '--csv',
         action='store_true',
-        help='Output formatted as comma-separated values.'
+        help='Output formatted as comma-separated values.',
     )
     format_group.add_argument(
         '--tsv',
         action='store_true',
-        help='Output formatted as tab-separated values.'
+        help='Output formatted as tab-separated values.',
     )
     format_group.add_argument(
         '--json',
         action='store_true',
-        help='Output formatted as individual JSON entries.'
+        help='Output formatted as individual JSON entries.',
     )
 
 
 def entry_point():
     parser = argparse.ArgumentParser(
         formatter_class=dtcli.format.SubcommandHelpFormatter,
+        exit_on_error=False,
     )
 
     # Create one subparser per command.
@@ -78,7 +85,7 @@ def entry_point():
     # This is mainly to avoid running the auth-sequence when no command
     # is provided, but also separates the setup from actual cli executions.
     if args['command'] is not None:
-        cli_init(parsers, args)
+        return cli_init(parsers, args)
     else:
         print(parser.format_help())
 
@@ -88,6 +95,6 @@ def cli_init(parsers: dict, args):
     cfg = dtcli.commands.config.load_config()
 
     if args['command'] == 'device':
-        dtcli.commands.device.do(parsers, cfg, **args)
+        return dtcli.commands.device.do(parsers, cfg, **args)
     elif args['command'] == 'project':
-        dtcli.commands.project.do(parsers, cfg, **args)
+        return dtcli.commands.project.do(parsers, cfg, **args)

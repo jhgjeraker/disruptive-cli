@@ -8,7 +8,15 @@ class SubcommandHelpFormatter(argparse.RawDescriptionHelpFormatter):
 
         if action.nargs == argparse.PARSER:
             parts = "\n".join(parts.split("\n")[1:])
-        return parts
+
+        return parts.replace(' ,', ',')
+
+
+def to_string(x):
+    if isinstance(x, str):
+        return x
+    else:
+        return str(x)
 
 
 def str_attr_format(x):
@@ -53,11 +61,7 @@ def str2dict(entry: str | None):
     return out
 
 
-def str2list(entry: str | None, stdin=False) -> list:
-    if stdin:
-        if entry == '-':
-            entry = sys.stdin.read()
-
+def str2list(entry: str | None) -> list:
     if entry is None:
         return []
 

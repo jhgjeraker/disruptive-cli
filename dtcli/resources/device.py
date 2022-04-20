@@ -20,56 +20,28 @@ def _devices(devices: list[dt.Device], cfg, **kwargs):
     table.expand_rows(devices)
     table.new_entries(devices)
 
-
-def device_get(cfg, **kwargs) -> None:
-    _devices([dt.Device.get_device(
-        device_id=kwargs['device_id'],
-        project_id=kwargs['project_id'],
-    )], cfg, **kwargs)
+    return table
 
 
-def device_list(cfg, **kwargs) -> None:
-    devices = []
-
-    # Allows for `project-id` to be read from stdin.
-    project_ids = []
-    for entry in dtcli.format.str2list(kwargs['project_ids'], stdin=True):
-        if dtcli.format.is_xid(entry):
-            project_ids.append(entry)
-        else:
-            dtcli.format.stderr(f'Invalid project ID "{entry}".')
-
-    # One API call has to be made for each project.
-    for project_id in project_ids:
-        try:
-            devices += dt.Device.list_devices(
-                project_id=project_id,
-                query=kwargs['query'],
-                device_ids=dtcli.format.str2list(kwargs['device_ids']),
-                device_types=dtcli.format.str2list(kwargs['device_types']),
-                label_filters=dtcli.format.str2dict(kwargs['label_filters']),
-            )
-        except dt.errors.Forbidden:
-            msg = f'could not get devices in project with ID "{project_id}"'
-            dtcli.format.stderr(msg)
-
-    _devices(devices, cfg, **kwargs)
-
-
-def device_transfer(cfg, **kwargs):
-    device_ids = []
-    for entry in dtcli.format.str2list(kwargs['device_ids'], stdin=True):
-        if dtcli.format.is_xid(entry):
-            device_ids.append(entry)
-        else:
-            dtcli.format.stderr(f'Invalid device ID "{entry}".')
-
-    errors = dt.Device.transfer_devices(
-        device_ids=device_ids,
-        source_project_id=kwargs['source'],
-        target_project_id=kwargs['target'],
+def device_get(cfg, **kwargs):
+    results = dtcli.commands.device.GET_ARGS.call(
+        method=dt.Device.get_device,
+        **kwargs,
     )
 
+    return _devices(results, cfg, **kwargs)
+
+
+def device_list(cfg, **kwargs):
+    results = dtcli.commands.device.LIST_ARGS.call(
+        method=dt.Device.list_devices,
+        **kwargs,
+    )
+
+    return _devices(results, cfg, **kwargs)
+
+
+def _errors(errors: list, cfg, **kwargs):
     table = dtcli.table.Table(
         default_columns=[
             dtcli.table.Column('device_id', False),
@@ -84,38 +56,37 @@ def device_transfer(cfg, **kwargs):
     table.expand_rows(errors)
     table.new_entries(errors)
 
+    return table
 
-def device_label_set(cfg, **kwargs):
-    device_ids = []
-    for entry in dtcli.format.str2list(kwargs['device_ids'], stdin=True):
-        if dtcli.format.is_xid(entry):
-            device_ids.append(entry)
-        else:
-            dtcli.format.stderr(f'Invalid device ID "{entry}".')
 
-    errors = dt.Device.batch_update_labels(
-        device_ids=device_ids,
-        project_id=kwargs['project_id'],
-        set_labels=dtcli.format.str2dict(kwargs['labels']),
+def device_transfer(cfg, **kwargs):
+    return _errors(
+        errors=dtcli.commands.device.TRANSFER_ARGS.call(
+            method=dt.Device.transfer_devices,
+            **kwargs,
+        ),
+        cfg=cfg,
+        **kwargs,
     )
 
-    for err in errors:
-        dtcli.format.stderr(err)
+
+def device_label_set(cfg, **kwargs):
+    return _errors(
+        errors=dtcli.commands.device_label.SET_ARGS.call(
+            method=dt.Device.batch_update_labels,
+            **kwargs,
+        ),
+        cfg=cfg,
+        **kwargs,
+    )
 
 
 def device_label_remove(cfg, **kwargs):
-    device_ids = []
-    for entry in dtcli.format.str2list(kwargs['device_ids'], stdin=True):
-        if dtcli.format.is_xid(entry):
-            device_ids.append(entry)
-        else:
-            dtcli.format.stderr(f'Invalid device ID "{entry}".')
-
-    errors = dt.Device.batch_update_labels(
-        device_ids=device_ids,
-        project_id=kwargs['project_id'],
-        remove_labels=dtcli.format.str2list(kwargs['labels']),
+    return _errors(
+        errors=dtcli.commands.device_label.REMOVE_ARGS.call(
+            method=dt.Device.batch_update_labels,
+            **kwargs,
+        ),
+        cfg=cfg,
+        **kwargs,
     )
-
-    for err in errors:
-        dtcli.format.stderr(err)
