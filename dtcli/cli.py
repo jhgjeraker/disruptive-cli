@@ -85,7 +85,7 @@ def entry_point():
     # This is mainly to avoid running the auth-sequence when no command
     # is provided, but also separates the setup from actual cli executions.
     if args['command'] is not None:
-        cli_init(parsers, args)
+        return cli_init(parsers, args)
     else:
         print(parser.format_help())
 
@@ -95,6 +95,6 @@ def cli_init(parsers: dict, args):
     cfg = dtcli.commands.config.load_config()
 
     if args['command'] == 'device':
-        dtcli.commands.device.do(parsers, cfg, **args)
+        return dtcli.commands.device.do(parsers, cfg, **args)
     elif args['command'] == 'project':
-        dtcli.commands.project.do(parsers, cfg, **args)
+        return dtcli.commands.project.do(parsers, cfg, **args)

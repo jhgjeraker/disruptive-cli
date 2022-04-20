@@ -82,6 +82,7 @@ def add(subparser, common_opts):
         name='device',
         help='Interact with the Device resource.',
         formatter_class=dtcli.format.SubcommandHelpFormatter,
+        exit_on_error=False,
     )
     device_subparser = device_parser.add_subparsers(
         title='available commands',
@@ -94,6 +95,7 @@ def add(subparser, common_opts):
     get_parser = device_subparser.add_parser(
         name='get',
         help='Get a single device.',
+        exit_on_error=False,
     )
     GET_ARGS.to_parser(get_parser)
     common_opts(get_parser)
@@ -128,12 +130,12 @@ def add(subparser, common_opts):
 
 def do(parsers: dict, cfg: dict, **kwargs):
     if kwargs['device'] == 'get':
-        dtcli.resources.device.device_get(cfg, **kwargs)
+        return dtcli.resources.device.device_get(cfg, **kwargs)
     elif kwargs['device'] == 'list':
-        dtcli.resources.device.device_list(cfg, **kwargs)
+        return dtcli.resources.device.device_list(cfg, **kwargs)
     elif kwargs['device'] == 'transfer':
-        dtcli.resources.device.device_transfer(cfg, **kwargs)
+        return dtcli.resources.device.device_transfer(cfg, **kwargs)
     elif kwargs['device'] == 'label':
-        dtcli.commands.device_label.do(parsers, cfg, **kwargs)
+        return dtcli.commands.device_label.do(parsers, cfg, **kwargs)
     else:
         print(parsers['device'].format_help())
