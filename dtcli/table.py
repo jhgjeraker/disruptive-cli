@@ -30,6 +30,8 @@ class Column():
                 attr = json.dumps(attr.raw)
             elif isinstance(attr, dict):
                 attr = json.dumps(attr)
+            elif isinstance(attr, list):
+                return ','.join(attr)
             return str(attr)
         else:
             return ''

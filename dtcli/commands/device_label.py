@@ -47,7 +47,7 @@ REMOVE_ARGS = dtcli.parser.CmdArgs([
 def add_command(subparser, common_opts):
     label_parser = subparser.add_parser(
         name='label',
-        help='Manipulate one- or more devices.',
+        help='configure labels for one or more devices',
         formatter_class=dtcli.format.SubcommandHelpFormatter,
     )
     label_subparser = label_parser.add_subparsers(
@@ -60,7 +60,7 @@ def add_command(subparser, common_opts):
     # Set Label
     set_parser = label_subparser.add_parser(
         name='set',
-        help='Set or update a label.',
+        help='set or update a label',
     )
     SET_ARGS.to_parser(set_parser)
     common_opts(set_parser)
@@ -69,7 +69,7 @@ def add_command(subparser, common_opts):
     # Remove Label
     remove_parser = label_subparser.add_parser(
         name='remove',
-        help='Remove one- or more labels.',
+        help='remove one or more labels',
     )
     REMOVE_ARGS.to_parser(remove_parser)
     common_opts(remove_parser)
