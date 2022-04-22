@@ -4,7 +4,7 @@ import dtcli
 import disruptive
 
 
-def auth():
+def auth() -> None:
     # Attempt to authenticate immediately.
     try:
         disruptive.default_auth.refresh()

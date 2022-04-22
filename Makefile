@@ -21,7 +21,7 @@ test: venv
 	source ${VENV}/bin/activate && pytest tests/
 
 lint: venv
-	source ${VENV}/bin/activate && mypy dtcli/ && flake8 dtcli/
+	source ${VENV}/bin/activate && mypy dtcli/ --config-file ./mypy.ini && flake8 dtcli/
 
 clean:
 	rm -rf build/ dist/ pip-wheel-metadata/ *.egg-info

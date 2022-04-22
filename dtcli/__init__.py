@@ -1,11 +1,11 @@
 
-import dtcli.cli as cli
-import dtcli.format as format
-import dtcli.auth as auth
-import dtcli.table as table
-import dtcli.errors as errors
-import dtcli.parser as parser
+import dtcli.cli as cli  # noqa
+import dtcli.format as format  # noqa
+import dtcli.auth as auth  # noqa
+import dtcli.table as table  # noqa
+import dtcli.errors as errors  # noqa
+import dtcli.parser as parser  # noqa
 
-import dtcli.commands as commands
-import dtcli.resources as resources
-import dtcli.arguments as arguments
+import dtcli.commands as commands  # noqa
+import dtcli.resources as resources  # noqa
+import dtcli.arguments as arguments  # noqa

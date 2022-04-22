@@ -1,7 +1,13 @@
+from typing import Callable
+from argparse import _SubParsersAction, ArgumentParser
+
 import dtcli
 
 
-def add(subparser, common_opts):
+def add(subparser: _SubParsersAction,
+        common_opts: Callable,
+        ) -> dict[str, ArgumentParser]:
+
     serviceaccount_parser = subparser.add_parser(
         name='serviceaccount',
         help='Interact with the Service Account resource.',
@@ -12,5 +18,7 @@ def add(subparser, common_opts):
         dest='serviceaccount',
         metavar=None,
     )
+
+    assert isinstance(serviceaccount_parser, ArgumentParser)
 
     return {'serviceaccount': serviceaccount_parser}

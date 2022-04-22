@@ -1,10 +1,9 @@
-import dtcli.commands.device as device
-import dtcli.commands.dataconnector as dataconnector
-import dtcli.commands.project as project
-import dtcli.commands.organization as organization
-import dtcli.commands.serviceaccount as serviceaccount
-import dtcli.commands.role as role
-import dtcli.commands.event as event
-import dtcli.commands.emulator as emulator
-
-import dtcli.commands.config as config
+import dtcli.commands.device as device  # noqa
+import dtcli.commands.dataconnector as dataconnector  # noqa
+import dtcli.commands.project as project  # noqa
+import dtcli.commands.organization as organization  # oqan
+import dtcli.commands.serviceaccount as serviceaccount  # oqat
+import dtcli.commands.role as role  # noqa
+import dtcli.commands.event as event  # noqa
+import dtcli.commands.emulator as emulator  # noqa
+import dtcli.commands.config as config  # noqa

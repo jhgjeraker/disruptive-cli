@@ -1,7 +1,13 @@
+from typing import Callable
+from argparse import _SubParsersAction, ArgumentParser
+
 import dtcli
 
 
-def add(subparser, common_opts):
+def add(subparser: _SubParsersAction,
+        common_opts: Callable,
+        ) -> dict[str, ArgumentParser]:
+
     role_parser = subparser.add_parser(
         name='role',
         help='Interact with the Role resource.',
@@ -12,5 +18,7 @@ def add(subparser, common_opts):
         dest='role',
         metavar=None,
     )
+
+    assert isinstance(role_parser, ArgumentParser)
 
     return {'role': role_parser}

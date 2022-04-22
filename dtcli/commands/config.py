@@ -1,75 +1,43 @@
-import pathlib
-from typing import Any
-
-import yaml
+from argparse import _SubParsersAction, ArgumentParser
 
 import dtcli
 
-CFG_DIR = pathlib.Path().home() / '.config' / 'disruptive'
-CFG_FILE = CFG_DIR / 'dt-cli.yaml'
 
-_default_cfg = {
-    'output': {
-        'padding': 3,
-    },
-}
-
-
-def load_config() -> dict[str, Any]:
-    try:
-        with open(str(CFG_FILE), 'r') as f:
-            cfg = yaml.full_load(f)
-    except FileNotFoundError:
-        cfg = _default_cfg
-
-    return cfg
-
-
-def _write_config(cfg: dict[str, Any]) -> None:
-    if not CFG_DIR.exists():
-        CFG_DIR.mkdir(parents=True, exist_ok=True)
-
-    with open(str(CFG_FILE), 'w') as f:
-        yaml.dump(cfg, f)
-
-
-def set_default():
-    _write_config(_default_cfg)
-
-
-def set_padding(**kwargs):
-    # Parse (or use default) config file.
-    cfg = load_config()
-
-    # Update config with provided value.
-    cfg['output']['padding'] = int(kwargs['spaces'])
-
-    # Write updated config to file.
-    _write_config(cfg)
-
-
-def add_command(subparser, glob_func):
-    cfg_parser = subparser.add_parser(
+def add(subparser: _SubParsersAction) -> dict[str, ArgumentParser]:
+    config_parser = subparser.add_parser(
         name='config',
-        help='Configure CLI behavior.',
+        help='configure CLI behavior',
         formatter_class=dtcli.format.SubcommandHelpFormatter,
     )
-
-    cfg_subparser = cfg_parser.add_subparsers(
+    config_subparser = config_parser.add_subparsers(
         title='available commands',
         dest='config',
         metavar=None,
     )
-    cfg_subparser.add_parser('default', help='Generate default config file.')
-    cfg_subparser.add_parser('padding', help='Set table column padding.')
 
-    glob_func(cfg_parser)
+    # --------------
+    # config default
+    config_subparser.add_parser(
+        name='default',
+        help='generate default config file'
+    )
 
-    return cfg_parser
+    # --------------
+    # config padding
+    padding_parser = config_subparser.add_parser(
+        name='padding',
+        help='set table column padding',
+    )
+    dtcli.arguments.config.PADDING.to_parser(padding_parser)
+
+    assert isinstance(config_parser, ArgumentParser)
+    return {'config': config_parser}
 
 
-def do(parser, args):
-    if args.config == 'default':
-        set_default()
+def do(parsers: dict, cfg: dict, **kwargs: dict) -> None:
+    if kwargs['config'] == 'default':
+        dtcli.resources.config.set_default()
+    elif kwargs['config'] == 'padding':
+        dtcli.resources.config.set_padding(**kwargs)
     else:
-        print(parser.format_help())
+        print(parsers['config'].format_help())

@@ -1,7 +1,14 @@
+from typing import Callable
+from argparse import _SubParsersAction, ArgumentParser
+
 import dtcli
+from dtcli.table import Table
 
 
-def add(subparser, common_opts):
+def add(subparser: _SubParsersAction,
+        common_opts: Callable,
+        ) -> dict[str, ArgumentParser]:
+
     event_parser = subparser.add_parser(
         name='event',
         help='Fetch events for one- or more devices.',
@@ -20,11 +27,7 @@ def add(subparser, common_opts):
         name='list',
         help='List events from one- or more devices.',
     )
-    list_parser.add_argument('device-id')
-    list_parser.add_argument('project-id')
-    list_parser.add_argument('--event-types')
-    list_parser.add_argument('--start-time')
-    list_parser.add_argument('--end-time')
+    dtcli.arguments.event.LIST.to_parser(list_parser)
     common_opts(list_parser)
 
     # -------------
@@ -33,20 +36,18 @@ def add(subparser, common_opts):
         name='stream',
         help='Stream events from one- or more devices.',
     )
-    stream_parser.add_argument('project-id')
-    stream_parser.add_argument('--device-ids')
-    stream_parser.add_argument('--label-filters')
-    stream_parser.add_argument('--device-types')
-    stream_parser.add_argument('--event-types')
+    dtcli.arguments.event.STREAM.to_parser(stream_parser)
     common_opts(stream_parser)
 
+    assert isinstance(event_parser, ArgumentParser)
     return {'event': event_parser}
 
 
-def do(parser, **kwargs):
+def do(parsers: dict[str, ArgumentParser], cfg: dict, **kwargs: dict) -> Table:
     if kwargs['event'] == 'list':
-        dtcli.resources.event.list_events(**kwargs)
+        return dtcli.resources.event.list_events(cfg, **kwargs)
     elif kwargs['event'] == 'stream':
-        dtcli.resources.event.stream_events(**kwargs)
+        return dtcli.resources.event.stream_events(cfg, **kwargs)
     else:
-        print(parser.format_help())
+        print(parsers['event'].format_help())
+        return Table.empty()

@@ -1,10 +1,12 @@
-import sys
 import argparse
+from argparse import ArgumentParser
+import importlib
 
 import dtcli
+from dtcli.table import Table
 
 
-def _common_opts(parser):
+def _common_opts(parser: ArgumentParser) -> None:
     table_group = parser.add_argument_group('table')
     table_group.add_argument(
         '-i', '--interactive',
@@ -45,7 +47,7 @@ def _common_opts(parser):
     )
 
 
-def entry_point():
+def entry_point() -> Table:
     parser = argparse.ArgumentParser(
         formatter_class=dtcli.format.SubcommandHelpFormatter,
         exit_on_error=False,
@@ -69,6 +71,9 @@ def entry_point():
     parsers.update(dtcli.commands.event.add(subparser, _common_opts))
     parsers.update(dtcli.commands.emulator.add(subparser, _common_opts))
 
+    # Add configuration parsers.
+    parsers.update(dtcli.commands.config.add(subparser))
+
     _common_opts(parser)
 
     # Finally, once the parser and subparsers are constructed, build the
@@ -88,13 +93,19 @@ def entry_point():
         return cli_init(parsers, args)
     else:
         print(parser.format_help())
+        return Table.empty()
 
 
-def cli_init(parsers: dict, args):
+def cli_init(parsers: dict, args: dict) -> Table:
     # Load config from file if it exists.
-    cfg = dtcli.commands.config.load_config()
+    cfg = dtcli.resources.config.load_config()
 
-    if args['command'] == 'device':
-        return dtcli.commands.device.do(parsers, cfg, **args)
-    elif args['command'] == 'project':
-        return dtcli.commands.project.do(parsers, cfg, **args)
+    # Import the command module.
+    m = importlib.import_module(f'dtcli.commands.{args["command"]}')
+
+    # Execute the command.
+    table = m.do(parsers, cfg, **args)
+
+    assert isinstance(table, Table)
+
+    return table

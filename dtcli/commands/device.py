@@ -1,7 +1,14 @@
+from typing import Callable, Any
+from argparse import _SubParsersAction, ArgumentParser
+
 import dtcli
+from dtcli.table import Table
 
 
-def label_add(subparser, common_opts):
+def label_add(subparser: _SubParsersAction,
+              common_opts: Callable,
+              ) -> ArgumentParser:
+
     label_parser = subparser.add_parser(
         name='label',
         help='configure labels for one or more devices',
@@ -14,7 +21,7 @@ def label_add(subparser, common_opts):
     )
 
     # ---------
-    # Set Label
+    # label set
     set_parser = label_subparser.add_parser(
         name='set',
         help='set or update a label',
@@ -23,7 +30,7 @@ def label_add(subparser, common_opts):
     common_opts(set_parser)
 
     # ------------
-    # Remove Label
+    # label remove
     remove_parser = label_subparser.add_parser(
         name='remove',
         help='remove one or more labels',
@@ -31,10 +38,14 @@ def label_add(subparser, common_opts):
     dtcli.arguments.device.LABEL_REMOVE.to_parser(remove_parser)
     common_opts(remove_parser)
 
+    assert isinstance(label_parser, ArgumentParser)
     return label_parser
 
 
-def add(subparser, common_opts):
+def add(subparser: _SubParsersAction,
+        common_opts: Callable,
+        ) -> dict[str, ArgumentParser]:
+
     device_parser = subparser.add_parser(
         name='device',
         help='Interact with the Device resource.',
@@ -82,10 +93,11 @@ def add(subparser, common_opts):
         common_opts,
     )
 
+    assert isinstance(device_parser, ArgumentParser)
     return {'device': device_parser, 'label': label_parser}
 
 
-def do(parsers: dict, cfg: dict, **kwargs):
+def do(parsers: dict, cfg: dict, **kwargs: Any) -> Table:
     if kwargs['device'] == 'get':
         return dtcli.resources.device.device_get(cfg, **kwargs)
     elif kwargs['device'] == 'list':
@@ -101,3 +113,5 @@ def do(parsers: dict, cfg: dict, **kwargs):
             print(parsers['label'].format_help())
     else:
         print(parsers['device'].format_help())
+
+    return Table.empty()

@@ -1,7 +1,14 @@
+from typing import Callable
+from argparse import _SubParsersAction, ArgumentParser
+
 import dtcli
+from dtcli.table import Table
 
 
-def member_add(subparser, common_opts):
+def member_add(subparser: _SubParsersAction,
+               common_opts: Callable,
+               ) -> ArgumentParser:
+
     member_parser = subparser.add_parser(
         name='member',
         help='interact with members in a project',
@@ -58,10 +65,15 @@ def member_add(subparser, common_opts):
     dtcli.arguments.project.MEMBER_INVITE_URL.to_parser(invite_url_parser)
     common_opts(invite_url_parser)
 
+    assert isinstance(member_parser, ArgumentParser)
+
     return member_parser
 
 
-def add(subparser, common_opts):
+def add(subparser: _SubParsersAction,
+        common_opts: Callable,
+        ) -> dict[str, ArgumentParser]:
+
     project_parser = subparser.add_parser(
         name='project',
         help='Interact with the Project resource.',
@@ -135,10 +147,13 @@ def add(subparser, common_opts):
         common_opts,
     )
 
+    assert isinstance(project_parser, ArgumentParser)
+    assert isinstance(member_parser, ArgumentParser)
+
     return {'project': project_parser, 'member': member_parser}
 
 
-def do(parsers, cfg, **kwargs):
+def do(parsers: dict[str, ArgumentParser], cfg: dict, **kwargs: dict) -> Table:
     if kwargs['project'] == 'get':
         return dtcli.resources.project.project_get(cfg, **kwargs)
     elif kwargs['project'] == 'list':
@@ -164,5 +179,7 @@ def do(parsers, cfg, **kwargs):
             return dtcli.resources.project.project_member_invite_url(**kwargs)
         else:
             print(parsers['member'].format_help())
+            return Table.empty()
     else:
         print(parsers['project'].format_help())
+        return Table.empty()
