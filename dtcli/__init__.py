@@ -8,3 +8,4 @@ import dtcli.parser as parser
 
 import dtcli.commands as commands
 import dtcli.resources as resources
+import dtcli.arguments as arguments

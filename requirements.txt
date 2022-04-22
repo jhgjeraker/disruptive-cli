@@ -1,5 +1,8 @@
 disruptive>=1.2.0
 pyyaml>=6.0
-click>=8.0.4
-click-option-group>=0.5.3
+types-pyyaml>=6.0
 pyinstaller>=4.10
+pytest==7.1.1
+pytest-mock==3.7.0
+mypy==0.942
+flake8==4.0.1

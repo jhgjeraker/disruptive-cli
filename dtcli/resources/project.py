@@ -45,7 +45,7 @@ def _members(members: list[dt.outputs.Member], cfg: dict, **kwargs):
 
 def project_get(cfg: dict, **kwargs):
     return _projects(
-        projects=dtcli.commands.project.GET_ARGS.call(
+        projects=dtcli.arguments.project.GET.call(
             method=dt.Project.get_project,
             **kwargs,
         ),
@@ -56,7 +56,7 @@ def project_get(cfg: dict, **kwargs):
 
 def project_list(cfg: dict, **kwargs):
     return _projects(
-        projects=dtcli.commands.project.LIST_ARGS.call(
+        projects=dtcli.arguments.project.LIST.call(
             method=dt.Project.list_projects,
             **kwargs,
         ),
@@ -67,7 +67,7 @@ def project_list(cfg: dict, **kwargs):
 
 def project_create(cfg: dict, **kwargs):
     return _projects(
-        projects=dtcli.commands.project.CREATE_ARGS.call(
+        projects=dtcli.arguments.project.CREATE.call(
             method=dt.Project.create_project,
             **kwargs,
         ),
@@ -77,14 +77,14 @@ def project_create(cfg: dict, **kwargs):
 
 
 def project_update(**kwargs):
-    dtcli.commands.project.UPDATE_ARGS.call(
+    dtcli.arguments.project.UPDATE.call(
         method=dt.Project.update_project,
         **kwargs,
     )
 
 
 def project_delete(**kwargs):
-    dtcli.commands.project.DELETE_ARGS.call(
+    dtcli.arguments.project.DELETE.call(
         method=dt.Project.delete_project,
         **kwargs,
     )
@@ -92,7 +92,7 @@ def project_delete(**kwargs):
 
 def project_member_add(cfg: dict, **kwargs):
     return _members(
-        members=dtcli.commands.project_member.ADD_ARGS.call(
+        members=dtcli.arguments.project.MEMBER_ADD.call(
             method=dt.Project.add_member,
             **kwargs,
         ),
@@ -102,7 +102,7 @@ def project_member_add(cfg: dict, **kwargs):
 
 
 def project_member_remove(**kwargs):
-    dtcli.commands.project_member.REMOVE_ARGS.call(
+    dtcli.arguments.project.MEMBER_REMOVE.call(
         method=dt.Project.remove_member,
         **kwargs,
     )
@@ -110,7 +110,7 @@ def project_member_remove(**kwargs):
 
 def project_member_update(cfg: dict, **kwargs):
     return _members(
-        members=dtcli.commands.project_member.UPDATE_ARGS.call(
+        members=dtcli.arguments.project.MEMBER_UPDATE.call(
             method=dt.Project.update_member,
             **kwargs,
         ),
@@ -121,7 +121,7 @@ def project_member_update(cfg: dict, **kwargs):
 
 def project_member_list(cfg: dict, **kwargs):
     return _members(
-        members=dtcli.commands.project_member.LIST_ARGS.call(
+        members=dtcli.arguments.project.MEMBER_LIST.call(
             method=dt.Project.list_members,
             **kwargs,
         ),
@@ -131,7 +131,7 @@ def project_member_list(cfg: dict, **kwargs):
 
 
 def project_member_invite_url(**kwargs):
-    urls = dtcli.commands.project_member.INVITE_URL_ARGS.call(
+    urls = dtcli.arguments.project.MEMBER_INVITE_URL.call(
         method=dt.Project.get_member_invite_url,
         **kwargs,
     )
@@ -141,7 +141,7 @@ def project_member_invite_url(**kwargs):
 
 
 def project_permissions(**kwargs):
-    permissions = dtcli.commands.project.PERMISSIONS_ARGS.call(
+    permissions = dtcli.arguments.project.PERMISSIONS.call(
         method=dt.Project.list_permissions,
         **kwargs,
     )

@@ -17,6 +17,12 @@ $(VENV)/bin/activate: requirements.txt
 build: venv
 	${VENV}/bin/pyinstaller --name dt --noconfirm main.py
 
+test: venv
+	source ${VENV}/bin/activate && pytest tests/
+
+lint: venv
+	source ${VENV}/bin/activate && mypy dtcli/ && flake8 dtcli/
+
 clean:
 	rm -rf build/ dist/ pip-wheel-metadata/ *.egg-info
 	find . -name '__pycache__' -exec rm --force --recursive {} +

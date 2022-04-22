@@ -1,80 +1,37 @@
 import dtcli
 
 
-GET_ARGS = dtcli.parser.CmdArgs([
-    dtcli.parser.Arg(
-        key='device_id',
-        flags=['device-id'],
-        xid=True,
-        format=dtcli.format.to_string,
-    ),
-    dtcli.parser.Arg(
-        key='project_id',
-        flags=['--project-id'],
-        xid=True,
-        metavar='',
-        format=dtcli.format.to_string,
+def label_add(subparser, common_opts):
+    label_parser = subparser.add_parser(
+        name='label',
+        help='configure labels for one or more devices',
+        formatter_class=dtcli.format.SubcommandHelpFormatter,
     )
-])
-
-LIST_ARGS = dtcli.parser.CmdArgs([
-    dtcli.parser.Arg(
-        key='project_id',
-        flags=['project-id'],
-        xid=True,
-        help='identifier of owning project',
-        format=dtcli.format.to_string,
-    ),
-    dtcli.parser.Arg(
-        key='query',
-        flags=['--query'],
-        help='keyword-based device search',
-        metavar='',
-        format=dtcli.format.to_string,
-    ),
-    dtcli.parser.Arg(
-        key='device_ids',
-        flags=['--device-ids'],
-        metavar='',
-        help='comma-separated device identifiers',
-        format=dtcli.format.str2list,
-    ),
-    dtcli.parser.Arg(
-        key='device_types',
-        flags=['--device-types'],
-        metavar='',
-        help='comma-separated device types',
-        format=dtcli.format.str2list,
-    ),
-    dtcli.parser.Arg(
-        key='label_filters',
-        flags=['--label-filters'],
-        metavar='',
-        help='comma-separated key=value labels',
-        format=dtcli.format.to_string,
+    label_subparser = label_parser.add_subparsers(
+        title='available commands',
+        dest='label',
+        metavar=None,
     )
-])
 
-TRANSFER_ARGS = dtcli.parser.CmdArgs([
-    dtcli.parser.Arg(
-        key='device_ids',
-        flags=['device-ids'],
-        help='comma-separated device identifiers',
-        format=dtcli.format.str2list,
-    ),
-    dtcli.parser.Arg(
-        key='source_project_id',
-        flags=['source-project-id'],
-        help='source project identifier',
-        format=dtcli.format.to_string,
-    ),
-    dtcli.parser.Arg(
-        key='target_project_id',
-        flags=['target-project-id'],
-        help='target project identifier',
-        format=dtcli.format.to_string,
-    ),
-])
+    # ---------
+    # Set Label
+    set_parser = label_subparser.add_parser(
+        name='set',
+        help='set or update a label',
+    )
+    dtcli.arguments.device.LABEL_SET.to_parser(set_parser)
+    common_opts(set_parser)
+
+    # ------------
+    # Remove Label
+    remove_parser = label_subparser.add_parser(
+        name='remove',
+        help='remove one or more labels',
+    )
+    dtcli.arguments.device.LABEL_REMOVE.to_parser(remove_parser)
+    common_opts(remove_parser)
+
+    return label_parser
 
 
 def add(subparser, common_opts):
@@ -97,7 +54,7 @@ def add(subparser, common_opts):
         help='Get a single device.',
         exit_on_error=False,
     )
-    GET_ARGS.to_parser(get_parser)
+    dtcli.arguments.device.GET.to_parser(get_parser)
     common_opts(get_parser)
 
     # -----------
@@ -106,7 +63,7 @@ def add(subparser, common_opts):
         name='list',
         help='Get one or more devices.',
     )
-    LIST_ARGS.to_parser(list_parser)
+    dtcli.arguments.device.LIST.to_parser(list_parser)
     common_opts(list_parser)
 
     # ----------------
@@ -115,12 +72,12 @@ def add(subparser, common_opts):
         name='transfer',
         help='Transfer one or more devices.'
     )
-    TRANSFER_ARGS.to_parser(transfer_parser)
+    dtcli.arguments.device.TRANSFER.to_parser(transfer_parser)
     common_opts(transfer_parser)
 
     # ------------
     # Device Label
-    label_parser = dtcli.commands.device_label.add_command(
+    label_parser = label_add(
         device_subparser,
         common_opts,
     )
@@ -136,6 +93,11 @@ def do(parsers: dict, cfg: dict, **kwargs):
     elif kwargs['device'] == 'transfer':
         return dtcli.resources.device.device_transfer(cfg, **kwargs)
     elif kwargs['device'] == 'label':
-        return dtcli.commands.device_label.do(parsers, cfg, **kwargs)
+        if kwargs['label'] == 'set':
+            return dtcli.resources.device.device_label_set(cfg, **kwargs)
+        elif kwargs['label'] == 'remove':
+            return dtcli.resources.device.device_label_remove(cfg, **kwargs)
+        else:
+            print(parsers['label'].format_help())
     else:
         print(parsers['device'].format_help())

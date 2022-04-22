@@ -1,78 +1,64 @@
 import dtcli
 
 
-GET_ARGS = dtcli.parser.CmdArgs([
-    dtcli.parser.Arg(
-        key='project_id',
-        flags=['project-id'],
-        help='project identifier',
-        format=dtcli.format.to_string,
+def member_add(subparser, common_opts):
+    member_parser = subparser.add_parser(
+        name='member',
+        help='interact with members in a project',
+        formatter_class=dtcli.format.SubcommandHelpFormatter,
     )
-])
-
-LIST_ARGS = dtcli.parser.CmdArgs([
-    dtcli.parser.Arg(
-        key='organization_id',
-        flags=['--organization-id'],
-        metavar='',
-        help='identifier of owning organization',
-        format=dtcli.format.to_string,
-    ),
-    dtcli.parser.Arg(
-        key='query',
-        flags=['--query'],
-        metavar='',
-        format=dtcli.format.to_string,
+    member_subparser = member_parser.add_subparsers(
+        title='available commands',
+        dest='member',
+        metavar=None,
     )
-])
 
-CREATE_ARGS = dtcli.parser.CmdArgs([
-    dtcli.parser.Arg(
-        key='organization_id',
-        flags=['organization-id'],
-        help='identifier of owning organization',
-        format=dtcli.format.to_string,
-    ),
-    dtcli.parser.Arg(
-        key='display_name',
-        flags=['display-name'],
-        help='project name',
-        format=dtcli.format.to_string,
+    # ----------
+    # member add
+    add_parser = member_subparser.add_parser(
+        name='add',
+        help='add a new member',
     )
-])
+    dtcli.arguments.project.MEMBER_ADD.to_parser(add_parser)
+    common_opts(add_parser)
 
-UPDATE_ARGS = dtcli.parser.CmdArgs([
-    dtcli.parser.Arg(
-        key='project_id',
-        flags=['project-id'],
-        help='target project identifier',
-        format=dtcli.format.to_string,
-    ),
-    dtcli.parser.Arg(
-        key='display_name',
-        flags=['--display-name'],
-        help='new project name',
-        format=dtcli.format.to_string,
+    # -------------
+    # member remove
+    remove_parser = member_subparser.add_parser(
+        name='remove',
+        help='remove a member',
     )
-])
+    dtcli.arguments.project.MEMBER_REMOVE.to_parser(remove_parser)
+    common_opts(remove_parser)
 
-DELETE_ARGS = dtcli.parser.CmdArgs([
-    dtcli.parser.Arg(
-        key='project_id',
-        flags=['project-id'],
-        help='target project identifier',
-        format=dtcli.format.to_string,
-    ),
-])
+    # -------------
+    # member update
+    update_parser = member_subparser.add_parser(
+        name='update',
+        help='update member details',
+    )
+    dtcli.arguments.project.MEMBER_UPDATE.to_parser(update_parser)
+    common_opts(update_parser)
 
-PERMISSIONS_ARGS = dtcli.parser.CmdArgs([
-    dtcli.parser.Arg(
-        key='project_id',
-        flags=['project-id'],
-        help='target project identifier',
-        format=dtcli.format.to_string,
-    ),
-])
+    # -----------
+    # member list
+    list_parser = member_subparser.add_parser(
+        name='list',
+        help='list members in project',
+    )
+    dtcli.arguments.project.MEMBER_LIST.to_parser(list_parser)
+    common_opts(list_parser)
+
+    # -----------------
+    # member invite-url
+    invite_url_parser = member_subparser.add_parser(
+        name='invite-url',
+        help='get member invite URL',
+    )
+    dtcli.arguments.project.MEMBER_INVITE_URL.to_parser(invite_url_parser)
+    common_opts(invite_url_parser)
+
+    return member_parser
 
 
 def add(subparser, common_opts):
@@ -88,22 +74,22 @@ def add(subparser, common_opts):
     )
 
     # -----------
-    # Project Get
+    # project get
     get_parser = project_subparser.add_parser(
         name='get',
         help='get a single project',
     )
-    GET_ARGS.to_parser(get_parser)
+    dtcli.arguments.project.GET.to_parser(get_parser)
     common_opts(get_parser)
 
     # -------------
-    # Projects List
+    # projects list
     list_parser = project_subparser.add_parser(
         'list',
         help='list multiple projects',
         formatter_class=dtcli.format.SubcommandHelpFormatter,
     )
-    LIST_ARGS.to_parser(list_parser)
+    dtcli.arguments.project.LIST.to_parser(list_parser)
     common_opts(list_parser)
 
     # --------------
@@ -112,7 +98,7 @@ def add(subparser, common_opts):
         'create',
         help='create a new project',
     )
-    CREATE_ARGS.to_parser(create_parser)
+    dtcli.arguments.project.CREATE.to_parser(create_parser)
     common_opts(create_parser)
 
     # --------------
@@ -121,7 +107,7 @@ def add(subparser, common_opts):
         'update',
         help='update a project',
     )
-    UPDATE_ARGS.to_parser(update_parser)
+    dtcli.arguments.project.UPDATE.to_parser(update_parser)
     common_opts(update_parser)
 
     # --------------
@@ -130,7 +116,7 @@ def add(subparser, common_opts):
         'delete',
         help='delete a project',
     )
-    DELETE_ARGS.to_parser(delete_parser)
+    dtcli.arguments.project.DELETE.to_parser(delete_parser)
     common_opts(delete_parser)
 
     # ------------------
@@ -139,12 +125,12 @@ def add(subparser, common_opts):
         name='permissions',
         help='list permissions available to caller',
     )
-    PERMISSIONS_ARGS.to_parser(permissions_parser)
+    dtcli.arguments.project.PERMISSIONS.to_parser(permissions_parser)
     common_opts(permissions_parser)
 
     # --------------
     # project member
-    member_parser = dtcli.commands.project_member.add_command(
+    member_parser = member_add(
         project_subparser,
         common_opts,
     )
@@ -166,6 +152,17 @@ def do(parsers, cfg, **kwargs):
     elif kwargs['project'] == 'permissions':
         return dtcli.resources.project.project_permissions(**kwargs)
     elif kwargs['project'] == 'member':
-        return dtcli.commands.project_member.do(parsers, cfg, **kwargs)
+        if kwargs['member'] == 'add':
+            return dtcli.resources.project.project_member_add(cfg, **kwargs)
+        if kwargs['member'] == 'remove':
+            return dtcli.resources.project.project_member_remove(**kwargs)
+        if kwargs['member'] == 'update':
+            return dtcli.resources.project.project_member_update(cfg, **kwargs)
+        if kwargs['member'] == 'list':
+            return dtcli.resources.project.project_member_list(cfg, **kwargs)
+        if kwargs['member'] == 'invite-url':
+            return dtcli.resources.project.project_member_invite_url(**kwargs)
+        else:
+            print(parsers['member'].format_help())
     else:
         print(parsers['project'].format_help())
