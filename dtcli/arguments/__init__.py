@@ -6,3 +6,4 @@ import dtcli.arguments.emulator as emulator  # noqa
 import dtcli.arguments.serviceaccount as serviceaccount  # noqa
 import dtcli.arguments.organization as organization  # noqa
 import dtcli.arguments.role as role  # noqa
+import dtcli.arguments.dataconnector as dataconnector  # noqa
