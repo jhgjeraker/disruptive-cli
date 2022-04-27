@@ -28,10 +28,14 @@ def _roles(roles: list[dt.Organization],
 
 
 def get(cfg: dict, **kwargs: Any) -> Table:
+    ok, args = dtcli.arguments.role.GET.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
     return _roles(
         roles=dtcli.arguments.role.GET.call(
             method=dt.Role.get_role,
-            **kwargs,
+            method_args=args,
         ),
         cfg=cfg,
         **kwargs,

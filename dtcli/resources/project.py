@@ -49,10 +49,14 @@ def _members(members: list[dt.outputs.Member],
 
 
 def project_get(cfg: dict, **kwargs: dict) -> Table:
+    ok, args = dtcli.arguments.project.GET.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
     return _projects(
         projects=dtcli.arguments.project.GET.call(
             method=dt.Project.get_project,
-            **kwargs,
+            method_args=args,
         ),
         cfg=cfg,
         **kwargs
@@ -60,10 +64,14 @@ def project_get(cfg: dict, **kwargs: dict) -> Table:
 
 
 def project_list(cfg: dict, **kwargs: dict) -> Table:
+    ok, args = dtcli.arguments.project.LIST.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
     return _projects(
         projects=dtcli.arguments.project.LIST.call(
             method=dt.Project.list_projects,
-            **kwargs,
+            method_args=args,
         ),
         cfg=cfg,
         **kwargs,
@@ -71,10 +79,14 @@ def project_list(cfg: dict, **kwargs: dict) -> Table:
 
 
 def project_create(cfg: dict, **kwargs: dict) -> Table:
+    ok, args = dtcli.arguments.project.CREATE.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
     return _projects(
         projects=dtcli.arguments.project.CREATE.call(
             method=dt.Project.create_project,
-            **kwargs,
+            method_args=args,
         ),
         cfg=cfg,
         **kwargs,
@@ -82,26 +94,38 @@ def project_create(cfg: dict, **kwargs: dict) -> Table:
 
 
 def project_update(**kwargs: dict) -> Table:
+    ok, args = dtcli.arguments.project.UPDATE.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
     dtcli.arguments.project.UPDATE.call(
         method=dt.Project.update_project,
-        **kwargs,
+        method_args=args,
     )
     return Table.empty()
 
 
 def project_delete(**kwargs: dict) -> Table:
+    ok, args = dtcli.arguments.project.DELETE.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
     dtcli.arguments.project.DELETE.call(
         method=dt.Project.delete_project,
-        **kwargs,
+        method_args=args,
     )
     return Table.empty()
 
 
 def project_member_add(cfg: dict, **kwargs: dict) -> Table:
+    ok, args = dtcli.arguments.project.MEMBER_ADD.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
     return _members(
         members=dtcli.arguments.project.MEMBER_ADD.call(
             method=dt.Project.add_member,
-            **kwargs,
+            method_args=args,
         ),
         cfg=cfg,
         **kwargs,
@@ -109,18 +133,26 @@ def project_member_add(cfg: dict, **kwargs: dict) -> Table:
 
 
 def project_member_remove(**kwargs: dict) -> Table:
+    ok, args = dtcli.arguments.project.MEMBER_REMOVE.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
     dtcli.arguments.project.MEMBER_REMOVE.call(
         method=dt.Project.remove_member,
-        **kwargs,
+        method_args=args,
     )
     return Table.empty()
 
 
 def project_member_update(cfg: dict, **kwargs: dict) -> Table:
+    ok, args = dtcli.arguments.project.MEMBER_UPDATE.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
     return _members(
         members=dtcli.arguments.project.MEMBER_UPDATE.call(
             method=dt.Project.update_member,
-            **kwargs,
+            method_args=args,
         ),
         cfg=cfg,
         **kwargs,
@@ -128,10 +160,14 @@ def project_member_update(cfg: dict, **kwargs: dict) -> Table:
 
 
 def project_member_list(cfg: dict, **kwargs: dict) -> Table:
+    ok, args = dtcli.arguments.project.MEMBER_LIST.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
     return _members(
         members=dtcli.arguments.project.MEMBER_LIST.call(
             method=dt.Project.list_members,
-            **kwargs,
+            method_args=args,
         ),
         cfg=cfg,
         **kwargs,
@@ -139,9 +175,13 @@ def project_member_list(cfg: dict, **kwargs: dict) -> Table:
 
 
 def project_member_invite_url(**kwargs: dict) -> Table:
+    ok, args = dtcli.arguments.project.MEMBER_INVITE_URL.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
     urls = dtcli.arguments.project.MEMBER_INVITE_URL.call(
         method=dt.Project.get_member_invite_url,
-        **kwargs,
+        method_args=args,
     )
 
     for url in urls:
@@ -151,9 +191,13 @@ def project_member_invite_url(**kwargs: dict) -> Table:
 
 
 def project_permissions(**kwargs: dict) -> Table:
+    ok, args = dtcli.arguments.project.PERMISSIONS.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
     permissions = dtcli.arguments.project.PERMISSIONS.call(
         method=dt.Project.list_permissions,
-        **kwargs,
+        method_args=args,
     )
 
     for permission in permissions:

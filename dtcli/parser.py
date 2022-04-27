@@ -18,6 +18,7 @@ class Arg():
                  format: Callable,
                  check_xid: bool = False,
                  default_value: Any = None,
+                 required_by: dict[str, Any] = {},
                  **kwargs: Any,
                  ) -> None:
 
@@ -52,6 +53,7 @@ class Arg():
         self.kwargs = kwargs
         self.check_xid: bool = check_xid
         self.default_value = default_value
+        self.required_by = required_by
 
         self._value: str | None = None
         self._set: bool = False
@@ -133,6 +135,25 @@ def add_cmd_argument(parser: ArgumentParser,
 class CmdArgs():
     def __init__(self, args_list: list[Arg]) -> None:
         self.args_list = args_list
+        self.keyed_args = {arg.key: arg for arg in self.args_list}
+
+    def _dependency_check(self) -> bool:
+        for arg in self.args_list:
+            if len(arg.required_by) > 0:
+                for key in arg.required_by:
+                    want_val = arg.required_by[key]
+                    has_val = self.keyed_args[key].value
+
+                    if want_val != has_val:
+                        continue
+
+                    msg = f'{key}={has_val} requires flag {arg.flags[-1]}'
+
+                    if not arg._set:
+                        dtcli.format.stderr(msg)
+                        return False
+
+        return True
 
     def to_parser(self, parser: ArgumentParser) -> None:
         if not is_interactive():
@@ -193,13 +214,7 @@ class CmdArgs():
 
         return res
 
-    def call(self, method: Callable, **kwargs: dict) -> list:
-        # Use the kwargs provided by argparse to get key values.
-        self._reparse(**kwargs)
-
-        # Convert arguments to dictionary form.
-        method_args = self._to_dict()
-
+    def call(self, method: Callable, method_args: dict) -> list:
         # If a pipe is provided, use it.
         for arg in self.args_list:
             if arg.pipe and arg.value is not None:
@@ -211,3 +226,14 @@ class CmdArgs():
 
         res = method(**method_args)
         return res if isinstance(res, list) else [res]
+
+    def reparse(self, **kwargs: dict) -> Tuple[bool, dict]:
+        # Use the kwargs provided by argparse to get key values.
+        self._reparse(**kwargs)
+
+        # Do a dependency check on the arguments.
+        if not self._dependency_check():
+            return False, {}
+
+        # Convert arguments to dictionary form.
+        return True, self._to_dict()

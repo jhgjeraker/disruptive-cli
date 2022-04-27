@@ -30,10 +30,14 @@ def _service_accounts(service_accounts: list[dt.ServiceAccount],
 
 
 def get(cfg: dict, **kwargs: Any) -> Table:
+    ok, args = dtcli.arguments.serviceaccount.GET.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
     return _service_accounts(
         service_accounts=dtcli.arguments.serviceaccount.GET.call(
             method=dt.ServiceAccount.get_service_account,
-            **kwargs,
+            method_args=args,
         ),
         cfg=cfg,
         **kwargs,

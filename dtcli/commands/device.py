@@ -94,6 +94,8 @@ def add(subparser: _SubParsersAction,
     )
 
     assert isinstance(device_parser, ArgumentParser)
+    assert isinstance(label_parser, ArgumentParser)
+
     return {'device': device_parser, 'label': label_parser}
 
 

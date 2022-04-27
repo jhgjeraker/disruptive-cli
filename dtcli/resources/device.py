@@ -25,21 +25,33 @@ def _devices(devices: list[dt.Device], cfg: dict, **kwargs: dict) -> Table:
 
 
 def device_get(cfg: dict, **kwargs: dict) -> Table:
-    results = dtcli.arguments.device.GET.call(
-        method=dt.Device.get_device,
+    ok, args = dtcli.arguments.device.GET.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
+    return _devices(
+        devices=dtcli.arguments.device.GET.call(
+            method=dt.Device.get_device,
+            method_args=args,
+        ),
+        cfg=cfg,
         **kwargs,
     )
-
-    return _devices(results, cfg, **kwargs)
 
 
 def device_list(cfg: dict, **kwargs: dict) -> Table:
-    results = dtcli.arguments.device.LIST.call(
-        method=dt.Device.list_devices,
+    ok, args = dtcli.arguments.device.LIST.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
+    return _devices(
+        devices=dtcli.arguments.device.LIST.call(
+            method=dt.Device.list_devices,
+            method_args=args,
+        ),
+        cfg=cfg,
         **kwargs,
     )
-
-    return _devices(results, cfg, **kwargs)
 
 
 def _errors(errors: list, cfg: dict, **kwargs: dict) -> Table:
@@ -61,10 +73,14 @@ def _errors(errors: list, cfg: dict, **kwargs: dict) -> Table:
 
 
 def device_transfer(cfg: dict, **kwargs: dict) -> Table:
+    ok, args = dtcli.arguments.device.TRANSFER.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
     return _errors(
         errors=dtcli.arguments.device.TRANSFER.call(
             method=dt.Device.transfer_devices,
-            **kwargs,
+            method_args=args,
         ),
         cfg=cfg,
         **kwargs,
@@ -72,10 +88,14 @@ def device_transfer(cfg: dict, **kwargs: dict) -> Table:
 
 
 def device_label_set(cfg: dict, **kwargs: dict) -> Table:
+    ok, args = dtcli.arguments.device.LABEL_SET.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
     return _errors(
         errors=dtcli.arguments.device.LABEL_SET.call(
             method=dt.Device.batch_update_labels,
-            **kwargs,
+            method_args=args,
         ),
         cfg=cfg,
         **kwargs,
@@ -83,10 +103,14 @@ def device_label_set(cfg: dict, **kwargs: dict) -> Table:
 
 
 def device_label_remove(cfg: dict, **kwargs: dict) -> Table:
+    ok, args = dtcli.arguments.device.LABEL_REMOVE.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
     return _errors(
         errors=dtcli.arguments.device.LABEL_REMOVE.call(
             method=dt.Device.batch_update_labels,
-            **kwargs,
+            method_args=args,
         ),
         cfg=cfg,
         **kwargs,
