@@ -1,8 +1,8 @@
 import dtcli.commands.device as device  # noqa
 import dtcli.commands.dataconnector as dataconnector  # noqa
 import dtcli.commands.project as project  # noqa
-import dtcli.commands.organization as organization  # oqan
-import dtcli.commands.serviceaccount as serviceaccount  # oqat
+import dtcli.commands.organization as organization  # noqa
+import dtcli.commands.serviceaccount as serviceaccount  # noqa
 import dtcli.commands.role as role  # noqa
 import dtcli.commands.event as event  # noqa
 import dtcli.commands.emulator as emulator  # noqa

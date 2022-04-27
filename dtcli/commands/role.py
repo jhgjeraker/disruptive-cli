@@ -1,7 +1,8 @@
-from typing import Callable
+from typing import Callable, Any
 from argparse import _SubParsersAction, ArgumentParser
 
 import dtcli
+from dtcli.table import Table
 
 
 def add(subparser: _SubParsersAction,
@@ -13,12 +14,35 @@ def add(subparser: _SubParsersAction,
         help='Interact with the Role resource.',
         formatter_class=dtcli.format.SubcommandHelpFormatter,
     )
+    # Note that the dest argument should usually just be "role" here.
+    # The "_cmd" suffix is a result of the method get_role() having
+    # an argument with the same name, "role", which overwrites
+    # the key in the dictionary if not separeted. This has no effect
+    # for the user as the CLI call is still "dt role get <role>".
     role_subparser = role_parser.add_subparsers(
         title='available commands',
-        dest='role',
+        dest='role_cmd',
         metavar=None,
     )
+
+    # --------
+    # role get
+    get_parser = role_subparser.add_parser(
+        name='get',
+        help='get a single role',
+    )
+    dtcli.arguments.role.GET.to_parser(get_parser)
+    common_opts(get_parser)
 
     assert isinstance(role_parser, ArgumentParser)
 
     return {'role': role_parser}
+
+
+def do(parsers: dict, cfg: dict, **kwargs: Any) -> Table:
+    if kwargs['role_cmd'] == 'get':
+        return dtcli.resources.role.get(cfg, **kwargs)
+    else:
+        print(parsers['role'].format_help())
+
+    return Table.empty()

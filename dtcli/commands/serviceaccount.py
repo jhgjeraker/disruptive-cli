@@ -1,7 +1,8 @@
-from typing import Callable
+from typing import Callable, Any
 from argparse import _SubParsersAction, ArgumentParser
 
 import dtcli
+from dtcli.table import Table
 
 
 def add(subparser: _SubParsersAction,
@@ -19,6 +20,24 @@ def add(subparser: _SubParsersAction,
         metavar=None,
     )
 
+    # ------------------
+    # serviceaccount get
+    get_parser = serviceaccount_subparser.add_parser(
+        name='get',
+        help='get a single service account'
+    )
+    dtcli.arguments.serviceaccount.GET.to_parser(get_parser)
+    common_opts(get_parser)
+
     assert isinstance(serviceaccount_parser, ArgumentParser)
 
     return {'serviceaccount': serviceaccount_parser}
+
+
+def do(parsers: dict, cfg: dict, **kwargs: Any) -> Table:
+    if kwargs['serviceaccount'] == 'get':
+        return dtcli.resources.serviceaccount.get(cfg, **kwargs)
+    else:
+        print(parsers['serviceaccount'].format_help())
+
+    return Table.empty()
