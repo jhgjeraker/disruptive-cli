@@ -24,11 +24,11 @@ def _events(events: list, cfg: dict, **kwargs: dict) -> Table:
 
 
 def list_events(cfg: dict, **kwargs: dict) -> Table:
-    ok, args = dtcli.arguments.event.LIST.reparse(**kwargs)
+    ok, args = dtcli.args.event.LIST.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
-    results = dtcli.arguments.event.LIST.call(
+    results = dtcli.args.event.LIST.call(
         method=dt.EventHistory.list_events,
         method_args=args,
     )
@@ -37,11 +37,11 @@ def list_events(cfg: dict, **kwargs: dict) -> Table:
 
 
 def stream_events(cfg: dict, **kwargs: dict) -> Table:
-    ok, args = dtcli.arguments.event.STREAM.reparse(**kwargs)
+    ok, args = dtcli.args.event.STREAM.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
-    stream = dtcli.arguments.event.STREAM.call(
+    stream = dtcli.args.event.STREAM.call(
         method=dt.Stream.event_stream,
         method_args=args,
     )[0]

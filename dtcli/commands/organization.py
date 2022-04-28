@@ -26,7 +26,7 @@ def add(subparser: _SubParsersAction,
         name='get',
         help='get a single organization',
     )
-    dtcli.arguments.organization.GET.to_parser(get_parser)
+    dtcli.args.organization.GET.to_parser(get_parser)
     common_opts(get_parser)
 
     assert isinstance(organization_parser, ArgumentParser)

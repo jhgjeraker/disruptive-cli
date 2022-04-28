@@ -27,7 +27,7 @@ def add(subparser: _SubParsersAction,
         name='list',
         help='List events from one- or more devices.',
     )
-    dtcli.arguments.event.LIST.to_parser(list_parser)
+    dtcli.args.event.LIST.to_parser(list_parser)
     common_opts(list_parser)
 
     # -------------
@@ -36,7 +36,7 @@ def add(subparser: _SubParsersAction,
         name='stream',
         help='Stream events from one- or more devices.',
     )
-    dtcli.arguments.event.STREAM.to_parser(stream_parser)
+    dtcli.args.event.STREAM.to_parser(stream_parser)
     common_opts(stream_parser)
 
     assert isinstance(event_parser, ArgumentParser)

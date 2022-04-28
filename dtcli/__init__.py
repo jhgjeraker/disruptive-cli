@@ -8,4 +8,4 @@ import dtcli.parser as parser  # noqa
 
 import dtcli.commands as commands  # noqa
 import dtcli.resources as resources  # noqa
-import dtcli.arguments as arguments  # noqa
+import dtcli.args as args  # noqa

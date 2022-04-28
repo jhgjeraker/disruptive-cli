@@ -31,7 +31,7 @@ def add(subparser: _SubParsersAction,
         name='get',
         help='get a single role',
     )
-    dtcli.arguments.role.GET.to_parser(get_parser)
+    dtcli.args.role.GET.to_parser(get_parser)
     common_opts(get_parser)
 
     # ---------
@@ -40,7 +40,7 @@ def add(subparser: _SubParsersAction,
         name='list',
         help='list all roles',
     )
-    dtcli.arguments.role.LIST.to_parser(list_parser)
+    dtcli.args.role.LIST.to_parser(list_parser)
     common_opts(list_parser)
 
     assert isinstance(role_parser, ArgumentParser)

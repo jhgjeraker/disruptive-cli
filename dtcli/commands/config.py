@@ -28,7 +28,7 @@ def add(subparser: _SubParsersAction) -> dict[str, ArgumentParser]:
         name='padding',
         help='set table column padding',
     )
-    dtcli.arguments.config.PADDING.to_parser(padding_parser)
+    dtcli.args.config.PADDING.to_parser(padding_parser)
 
     assert isinstance(config_parser, ArgumentParser)
     return {'config': config_parser}

@@ -52,12 +52,12 @@ def _metrics(metrics: list[dt.DataConnector],
 
 
 def dcon_get(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.arguments.dataconnector.GET.reparse(**kwargs)
+    ok, args = dtcli.args.dataconnector.GET.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
     return _dataconnectors(
-        dataconnectors=dtcli.arguments.dataconnector.GET.call(
+        dataconnectors=dtcli.args.dataconnector.GET.call(
             method=dt.DataConnector.get_data_connector,
             method_args=args,
         ),
@@ -67,12 +67,12 @@ def dcon_get(cfg: dict, **kwargs: Any) -> Table:
 
 
 def dcon_list(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.arguments.dataconnector.LIST.reparse(**kwargs)
+    ok, args = dtcli.args.dataconnector.LIST.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
     return _dataconnectors(
-        dataconnectors=dtcli.arguments.dataconnector.LIST.call(
+        dataconnectors=dtcli.args.dataconnector.LIST.call(
             method=dt.DataConnector.list_data_connectors,
             method_args=args,
         ),
@@ -82,7 +82,7 @@ def dcon_list(cfg: dict, **kwargs: Any) -> Table:
 
 
 def dcon_create_http_push(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.arguments.dataconnector.CREATE_HTTP_PUSH.reparse(**kwargs)
+    ok, args = dtcli.args.dataconnector.CREATE_HTTP_PUSH.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
@@ -99,7 +99,7 @@ def dcon_create_http_push(cfg: dict, **kwargs: Any) -> Table:
     args.pop('headers')
 
     return _dataconnectors(
-        dataconnectors=dtcli.arguments.dataconnector.CREATE_HTTP_PUSH.call(
+        dataconnectors=dtcli.args.dataconnector.CREATE_HTTP_PUSH.call(
             method=dt.DataConnector.create_data_connector,
             method_args=args,
         ),
@@ -109,7 +109,7 @@ def dcon_create_http_push(cfg: dict, **kwargs: Any) -> Table:
 
 
 def dcon_update_http_push(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.arguments.dataconnector.UPDATE_HTTP_PUSH.reparse(**kwargs)
+    ok, args = dtcli.args.dataconnector.UPDATE_HTTP_PUSH.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
@@ -126,7 +126,7 @@ def dcon_update_http_push(cfg: dict, **kwargs: Any) -> Table:
     args.pop('headers')
 
     return _dataconnectors(
-        dataconnectors=dtcli.arguments.dataconnector.UPDATE_HTTP_PUSH.call(
+        dataconnectors=dtcli.args.dataconnector.UPDATE_HTTP_PUSH.call(
             method=dt.DataConnector.update_data_connector,
             method_args=args,
         ),
@@ -136,11 +136,11 @@ def dcon_update_http_push(cfg: dict, **kwargs: Any) -> Table:
 
 
 def dcon_delete(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.arguments.dataconnector.DELETE.reparse(**kwargs)
+    ok, args = dtcli.args.dataconnector.DELETE.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
-    dtcli.arguments.dataconnector.DELETE.call(
+    dtcli.args.dataconnector.DELETE.call(
         method=dt.DataConnector.delete_data_connector,
         method_args=args,
     )
@@ -149,11 +149,11 @@ def dcon_delete(cfg: dict, **kwargs: Any) -> Table:
 
 
 def dcon_sync(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.arguments.dataconnector.SYNC.reparse(**kwargs)
+    ok, args = dtcli.args.dataconnector.SYNC.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
-    dtcli.arguments.dataconnector.SYNC.call(
+    dtcli.args.dataconnector.SYNC.call(
         method=dt.DataConnector.sync_data_connector,
         method_args=args,
     )
@@ -162,12 +162,12 @@ def dcon_sync(cfg: dict, **kwargs: Any) -> Table:
 
 
 def dcon_metrics(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.arguments.dataconnector.METRICS.reparse(**kwargs)
+    ok, args = dtcli.args.dataconnector.METRICS.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
     return _metrics(
-        metrics=dtcli.arguments.dataconnector.METRICS.call(
+        metrics=dtcli.args.dataconnector.METRICS.call(
             method=dt.DataConnector.get_metrics,
             method_args=args,
         ),

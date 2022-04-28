@@ -19,6 +19,9 @@ class Arg():
                  check_xid: bool = False,
                  default_value: Any = None,
                  required_by: dict[str, Any] = {},
+                 action: str | None = None,
+                 metavar: str | None = None,
+                 help: str | None = None,
                  **kwargs: Any,
                  ) -> None:
 
@@ -59,6 +62,14 @@ class Arg():
         self._set: bool = False
         self.pipe: bool = False
 
+        self.argparse_kwargs = {}
+        if action is not None:
+            self.argparse_kwargs['action'] = action
+        if help is not None:
+            self.argparse_kwargs['help'] = help
+        if metavar is not None:
+            self.argparse_kwargs['metavar'] = metavar
+
     @property
     def value(self) -> Any:
         if self._set:
@@ -96,12 +107,13 @@ class Arg():
             self._value = sys.stdin.read()
 
     def to_argparse(self) -> Tuple[list[str], dict]:
-        kwargs = {}
-        for key in ['metavar', 'help']:
-            if key in self.kwargs:
-                kwargs[key] = self.kwargs[key]
+        return self.flags, self.argparse_kwargs
+        # kwargs = {}
+        # for key in ['metavar', 'help', 'action', 'type']:
+        #     if key in self.kwargs:
+        #         kwargs[key] = self.kwargs[key]
 
-        return self.flags, kwargs
+        # return self.flags, kwargs
 
     def _from_interactive(self) -> None:
         val = input(f'{self._required_str()} > {self.key}: ')
@@ -165,17 +177,19 @@ class CmdArgs():
                 )
 
     def to_method(self, **kwargs: dict) -> dict:
-        self._reparse(**kwargs)
+        self._arg_from_kwargs(**kwargs)
         return self._to_dict()
 
-    def _reparse(self, **kwargs: dict) -> None:
+    def _arg_from_kwargs(self, **kwargs: dict) -> None:
         for arg in self.args_list:
             arg._resolve_value(**kwargs)
 
     def _to_dict(self) -> dict:
         out = {}
         for arg in self.args_list:
-            out[arg.key] = arg.value
+            # Only include arguments that are set.
+            if arg._set:
+                out[arg.key] = arg.value
         return out
 
     def _call_pipe(self, pipe: Arg,
@@ -230,7 +244,7 @@ class CmdArgs():
 
     def reparse(self, **kwargs: dict) -> Tuple[bool, dict]:
         # Use the kwargs provided by argparse to get key values.
-        self._reparse(**kwargs)
+        self._arg_from_kwargs(**kwargs)
 
         # Do a dependency check on the arguments.
         if not self._dependency_check():

@@ -26,7 +26,7 @@ def create_add(subparser: _SubParsersAction,
         name='http-push',
         help='create a new HTTP_PUSH data connector',
     )
-    dtcli.arguments.dataconnector.CREATE_HTTP_PUSH.to_parser(http_push_parser)
+    dtcli.args.dataconnector.CREATE_HTTP_PUSH.to_parser(http_push_parser)
     common_opts(http_push_parser)
 
     assert isinstance(create_parser, ArgumentParser)
@@ -54,7 +54,7 @@ def update_add(subparser: _SubParsersAction,
         name='http-push',
         help='update a HTTP_PUSH data connector',
     )
-    dtcli.arguments.dataconnector.UPDATE_HTTP_PUSH.to_parser(http_push_parser)
+    dtcli.args.dataconnector.UPDATE_HTTP_PUSH.to_parser(http_push_parser)
     common_opts(http_push_parser)
 
     assert isinstance(update_parser, ArgumentParser)
@@ -82,7 +82,7 @@ def add(subparser: _SubParsersAction,
         name='get',
         help='get a single data connector',
     )
-    dtcli.arguments.dataconnector.GET.to_parser(get_parser)
+    dtcli.args.dataconnector.GET.to_parser(get_parser)
     common_opts(get_parser)
 
     # ------------------
@@ -91,7 +91,7 @@ def add(subparser: _SubParsersAction,
         name='list',
         help='list data connectors in a project',
     )
-    dtcli.arguments.dataconnector.LIST.to_parser(list_parser)
+    dtcli.args.dataconnector.LIST.to_parser(list_parser)
     common_opts(list_parser)
 
     # --------------------
@@ -114,7 +114,7 @@ def add(subparser: _SubParsersAction,
         name='delete',
         help='delete a data connector',
     )
-    dtcli.arguments.dataconnector.DELETE.to_parser(delete_parser)
+    dtcli.args.dataconnector.DELETE.to_parser(delete_parser)
     common_opts(delete_parser)
 
     # ------------------
@@ -123,7 +123,7 @@ def add(subparser: _SubParsersAction,
         name='sync',
         help='sync a data connector',
     )
-    dtcli.arguments.dataconnector.SYNC.to_parser(sync_parser)
+    dtcli.args.dataconnector.SYNC.to_parser(sync_parser)
     common_opts(sync_parser)
 
     # ---------------------
@@ -132,7 +132,7 @@ def add(subparser: _SubParsersAction,
         name='metrics',
         help='get data connector metrics',
     )
-    dtcli.arguments.dataconnector.SYNC.to_parser(metrics_parser)
+    dtcli.args.dataconnector.SYNC.to_parser(metrics_parser)
     common_opts(metrics_parser)
 
     assert isinstance(create_parser, ArgumentParser)

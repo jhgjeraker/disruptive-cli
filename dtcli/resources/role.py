@@ -28,12 +28,12 @@ def _roles(roles: list[dt.Organization],
 
 
 def role_get(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.arguments.role.GET.reparse(**kwargs)
+    ok, args = dtcli.args.role.GET.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
     return _roles(
-        roles=dtcli.arguments.role.GET.call(
+        roles=dtcli.args.role.GET.call(
             method=dt.Role.get_role,
             method_args=args,
         ),
@@ -43,12 +43,12 @@ def role_get(cfg: dict, **kwargs: Any) -> Table:
 
 
 def role_list(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.arguments.role.LIST.reparse(**kwargs)
+    ok, args = dtcli.args.role.LIST.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
     return _roles(
-        roles=dtcli.arguments.role.LIST.call(
+        roles=dtcli.args.role.LIST.call(
             method=dt.Role.list_roles,
             method_args=args,
         ),

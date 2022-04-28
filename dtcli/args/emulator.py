@@ -24,6 +24,5 @@ CREATE = dtcli.parser.CmdArgs([
         flags=['--labels'],
         help='comma-separated list of key=value labels',
         format=dtcli.format.str2dict,
-        default_value={},
     ),
 ])

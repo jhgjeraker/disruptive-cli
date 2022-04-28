@@ -20,6 +20,17 @@ def to_string(x: Any) -> str:
         return str(x)
 
 
+def to_bool(x: Any) -> bool:
+    if isinstance(x, bool):
+        return x
+    elif isinstance(x, str):
+        return x.lower() in ['true', 'yes', '1']
+    elif isinstance(x, int) or isinstance(x, float):
+        return int(x) != 0
+    else:
+        raise TypeError(f'value {x} can not be converted to bool')
+
+
 def str_attr_format(x: str) -> str:
     return x.replace('-', '_').replace(' ', '_').lower()
 

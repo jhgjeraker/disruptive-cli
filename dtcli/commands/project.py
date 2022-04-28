@@ -26,7 +26,7 @@ def member_add(subparser: _SubParsersAction,
         name='add',
         help='add a new member',
     )
-    dtcli.arguments.project.MEMBER_ADD.to_parser(add_parser)
+    dtcli.args.project.MEMBER_ADD.to_parser(add_parser)
     common_opts(add_parser)
 
     # -------------
@@ -35,7 +35,7 @@ def member_add(subparser: _SubParsersAction,
         name='remove',
         help='remove a member',
     )
-    dtcli.arguments.project.MEMBER_REMOVE.to_parser(remove_parser)
+    dtcli.args.project.MEMBER_REMOVE.to_parser(remove_parser)
     common_opts(remove_parser)
 
     # -------------
@@ -44,7 +44,7 @@ def member_add(subparser: _SubParsersAction,
         name='update',
         help='update member details',
     )
-    dtcli.arguments.project.MEMBER_UPDATE.to_parser(update_parser)
+    dtcli.args.project.MEMBER_UPDATE.to_parser(update_parser)
     common_opts(update_parser)
 
     # -----------
@@ -53,7 +53,7 @@ def member_add(subparser: _SubParsersAction,
         name='list',
         help='list members in project',
     )
-    dtcli.arguments.project.MEMBER_LIST.to_parser(list_parser)
+    dtcli.args.project.MEMBER_LIST.to_parser(list_parser)
     common_opts(list_parser)
 
     # -----------------
@@ -62,7 +62,7 @@ def member_add(subparser: _SubParsersAction,
         name='invite-url',
         help='get member invite URL',
     )
-    dtcli.arguments.project.MEMBER_INVITE_URL.to_parser(invite_url_parser)
+    dtcli.args.project.MEMBER_INVITE_URL.to_parser(invite_url_parser)
     common_opts(invite_url_parser)
 
     assert isinstance(member_parser, ArgumentParser)
@@ -91,7 +91,7 @@ def add(subparser: _SubParsersAction,
         name='get',
         help='get a single project',
     )
-    dtcli.arguments.project.GET.to_parser(get_parser)
+    dtcli.args.project.GET.to_parser(get_parser)
     common_opts(get_parser)
 
     # -------------
@@ -101,7 +101,7 @@ def add(subparser: _SubParsersAction,
         help='list multiple projects',
         formatter_class=dtcli.format.SubcommandHelpFormatter,
     )
-    dtcli.arguments.project.LIST.to_parser(list_parser)
+    dtcli.args.project.LIST.to_parser(list_parser)
     common_opts(list_parser)
 
     # --------------
@@ -110,7 +110,7 @@ def add(subparser: _SubParsersAction,
         'create',
         help='create a new project',
     )
-    dtcli.arguments.project.CREATE.to_parser(create_parser)
+    dtcli.args.project.CREATE.to_parser(create_parser)
     common_opts(create_parser)
 
     # --------------
@@ -119,7 +119,7 @@ def add(subparser: _SubParsersAction,
         'update',
         help='update a project',
     )
-    dtcli.arguments.project.UPDATE.to_parser(update_parser)
+    dtcli.args.project.UPDATE.to_parser(update_parser)
     common_opts(update_parser)
 
     # --------------
@@ -128,7 +128,7 @@ def add(subparser: _SubParsersAction,
         'delete',
         help='delete a project',
     )
-    dtcli.arguments.project.DELETE.to_parser(delete_parser)
+    dtcli.args.project.DELETE.to_parser(delete_parser)
     common_opts(delete_parser)
 
     # ------------------
@@ -137,7 +137,7 @@ def add(subparser: _SubParsersAction,
         name='permissions',
         help='list permissions available to caller',
     )
-    dtcli.arguments.project.PERMISSIONS.to_parser(permissions_parser)
+    dtcli.args.project.PERMISSIONS.to_parser(permissions_parser)
     common_opts(permissions_parser)
 
     # --------------

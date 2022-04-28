@@ -26,7 +26,7 @@ def add(subparser: _SubParsersAction,
         name='create',
         help='create a new emulated device',
     )
-    dtcli.arguments.emulator.CREATE.to_parser(create_parser)
+    dtcli.args.emulator.CREATE.to_parser(create_parser)
     common_opts(create_parser)
 
     assert isinstance(emulator_parser, ArgumentParser)

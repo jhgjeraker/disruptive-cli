@@ -26,7 +26,7 @@ def label_add(subparser: _SubParsersAction,
         name='set',
         help='set or update a label',
     )
-    dtcli.arguments.device.LABEL_SET.to_parser(set_parser)
+    dtcli.args.device.LABEL_SET.to_parser(set_parser)
     common_opts(set_parser)
 
     # ------------
@@ -35,7 +35,7 @@ def label_add(subparser: _SubParsersAction,
         name='remove',
         help='remove one or more labels',
     )
-    dtcli.arguments.device.LABEL_REMOVE.to_parser(remove_parser)
+    dtcli.args.device.LABEL_REMOVE.to_parser(remove_parser)
     common_opts(remove_parser)
 
     assert isinstance(label_parser, ArgumentParser)
@@ -65,7 +65,7 @@ def add(subparser: _SubParsersAction,
         help='Get a single device.',
         exit_on_error=False,
     )
-    dtcli.arguments.device.GET.to_parser(get_parser)
+    dtcli.args.device.GET.to_parser(get_parser)
     common_opts(get_parser)
 
     # -----------
@@ -74,7 +74,7 @@ def add(subparser: _SubParsersAction,
         name='list',
         help='Get one or more devices.',
     )
-    dtcli.arguments.device.LIST.to_parser(list_parser)
+    dtcli.args.device.LIST.to_parser(list_parser)
     common_opts(list_parser)
 
     # ----------------
@@ -83,7 +83,7 @@ def add(subparser: _SubParsersAction,
         name='transfer',
         help='Transfer one or more devices.'
     )
-    dtcli.arguments.device.TRANSFER.to_parser(transfer_parser)
+    dtcli.args.device.TRANSFER.to_parser(transfer_parser)
     common_opts(transfer_parser)
 
     # ------------

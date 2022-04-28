@@ -56,7 +56,6 @@ CREATE_HTTP_PUSH = dtcli.parser.CmdArgs([
         flags=['--display-name'],
         help='give the data connector a name',
         metavar='',
-        default_value='',
         format=dtcli.format.to_string,
     ),
     dtcli.parser.Arg(
@@ -64,7 +63,6 @@ CREATE_HTTP_PUSH = dtcli.parser.CmdArgs([
         flags=['--status'],
         help='either "ACTIVE" (default) or "USER_DISABLED"',
         metavar='',
-        default_value='ACTIVE',
         format=dtcli.format.to_string,
     ),
     dtcli.parser.Arg(
@@ -72,7 +70,6 @@ CREATE_HTTP_PUSH = dtcli.parser.CmdArgs([
         flags=['--event-types'],
         help='comma-separated list of event-types to forward',
         metavar='',
-        default_value=[],
         format=dtcli.format.str2list,
     ),
     dtcli.parser.Arg(
@@ -80,7 +77,6 @@ CREATE_HTTP_PUSH = dtcli.parser.CmdArgs([
         flags=['--labels'],
         help='comma-separated list of label keys to include in request',
         metavar='',
-        default_value=[],
         format=dtcli.format.str2list,
     ),
 ])
@@ -124,7 +120,6 @@ UPDATE_HTTP_PUSH = dtcli.parser.CmdArgs([
         flags=['--display-name'],
         help='give the data connector a name',
         metavar='',
-        default_value='',
         format=dtcli.format.to_string,
     ),
     dtcli.parser.Arg(
@@ -132,7 +127,6 @@ UPDATE_HTTP_PUSH = dtcli.parser.CmdArgs([
         flags=['--status'],
         help='either "ACTIVE" (default) or "USER_DISABLED"',
         metavar='',
-        default_value='ACTIVE',
         format=dtcli.format.to_string,
     ),
     dtcli.parser.Arg(
@@ -140,7 +134,6 @@ UPDATE_HTTP_PUSH = dtcli.parser.CmdArgs([
         flags=['--event-types'],
         help='comma-separated list of event-types to forward',
         metavar='',
-        default_value=[],
         format=dtcli.format.str2list,
     ),
     dtcli.parser.Arg(
@@ -148,7 +141,6 @@ UPDATE_HTTP_PUSH = dtcli.parser.CmdArgs([
         flags=['--labels'],
         help='comma-separated list of label keys to include in request',
         metavar='',
-        default_value=[],
         format=dtcli.format.str2list,
     ),
 ])

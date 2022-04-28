@@ -26,12 +26,12 @@ def _organizations(organizations: list[dt.Organization],
 
 
 def get(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.arguments.organization.GET.reparse(**kwargs)
+    ok, args = dtcli.args.organization.GET.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
     return _organizations(
-        organizations=dtcli.arguments.organization.GET.call(
+        organizations=dtcli.args.organization.GET.call(
             method=dt.Organization.get_organization,
             method_args=args,
         ),

@@ -7,11 +7,11 @@ from dtcli.table import Table, Column
 
 
 def emulator_create(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.arguments.emulator.CREATE.reparse(**kwargs)
+    ok, args = dtcli.args.emulator.CREATE.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
-    results = dtcli.arguments.emulator.CREATE.call(
+    results = dtcli.args.emulator.CREATE.call(
         method=dt.Emulator.create_device,
         method_args=args,
     )
