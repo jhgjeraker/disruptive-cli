@@ -34,6 +34,15 @@ def add(subparser: _SubParsersAction,
     dtcli.arguments.role.GET.to_parser(get_parser)
     common_opts(get_parser)
 
+    # ---------
+    # role list
+    list_parser = role_subparser.add_parser(
+        name='list',
+        help='list all roles',
+    )
+    dtcli.arguments.role.LIST.to_parser(list_parser)
+    common_opts(list_parser)
+
     assert isinstance(role_parser, ArgumentParser)
 
     return {'role': role_parser}
@@ -41,7 +50,9 @@ def add(subparser: _SubParsersAction,
 
 def do(parsers: dict, cfg: dict, **kwargs: Any) -> Table:
     if kwargs['role_cmd'] == 'get':
-        return dtcli.resources.role.get(cfg, **kwargs)
+        return dtcli.resources.role.role_get(cfg, **kwargs)
+    elif kwargs['role_cmd'] == 'list':
+        return dtcli.resources.role.role_list(cfg, **kwargs)
     else:
         print(parsers['role'].format_help())
 

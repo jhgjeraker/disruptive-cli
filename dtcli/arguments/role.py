@@ -8,3 +8,5 @@ GET = dtcli.parser.CmdArgs([
         format=dtcli.format.to_string,
     ),
 ])
+
+LIST = dtcli.parser.CmdArgs([])

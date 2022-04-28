@@ -188,7 +188,8 @@ class CmdArgs():
             raise ValueError('pipe value must not be None')
 
         # Otherwise, iterate through pipe entries.
-        for entry in pipe.value:
+        for i, entry in enumerate(pipe.value):
+            dtcli.format.stderr(f'{i + 1} / {len(pipe.value)}')
             # If the piped argument is xid, validate format before call.
             if pipe.check_xid and not dtcli.format.is_xid(entry):
                 msg = f'{entry} is not a valid ID'
