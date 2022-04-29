@@ -33,3 +33,37 @@ def emulator_create(cfg: dict, **kwargs: Any) -> Table:
     table.new_entries(results)
 
     return table
+
+
+def emulator_delete(cfg: dict, **kwargs: Any) -> Table:
+    ok, args = dtcli.args.emulator.DELETE.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
+    dtcli.args.emulator.DELETE.call(
+        method=dt.Emulator.delete_device,
+        method_args=args,
+    )
+
+    return Table.empty()
+
+
+def publish_touch(cfg: dict, **kwargs: Any) -> Table:
+    ok, args = dtcli.args.emulator.PUBLISH_TOUCH.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
+    # Create an instance of Touch that is injected into args.
+    touch_args = {}
+    for key in ['timestamp']:
+        if key in args:
+            touch_args[key] = args[key]
+            args.pop(key)
+    args['data'] = dt.events.Touch(**touch_args)
+
+    dtcli.args.emulator.PUBLISH_TOUCH.call(
+        method=dt.Emulator.publish_event,
+        method_args=args
+    )
+
+    return Table.empty()

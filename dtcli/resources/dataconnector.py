@@ -86,17 +86,13 @@ def dcon_create_http_push(cfg: dict, **kwargs: Any) -> Table:
     if not ok:
         return Table.empty()
 
-    args['config'] = dt.DataConnector.HttpPushConfig(
-        url=args['url'],
-        signature_secret=args['signature_secret'],
-        headers=args['headers'],
-    )
-
-    # Since `args` is propegated as **kwargs into
-    # the `disruptive` package, `url` and `headers`
-    # must be removed to avoid conflict with request.
-    args.pop('url')
-    args.pop('headers')
+    # Create an instance of HttpPushConfig that is injected into args.
+    http_push_config_args = {}
+    for key in ['url', 'signature_secret', 'headers']:
+        if key in args:
+            http_push_config_args[key] = args[key]
+            args.pop(key)
+    args['config'] = dt.DataConnector.HttpPushConfig(**http_push_config_args)
 
     return _dataconnectors(
         dataconnectors=dtcli.args.dataconnector.CREATE_HTTP_PUSH.call(
@@ -113,17 +109,13 @@ def dcon_update_http_push(cfg: dict, **kwargs: Any) -> Table:
     if not ok:
         return Table.empty()
 
-    args['config'] = dt.DataConnector.HttpPushConfig(
-        url=args['url'],
-        signature_secret=args['signature_secret'],
-        headers=args['headers'],
-    )
-
-    # Since `args` is propegated as **kwargs into
-    # the `disruptive` package, `url` and `headers`
-    # must be removed to avoid conflict with request.
-    args.pop('url')
-    args.pop('headers')
+    # Create an instance of HttpPushConfig that is injected into args.
+    http_push_config_args = {}
+    for key in ['url', 'signature_secret', 'headers']:
+        if key in args:
+            http_push_config_args[key] = args[key]
+            args.pop(key)
+    args['config'] = dt.DataConnector.HttpPushConfig(**http_push_config_args)
 
     return _dataconnectors(
         dataconnectors=dtcli.args.dataconnector.UPDATE_HTTP_PUSH.call(

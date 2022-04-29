@@ -39,6 +39,7 @@ def label_add(subparser: _SubParsersAction,
     common_opts(remove_parser)
 
     assert isinstance(label_parser, ArgumentParser)
+
     return label_parser
 
 
