@@ -13,5 +13,5 @@ class DTMock():
             side_effect=self._patched_device_get,
         )
 
-    def _patched_device_get(self, device_id, project_id, **kwargs):
+    def _patched_device_get(self, device_id, **kwargs):
         return dt.Device(self.raw)

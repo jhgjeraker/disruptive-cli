@@ -24,7 +24,16 @@ class TestDevice():
         tests = [
             TestCase(
                 name='successfull device get',
-                give_args=['xid'],
+                give_args=['device_id'],
+                give_raw=responses.touch_sensor,
+                want_n_cols=4,
+                want_n_rows=2,
+                want_row_type=str,
+                want_error=None,
+            ),
+            TestCase(
+                name='successfull device get /w project id',
+                give_args=['device_id', '--project-id', 'project_id'],
                 give_raw=responses.touch_sensor,
                 want_n_cols=4,
                 want_n_rows=2,
@@ -48,7 +57,7 @@ class TestDevice():
                 want_n_cols=4,
                 want_row_type=str,
                 want_error=None,
-            )
+            ),
         ]
 
         for test in tests:
@@ -59,15 +68,11 @@ class TestDevice():
             if test.want_error is None:
                 table = dtcli.cli.entry_point()
 
-                if table is None:
-                    assert test.want_n_rows == 0
-                    assert test.want_n_cols == 0
-                    assert test.want_row_type is None
+                assert test.want_n_rows == table.n_rows
+                assert test.want_n_cols == table.n_columns
 
-                else:
-                    assert test.want_n_rows == table.n_rows
-                    for row in table.rows:
-                        assert isinstance(row, test.want_row_type)
+                for row in table.rows:
+                    assert isinstance(row, test.want_row_type)
             else:
                 with pytest.raises(test.want_error):
                     dtcli.cli.entry_point()

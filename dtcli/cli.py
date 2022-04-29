@@ -52,6 +52,11 @@ def entry_point() -> Table:
         formatter_class=dtcli.format.SubcommandHelpFormatter,
         exit_on_error=False,
     )
+    parser.add_argument(
+        '-V', '--version',
+        help='print current version',
+        action='store_true',
+    )
 
     # Create one subparser per command.
     # Global flags are provided by the _common_opts function.
@@ -89,11 +94,14 @@ def entry_point() -> Table:
     # The initialization phase is wrapped in a general function cli_init().
     # This is mainly to avoid running the auth-sequence when no command
     # is provided, but also separates the setup from actual cli executions.
-    if args['command'] is not None:
+    if args['version']:
+        dtcli.format.stdout(dtcli.__VERSION__)
+    elif args['command'] is not None:
         return cli_init(parsers, args)
     else:
         print(parser.format_help())
-        return Table.empty()
+
+    return Table.empty()
 
 
 def cli_init(parsers: dict, args: dict) -> Table:
