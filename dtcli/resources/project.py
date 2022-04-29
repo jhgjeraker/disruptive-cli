@@ -144,6 +144,21 @@ def project_member_remove(**kwargs: dict) -> Table:
     return Table.empty()
 
 
+def project_member_get(cfg: dict, **kwargs: dict) -> Table:
+    ok, args = dtcli.args.project.MEMBER_GET.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
+    return _members(
+        members=dtcli.args.project.MEMBER_GET.call(
+            method=dt.Project.get_member,
+            method_args=args,
+        ),
+        cfg=cfg,
+        **kwargs,
+    )
+
+
 def project_member_update(cfg: dict, **kwargs: dict) -> Table:
     ok, args = dtcli.args.project.MEMBER_UPDATE.reparse(**kwargs)
     if not ok:

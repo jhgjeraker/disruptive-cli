@@ -16,7 +16,7 @@ def member_add(subparser: _SubParsersAction,
     )
     member_subparser = member_parser.add_subparsers(
         title='available commands',
-        dest='member',
+        dest='project_member',
         metavar=None,
     )
 
@@ -37,6 +37,15 @@ def member_add(subparser: _SubParsersAction,
     )
     dtcli.args.project.MEMBER_REMOVE.to_parser(remove_parser)
     common_opts(remove_parser)
+
+    # ----------
+    # member get
+    get_parser = member_subparser.add_parser(
+        name='get',
+        help='get a member',
+    )
+    dtcli.args.project.MEMBER_GET.to_parser(get_parser)
+    common_opts(get_parser)
 
     # -------------
     # member update
@@ -150,7 +159,7 @@ def add(subparser: _SubParsersAction,
     assert isinstance(project_parser, ArgumentParser)
     assert isinstance(member_parser, ArgumentParser)
 
-    return {'project': project_parser, 'member': member_parser}
+    return {'project': project_parser, 'project_member': member_parser}
 
 
 def do(parsers: dict[str, ArgumentParser], cfg: dict, **kwargs: dict) -> Table:
@@ -167,18 +176,20 @@ def do(parsers: dict[str, ArgumentParser], cfg: dict, **kwargs: dict) -> Table:
     elif kwargs['project'] == 'permissions':
         return dtcli.resources.project.project_permissions(**kwargs)
     elif kwargs['project'] == 'member':
-        if kwargs['member'] == 'add':
+        if kwargs['project_member'] == 'add':
             return dtcli.resources.project.project_member_add(cfg, **kwargs)
-        if kwargs['member'] == 'remove':
+        elif kwargs['project_member'] == 'remove':
             return dtcli.resources.project.project_member_remove(**kwargs)
-        if kwargs['member'] == 'update':
+        elif kwargs['project_member'] == 'get':
+            return dtcli.resources.project.project_member_get(cfg, **kwargs)
+        elif kwargs['project_member'] == 'update':
             return dtcli.resources.project.project_member_update(cfg, **kwargs)
-        if kwargs['member'] == 'list':
+        elif kwargs['project_member'] == 'list':
             return dtcli.resources.project.project_member_list(cfg, **kwargs)
-        if kwargs['member'] == 'invite-url':
+        elif kwargs['project_member'] == 'invite-url':
             return dtcli.resources.project.project_member_invite_url(**kwargs)
         else:
-            print(parsers['member'].format_help())
+            print(parsers['project_member'].format_help())
             return Table.empty()
     else:
         print(parsers['project'].format_help())

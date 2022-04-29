@@ -74,7 +74,6 @@ PERMISSIONS = dtcli.parser.CmdArgs([
     ),
 ])
 
-
 MEMBER_ADD = dtcli.parser.CmdArgs([
     dtcli.parser.Arg(
         key='project_id',
@@ -109,6 +108,21 @@ MEMBER_REMOVE = dtcli.parser.CmdArgs([
         help='target project identifier',
         format=dtcli.format.to_string,
     )
+])
+
+MEMBER_GET = dtcli.parser.CmdArgs([
+    dtcli.parser.Arg(
+        key='member_id',
+        flags=['member-id'],
+        help='target member identifier',
+        format=dtcli.format.to_string,
+    ),
+    dtcli.parser.Arg(
+        key='project_id',
+        flags=['project-id'],
+        help='target project identifier',
+        format=dtcli.format.to_string,
+    ),
 ])
 
 MEMBER_UPDATE = dtcli.parser.CmdArgs([
