@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Dict
 from argparse import _SubParsersAction, ArgumentParser
 
 import dtcli
@@ -81,7 +81,7 @@ def member_add(subparser: _SubParsersAction,
 
 def add(subparser: _SubParsersAction,
         common_opts: Callable,
-        ) -> dict[str, ArgumentParser]:
+        ) -> Dict[str, ArgumentParser]:
 
     project_parser = subparser.add_parser(
         name='project',
@@ -162,7 +162,7 @@ def add(subparser: _SubParsersAction,
     return {'project': project_parser, 'project_member': member_parser}
 
 
-def do(parsers: dict[str, ArgumentParser], cfg: dict, **kwargs: dict) -> Table:
+def do(parsers: Dict[str, ArgumentParser], cfg: dict, **kwargs: dict) -> Table:
     if kwargs['project'] == 'get':
         return dtcli.resources.project.project_get(cfg, **kwargs)
     elif kwargs['project'] == 'list':

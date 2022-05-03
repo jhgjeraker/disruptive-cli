@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List
 
 import disruptive as dt
 
@@ -6,7 +6,7 @@ import dtcli
 from dtcli.table import Table, Column
 
 
-def _dataconnectors(dataconnectors: list[dt.DataConnector],
+def _dataconnectors(dataconnectors: List[dt.DataConnector],
                     cfg: dict,
                     **kwargs: Any,
                     ) -> Table:
@@ -31,7 +31,7 @@ def _dataconnectors(dataconnectors: list[dt.DataConnector],
     return table
 
 
-def _metrics(metrics: list[dt.DataConnector],
+def _metrics(metrics: List[dt.DataConnector],
              cfg: dict,
              **kwargs: Any,
              ) -> Table:

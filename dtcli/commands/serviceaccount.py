@@ -1,4 +1,4 @@
-from typing import Callable, Any
+from typing import Callable, Any, Dict
 from argparse import _SubParsersAction, ArgumentParser
 
 import dtcli
@@ -63,7 +63,7 @@ def key_add(subparser: _SubParsersAction,
 
 def add(subparser: _SubParsersAction,
         common_opts: Callable,
-        ) -> dict[str, ArgumentParser]:
+        ) -> Dict[str, ArgumentParser]:
 
     serviceaccount_parser = subparser.add_parser(
         name='serviceaccount',

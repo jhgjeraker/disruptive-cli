@@ -1,4 +1,4 @@
-from typing import Callable, Any
+from typing import Callable, Any, Dict
 from argparse import _SubParsersAction, ArgumentParser
 
 import dtcli
@@ -45,13 +45,12 @@ def label_add(subparser: _SubParsersAction,
 
 def add(subparser: _SubParsersAction,
         common_opts: Callable,
-        ) -> dict[str, ArgumentParser]:
+        ) -> Dict[str, ArgumentParser]:
 
     device_parser = subparser.add_parser(
         name='device',
         help='Interact with the Device resource.',
         formatter_class=dtcli.format.SubcommandHelpFormatter,
-        exit_on_error=False,
     )
     device_subparser = device_parser.add_subparsers(
         title='available commands',
@@ -64,7 +63,6 @@ def add(subparser: _SubParsersAction,
     get_parser = device_subparser.add_parser(
         name='get',
         help='Get a single device.',
-        exit_on_error=False,
     )
     dtcli.args.device.GET.to_parser(get_parser)
     common_opts(get_parser)

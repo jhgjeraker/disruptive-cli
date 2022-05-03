@@ -1,10 +1,12 @@
+from typing import List
+
 import disruptive as dt
 
 import dtcli
 from dtcli.table import Table, Column
 
 
-def _devices(devices: list[dt.Device], cfg: dict, **kwargs: dict) -> Table:
+def _devices(devices: List[dt.Device], cfg: dict, **kwargs: dict) -> Table:
     table = Table(
         default_columns=[
             Column('device_id', False),

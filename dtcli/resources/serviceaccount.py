@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List
 
 import disruptive as dt
 
@@ -6,7 +6,7 @@ import dtcli
 from dtcli.table import Table, Column
 
 
-def _service_accounts(service_accounts: list[dt.ServiceAccount],
+def _service_accounts(service_accounts: List[dt.ServiceAccount],
                       cfg: dict,
                       **kwargs: Any,
                       ) -> Table:

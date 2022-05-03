@@ -1,9 +1,10 @@
+from typing import Dict
 from argparse import _SubParsersAction, ArgumentParser
 
 import dtcli
 
 
-def add(subparser: _SubParsersAction) -> dict[str, ArgumentParser]:
+def add(subparser: _SubParsersAction) -> Dict[str, ArgumentParser]:
     config_parser = subparser.add_parser(
         name='config',
         help='configure CLI behavior',

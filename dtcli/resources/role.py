@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List
 
 import disruptive as dt
 
@@ -6,7 +6,7 @@ import dtcli
 from dtcli.table import Table, Column
 
 
-def _roles(roles: list[dt.Organization],
+def _roles(roles: List[dt.Organization],
            cfg: dict,
            **kwargs: Any,
            ) -> Table:
