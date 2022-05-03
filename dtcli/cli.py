@@ -47,7 +47,22 @@ def _common_opts(parser: ArgumentParser) -> None:
     )
 
 
-def entry_point() -> Table:
+def cli_init(parsers: dict, args: dict) -> Table:
+    # Load config from file if it exists.
+    cfg = dtcli.resources.config.load_config()
+
+    # Import the command module.
+    m = importlib.import_module(f'dtcli.commands.{args["command"]}')
+
+    # Execute the command.
+    table = m.do(parsers, cfg, **args)
+
+    assert isinstance(table, Table)
+
+    return table
+
+
+def main() -> Table:
     parser = argparse.ArgumentParser(
         formatter_class=dtcli.format.SubcommandHelpFormatter,
         exit_on_error=False,
@@ -104,16 +119,9 @@ def entry_point() -> Table:
     return Table.empty()
 
 
-def cli_init(parsers: dict, args: dict) -> Table:
-    # Load config from file if it exists.
-    cfg = dtcli.resources.config.load_config()
+def entry_point() -> None:
+    main()
 
-    # Import the command module.
-    m = importlib.import_module(f'dtcli.commands.{args["command"]}')
 
-    # Execute the command.
-    table = m.do(parsers, cfg, **args)
-
-    assert isinstance(table, Table)
-
-    return table
+if __name__ == '__main__':
+    main()

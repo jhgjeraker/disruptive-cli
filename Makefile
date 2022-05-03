@@ -8,20 +8,22 @@ SHELL := /bin/bash
 
 venv: $(VENV)/bin/activate
 
-$(VENV)/bin/activate: requirements.txt
+$(VENV)/bin/activate: setup.cfg
 	$(PIP) install --upgrade pip virtualenv
 	@test -d $(VENV) || $(PYTHON) -m virtualenv --clear $(VENV)
-	${VENV}/bin/python -m pip install --upgrade pip
-	${VENV}/bin/python -m pip install -r requirements.txt
+	${VENV}/bin/python -m pip install -e .[dev]
 
 build: venv
-	${VENV}/bin/pyinstaller --name dt --noconfirm main.py
+	${VENV}/bin/python -m build
 
 test: venv
 	source ${VENV}/bin/activate && pytest tests/
 
 lint: venv
 	source ${VENV}/bin/activate && mypy dtcli/ --config-file ./mypy.ini && flake8 dtcli/
+
+twine: venv
+	${VENV}/bin/python -m twine check dist/*
 
 clean:
 	rm -rf build/ dist/ pip-wheel-metadata/ *.egg-info
