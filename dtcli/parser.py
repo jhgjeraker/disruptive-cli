@@ -1,6 +1,6 @@
 import sys
 from argparse import ArgumentParser
-from typing import Any, Callable, Tuple
+from typing import Any, Callable, Tuple, List, Dict, Optional
 
 import disruptive as dt
 
@@ -14,14 +14,14 @@ def is_interactive() -> bool:
 class Arg():
     def __init__(self,
                  key: str,
-                 flags: list[str],
+                 flags: List[str],
                  format: Callable,
                  check_xid: bool = False,
                  default_value: Any = None,
-                 required_by: dict[str, Any] = {},
-                 action: str | None = None,
-                 metavar: str | None = None,
-                 help: str | None = None,
+                 required_by: Dict[str, Any] = {},
+                 action: Optional[str] = None,
+                 metavar: Optional[str] = None,
+                 help: Optional[str] = None,
                  **kwargs: Any,
                  ) -> None:
 
@@ -58,7 +58,7 @@ class Arg():
         self.default_value = default_value
         self.required_by = required_by
 
-        self._value: str | None = None
+        self._value: Optional[str] = None
         self._set: bool = False
         self.pipe: bool = False
 
@@ -77,7 +77,7 @@ class Arg():
         else:
             return self.default_value
 
-    def _flag_to_snakecase(self, flags: list[str]) -> list[str]:
+    def _flag_to_snakecase(self, flags: List[str]) -> List[str]:
         out = []
         for flag in flags:
             if flag.startswith('--'):
@@ -106,7 +106,7 @@ class Arg():
             self.format = dtcli.format.str2list
             self._value = sys.stdin.read()
 
-    def to_argparse(self) -> Tuple[list[str], dict]:
+    def to_argparse(self) -> Tuple[List[str], dict]:
         return self.flags, self.argparse_kwargs
         # kwargs = {}
         # for key in ['metavar', 'help', 'action', 'type']:
@@ -145,7 +145,7 @@ def add_cmd_argument(parser: ArgumentParser,
 
 
 class CmdArgs():
-    def __init__(self, args_list: list[Arg]) -> None:
+    def __init__(self, args_list: List[Arg]) -> None:
         self.args_list = args_list
         self.keyed_args = {arg.key: arg for arg in self.args_list}
 

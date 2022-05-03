@@ -1,5 +1,5 @@
 import json
-from typing import Callable
+from typing import Callable, List, Optional
 
 import disruptive
 
@@ -7,7 +7,7 @@ import dtcli.format
 
 
 class Column():
-    def __init__(self, name: str, hidden: bool, width: int | None = None):
+    def __init__(self, name: str, hidden: bool, width: Optional[int] = None):
         self.name = name
         self.hidden = hidden
         self.width = width if width is not None else len(name)
@@ -47,7 +47,7 @@ class Table():
         self.n_columns = len(self.columns)
 
         # This attribute will be appended for each new stdout print.
-        self.rows: list[str] = []
+        self.rows: List[str] = []
 
     @classmethod
     def empty(cls) -> 'Table':
@@ -57,7 +57,7 @@ class Table():
             opts={},
         )
 
-    def _parse_columns(self, columns: list[Column]) -> list[Column]:
+    def _parse_columns(self, columns: List[Column]) -> List[Column]:
         # Make a copy of input.
         use_columns = [c for c in columns]
 

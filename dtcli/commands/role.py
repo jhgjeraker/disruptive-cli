@@ -1,4 +1,4 @@
-from typing import Callable, Any
+from typing import Callable, Any, Dict
 from argparse import _SubParsersAction, ArgumentParser
 
 import dtcli
@@ -7,7 +7,7 @@ from dtcli.table import Table
 
 def add(subparser: _SubParsersAction,
         common_opts: Callable,
-        ) -> dict[str, ArgumentParser]:
+        ) -> Dict[str, ArgumentParser]:
 
     role_parser = subparser.add_parser(
         name='role',

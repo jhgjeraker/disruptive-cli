@@ -65,7 +65,6 @@ def cli_init(parsers: dict, args: dict) -> Table:
 def main() -> Table:
     parser = argparse.ArgumentParser(
         formatter_class=dtcli.format.SubcommandHelpFormatter,
-        exit_on_error=False,
     )
     parser.add_argument(
         '-V', '--version',

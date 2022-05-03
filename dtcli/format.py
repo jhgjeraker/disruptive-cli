@@ -1,6 +1,6 @@
 import sys
 import argparse
-from typing import Any
+from typing import Any, Optional, Dict
 
 
 class SubcommandHelpFormatter(argparse.RawDescriptionHelpFormatter):
@@ -47,15 +47,15 @@ def stdout(*args: Any, **kwargs: Any) -> None:
     print(*args, file=sys.stdout, flush=True, **kwargs)
 
 
-def args_replace_dash(args: dict[str, str | None]) -> dict:
+def args_replace_dash(args: dict) -> dict:
     pruned = {}
     for key in args.keys():
         pruned[key.replace('-', '_')] = args[key]
     return pruned
 
 
-def str2dict(entry: str | None) -> dict[str, str]:
-    out: dict[str, str] = {}
+def str2dict(entry: Optional[str]) -> Dict[str, str]:
+    out: Dict[str, str] = {}
 
     if entry is None:
         return out
@@ -73,7 +73,7 @@ def str2dict(entry: str | None) -> dict[str, str]:
     return out
 
 
-def str2list(entry: str | None) -> list:
+def str2list(entry: Optional[str]) -> list:
     if entry is None:
         return []
 
@@ -81,7 +81,7 @@ def str2list(entry: str | None) -> list:
     return [entry for entry in entries if len(entry) > 0]
 
 
-def is_xid(entry: str | None) -> bool:
+def is_xid(entry: Optional[str]) -> bool:
     if entry is None:
         return False
 

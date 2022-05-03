@@ -1,10 +1,12 @@
+from typing import List
+
 import disruptive as dt
 
 import dtcli
 from dtcli.table import Table, Column
 
 
-def _projects(projects: list[dt.Project], cfg: dict, **kwargs: dict) -> Table:
+def _projects(projects: List[dt.Project], cfg: dict, **kwargs: dict) -> Table:
     table = Table(
         default_columns=[
             Column('project_id', False),
@@ -23,7 +25,7 @@ def _projects(projects: list[dt.Project], cfg: dict, **kwargs: dict) -> Table:
     return table
 
 
-def _members(members: list[dt.outputs.Member],
+def _members(members: List[dt.outputs.Member],
              cfg: dict,
              **kwargs: dict,
              ) -> Table:

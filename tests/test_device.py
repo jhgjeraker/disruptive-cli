@@ -1,5 +1,5 @@
 import sys
-from typing import Any
+from typing import Any, List
 from dataclasses import dataclass
 
 import pytest
@@ -14,7 +14,7 @@ class TestDevice():
         @dataclass
         class TestCase:
             name: str
-            give_args: list[str]
+            give_args: List[str]
             give_res: dict
             want_n_rows: int
             want_n_cols: int
@@ -72,8 +72,8 @@ class TestDevice():
         @dataclass
         class TestCase:
             name: str
-            give_args: list[str]
-            give_res: list[dict]
+            give_args: List[str]
+            give_res: List[dict]
             want_n_rows: int
             want_n_cols: int
             want_row_type: Any

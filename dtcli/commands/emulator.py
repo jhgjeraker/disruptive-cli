@@ -1,4 +1,4 @@
-from typing import Callable, Any
+from typing import Callable, Any, Dict
 from argparse import _SubParsersAction, ArgumentParser
 
 import dtcli
@@ -36,7 +36,7 @@ def publish_add(subparser: _SubParsersAction,
 
 def add(subparser: _SubParsersAction,
         common_opts: Callable,
-        ) -> dict[str, ArgumentParser]:
+        ) -> Dict[str, ArgumentParser]:
 
     emulator_parser = subparser.add_parser(
         name='emulator',
@@ -80,7 +80,7 @@ def add(subparser: _SubParsersAction,
     return {'emulator': emulator_parser, 'publish': publish_parser}
 
 
-def do(parsers: dict[str, ArgumentParser],
+def do(parsers: Dict[str, ArgumentParser],
        cfg: dict,
        **kwargs: Any,
        ) -> Table:

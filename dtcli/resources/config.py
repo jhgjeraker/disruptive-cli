@@ -1,5 +1,5 @@
 import pathlib
-from typing import Any
+from typing import Any, Dict
 
 import yaml
 
@@ -13,7 +13,7 @@ _default_cfg = {
 }
 
 
-def load_config() -> dict[str, Any]:
+def load_config() -> Dict[str, Any]:
     try:
         with open(str(CFG_FILE), 'r') as f:
             cfg = yaml.full_load(f)
@@ -25,7 +25,7 @@ def load_config() -> dict[str, Any]:
     return cfg
 
 
-def _write_config(cfg: dict[str, Any]) -> None:
+def _write_config(cfg: Dict[str, Any]) -> None:
     if not CFG_DIR.exists():
         CFG_DIR.mkdir(parents=True, exist_ok=True)
 

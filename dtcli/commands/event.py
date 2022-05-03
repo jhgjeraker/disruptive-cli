@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Dict
 from argparse import _SubParsersAction, ArgumentParser
 
 import dtcli
@@ -7,7 +7,7 @@ from dtcli.table import Table
 
 def add(subparser: _SubParsersAction,
         common_opts: Callable,
-        ) -> dict[str, ArgumentParser]:
+        ) -> Dict[str, ArgumentParser]:
 
     event_parser = subparser.add_parser(
         name='event',
@@ -43,7 +43,7 @@ def add(subparser: _SubParsersAction,
     return {'event': event_parser}
 
 
-def do(parsers: dict[str, ArgumentParser], cfg: dict, **kwargs: dict) -> Table:
+def do(parsers: Dict[str, ArgumentParser], cfg: dict, **kwargs: dict) -> Table:
     if kwargs['event'] == 'list':
         return dtcli.resources.event.list_events(cfg, **kwargs)
     elif kwargs['event'] == 'stream':
