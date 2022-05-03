@@ -57,7 +57,7 @@ class TestDevice():
             dt_device_mock.res = test.give_res
 
             if test.want_error is None:
-                table = dtcli.cli.entry_point()
+                table = dtcli.cli.main()
 
                 assert test.want_n_rows == table.n_rows, test.name
                 assert test.want_n_cols == table.n_columns, test.name
@@ -150,7 +150,7 @@ class TestDevice():
             dt_device_mock.res = test.give_res
 
             if test.want_error is None:
-                table = dtcli.cli.entry_point()
+                table = dtcli.cli.main()
 
                 assert test.want_n_rows == table.n_rows, test.name
                 assert test.want_n_cols == table.n_columns, test.name
