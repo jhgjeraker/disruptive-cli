@@ -1,37 +1,14 @@
-name: Test and Lint
+name: Build and Deploy
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:    
-      - main
+  release:
+    types: [published]
   workflow_dispatch:
 
+
 jobs:
-
-  test_and_lint:
-    runs-on: "${{ matrix.platform }}"
-    strategy:
-      matrix:
-        platform: ["ubuntu-latest"]
-        python-version: ["3.7", "3.8", "3.9", "3.10"]
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Python ${{ matrix.python-version }} Setup
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Environment Setup
-      run: make
-    - name: Pytest
-      run: make test
-    - name: Lint and Type-Check
-      run: make lint
   
-  build:
+  build_wheel:
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
@@ -47,13 +24,14 @@ jobs:
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: automated-builds
+        name: wheel
         path: dist/*
         retention-days: 7
         if-no-files-found: error
 
-  test_dist:
-    needs: build
+
+  test_wheel:
+    needs: build_wheel
     runs-on: "${{ matrix.platform }}"
     strategy:
       matrix:
@@ -67,7 +45,7 @@ jobs:
       - name: Pull Build Artifact
         uses: actions/download-artifact@v3
         with:
-          name: automated-builds
+          name: wheel
           path: dist
       - name: Show Files
         run: ls -R
@@ -75,3 +53,23 @@ jobs:
         run: pip install dist/*.whl
       - name: Call CLI
         run: dt --version
+
+
+  deploy_artifactory:
+    needs: test_wheel
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Pull Build Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: wheel
+          path: dist
+      - name: Show Files
+        run: ls -R
+      - name: Publish
+        env:
+          TWINE_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
+          TWINE_REPOSITORY_URL: ${{ secrets.ARTIFACTORY_REPOSITORY_URL }}
+        run: |
+          twine upload --verbose --skip-existing --non-interactive dist/*
