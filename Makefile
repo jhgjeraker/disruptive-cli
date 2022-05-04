@@ -15,7 +15,6 @@ $(VENV)/bin/activate: setup.cfg
 
 build: venv
 	${VENV}/bin/python -m build
-	${VENV}/bin/python -m twine check dist/*
 
 test: venv
 	source ${VENV}/bin/activate && pytest tests/
