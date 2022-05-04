@@ -20,15 +20,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Python ${{ matrix.python-version }} Setup
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Environment setup
+    - name: Environment Setup
       run: make
-    - name: Test with pytest.
+    - name: Pytest
       run: make test
-    - name: Lint with mypy and flake8.
+    - name: Lint and Type-Check
       run: make lint
   
   build:
@@ -38,16 +38,40 @@ jobs:
         python-version: ["3.10"]
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Python ${{ matrix.python-version }} Setup
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Build distribution.
+    - name: Build Distribution
       run: make build
     - name: Upload Build Artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: automated-builds
         path: dist/*
         retention-days: 7
         if-no-files-found: error
+
+  test_dist:
+    needs: build
+    runs-on: "${{ matrix.platform }}"
+    strategy:
+      matrix:
+        platform: ["ubuntu-latest"]
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+    steps:
+      - name: Python ${{ matrix.python-version }} Setup
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Pull Build Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: automated-builds
+          path: dist
+      - name: Show Files
+        run: ls -R
+      - name: Install Wheel
+        run: pip install dist/*.whl
+      - name: Call CLI
+        run: dt --version
