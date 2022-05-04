@@ -15,15 +15,13 @@ $(VENV)/bin/activate: setup.cfg
 
 build: venv
 	${VENV}/bin/python -m build
+	${VENV}/bin/python -m twine check dist/*
 
 test: venv
 	source ${VENV}/bin/activate && pytest tests/
 
 lint: venv
 	source ${VENV}/bin/activate && mypy dtcli/ --config-file ./mypy.ini && flake8 dtcli/
-
-twine: venv
-	${VENV}/bin/python -m twine check dist/*
 
 clean:
 	rm -rf build/ dist/ pip-wheel-metadata/ *.egg-info

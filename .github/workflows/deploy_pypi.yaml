@@ -20,8 +20,6 @@ jobs:
         python-version: '3.10'
     - name: Build distribution.
       run: make build
-    - name: Check distribution.
-      run: make twine
     - name: Publish
       run: |
         twine upload dist/*
