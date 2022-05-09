@@ -1,4 +1,4 @@
-# dt-cli
+# disruptive-cli
 A Command-Line Interface (CLI) for the Disruptive Technologies REST API.
 
 ## Authentication
