@@ -20,6 +20,14 @@ def to_string(x: Any) -> str:
         return str(x)
 
 
+def to_int(x: Any) -> int:
+    return int(x)
+
+
+def to_float(x: Any) -> float:
+    return float(x)
+
+
 def to_bool(x: Any) -> bool:
     if isinstance(x, bool):
         return x

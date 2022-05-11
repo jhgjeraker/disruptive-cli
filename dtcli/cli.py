@@ -120,7 +120,3 @@ def main() -> Table:
 
 def entry_point() -> None:
     main()
-
-
-if __name__ == '__main__':
-    main()
