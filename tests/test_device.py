@@ -32,7 +32,7 @@ class TestDevice():
                 want_error=None,
             ),
             TestCase(
-                name='with project id',
+                name='w/ args',
                 give_args=['device_id', '--project-id', 'project_id'],
                 give_res=responses.touch_sensor,
                 want_n_cols=4,
@@ -53,7 +53,6 @@ class TestDevice():
 
         for test in tests:
             sys.argv = ['main.py', 'device', 'get'] + test.give_args
-
             dt_device_mock.res = test.give_res
 
             if test.want_error is None:
@@ -66,7 +65,7 @@ class TestDevice():
                     assert isinstance(row, test.want_row_type), test.name
             else:
                 with pytest.raises(test.want_error):
-                    dtcli.cli.entry_point()
+                    dtcli.cli.main()
 
     def test_device_list(self, dt_device_mock):
         @dataclass
@@ -105,15 +104,6 @@ class TestDevice():
                 want_error=None,
             ),
             TestCase(
-                name='full width',
-                give_args=['project_id', '--full'],
-                give_res=[responses.touch_sensor],
-                want_n_cols=7,
-                want_n_rows=2,
-                want_row_type=str,
-                want_error=None,
-            ),
-            TestCase(
                 name='all flags',
                 give_args=[
                     'project_id',
@@ -139,14 +129,13 @@ class TestDevice():
                 give_res=[responses.touch_sensor],
                 want_n_cols=4,
                 want_n_rows=2,
-                want_row_type=str,
+                want_row_type=None,
                 want_error=BaseException,
             ),
         ]
 
         for test in tests:
             sys.argv = ['main.py', 'device', 'list'] + test.give_args
-
             dt_device_mock.res = test.give_res
 
             if test.want_error is None:
@@ -159,4 +148,134 @@ class TestDevice():
                     assert isinstance(row, test.want_row_type), test.name
             else:
                 with pytest.raises(test.want_error):
-                    dtcli.cli.entry_point()
+                    dtcli.cli.main()
+
+    def test_device_transfer(self, dt_device_mock):
+        @dataclass
+        class TestCase:
+            name: str
+            give_args: List[str]
+            give_res: Any
+            want_n_rows: int
+            want_n_cols: int
+            want_row_type: Any
+            want_error: Any
+
+        tests = [
+            TestCase(
+                name='minimal',
+                give_args=[
+                    'xid1,xid2',  # device-ids
+                    'project1',   # source-project-id
+                    'project2',   # target-project-id
+                ],
+                give_res=[],
+                want_n_rows=0,
+                want_n_cols=4,
+                want_row_type=None,
+                want_error=None,
+            ),
+            TestCase(
+                name='transfer error',
+                give_args=[
+                    'xid1,bad_id',  # device-ids
+                    'project1',     # source-project-id
+                    'project2',     # target-project-id
+                ],
+                give_res=[responses.transfer_device_error],
+                want_n_rows=2,
+                want_n_cols=4,
+                want_row_type=str,
+                want_error=None,
+            ),
+        ]
+
+        for test in tests:
+            sys.argv = ['main.py', 'device', 'transfer'] + test.give_args
+            dt_device_mock.res = test.give_res
+
+            if test.want_error is None:
+                table = dtcli.cli.main()
+
+                assert test.want_n_rows == table.n_rows, test.name
+                assert test.want_n_cols == table.n_columns, test.name
+
+                for row in table.rows:
+                    assert isinstance(row, test.want_row_type), test.name
+
+            else:
+                with pytest.raises(test.want_error):
+                    dtcli.cli.main()
+
+    def test_device_label_set(self, dt_device_mock):
+        @dataclass
+        class TestCase:
+            name: str
+            give_args: List[str]
+            give_res: Any
+            want_n_rows: int
+            want_n_cols: int
+            want_row_type: Any
+            want_error: Any
+
+        tests = [
+            TestCase(
+                name='minimal',
+                give_args=[
+                    'xid1,xid2,xid3',           # device-ids
+                    'project1',                 # project-id
+                    'key1=value1,key2=value2',  # labels
+                ],
+                give_res=[],
+                want_n_rows=0,
+                want_n_cols=4,
+                want_row_type=None,
+                want_error=None,
+            ),
+            TestCase(
+                name='transfer error',
+                give_args=[
+                    'xid1,xid2,xid3',           # device-ids
+                    'project1',                 # project-id
+                    'key1=value1,key2=value2',  # labels
+                ],
+                give_res=[
+                    responses.label_set_error,
+                    responses.label_set_error,
+                ],
+                want_n_rows=3,
+                want_n_cols=4,
+                want_row_type=str,
+                want_error=None,
+            ),
+            TestCase(
+                name='keys only',
+                give_args=[
+                    'xid1,xid2',       # device-ids
+                    'project1',        # project-id
+                    'key1,key2,key3',  # labels
+                ],
+                give_res=[],
+                want_n_rows=0,
+                want_n_cols=4,
+                want_row_type=str,
+                want_error=None,
+            ),
+        ]
+
+        for test in tests:
+            sys.argv = ['main.py', 'device', 'label', 'set'] + test.give_args
+            dt_device_mock.res = test.give_res
+
+            if test.want_error is None:
+                table = dtcli.cli.main()
+
+                assert test.want_n_rows == table.n_rows, test.name
+                assert test.want_n_cols == table.n_columns, test.name
+
+                for row in table.rows:
+                    assert isinstance(row, test.want_row_type), test.name
+
+            else:
+                with pytest.raises(test.want_error):
+                    dtcli.cli.main()

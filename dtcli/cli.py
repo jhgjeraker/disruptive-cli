@@ -7,12 +7,13 @@ from dtcli.table import Table
 
 
 def _common_opts(parser: ArgumentParser) -> None:
-    table_group = parser.add_argument_group('table')
+    table_group = parser.add_argument_group('behavior')
     table_group.add_argument(
         '-i', '--interactive',
         action='store_true',
         help='Enabled interactive mode if available.',
     )
+    table_group = parser.add_argument_group('table')
     table_group.add_argument(
         '--include',
         metavar='',

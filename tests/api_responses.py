@@ -31,3 +31,19 @@ touch_sensor = {
         }
     }
 }
+
+transfer_device_error = {
+    "device": "projects/c0md3mm0c7pet3vico8g/devices/emucpuc989qdqebrvv29so0",
+    "status": {
+        "code": "404",
+        "message": "missing device",
+    },
+}
+
+label_set_error = {
+    "device": "projects/c0md3mm0c7pet3vico8g/devices/emucpuc989qdqebrvv29so0",
+    "status": {
+        "code": "405",
+        "message": "illegal key",
+    },
+}
