@@ -14,6 +14,7 @@ def _dataconnectors(dataconnectors: List[dt.DataConnector],
     table = Table(
         default_columns=[
             Column('data_connector_id', False),
+            Column('project_id', False),
             Column('display_name', False),
             Column('data_connector_type', False),
             Column('status', False),
