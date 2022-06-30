@@ -1,5 +1,5 @@
 # disruptive-cli
-A Command-Line Interface (CLI) for the Disruptive Technologies REST API.
+Unofficial Command-Line Interface (CLI) for the Disruptive Technologies REST API.
 
 ## Authentication
 Currently, the only way of authenticating is by setting the following environment variables.
