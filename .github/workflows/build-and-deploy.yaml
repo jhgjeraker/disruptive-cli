@@ -54,8 +54,7 @@ jobs:
       - name: Call CLI
         run: dt --version
 
-
-  deploy_artifactory:
+  deploy_pypi:
     needs: test_wheel
     runs-on: "ubuntu-latest"
     steps:
@@ -73,8 +72,7 @@ jobs:
         run: ls -R
       - name: Publish
         env:
-          TWINE_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
-          TWINE_REPOSITORY_URL: ${{ secrets.ARTIFACTORY_REPOSITORY_URL }}
+          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
         run: |
           twine upload --verbose --skip-existing --non-interactive dist/*
