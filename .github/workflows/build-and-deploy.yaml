@@ -72,7 +72,7 @@ jobs:
         run: ls -R
       - name: Publish
         env:
-          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: |
           twine upload --verbose --skip-existing --non-interactive dist/*
