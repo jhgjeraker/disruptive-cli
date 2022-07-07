@@ -1,8 +1,20 @@
 # disruptive-cli
-Unofficial Command-Line Interface (CLI) for the Disruptive Technologies REST API.
+Unofficial Command-Line Interface (CLI) for the Disruptive Technologies (DT) API.
+
+- [DT REST API](https://developer.disruptive-technologies.com/api)
+- [DT Python API](https://developer.disruptive-technologies.com/api/libraries/python/)
+- [DT Developer Documentation](https://developer.disruptive-technologies.com/docs/)
+
+## Installation
+The package is hosted on PyPI and is available through pip.
+```bash
+pip install --upgrade disruptive-cli
+```
+
+Supports Python 3.7, 3.8, 3.9, and 3.10.
 
 ## Authentication
-Currently, the only way of authenticating is by setting the following environment variables.
+Using [Service Account](https://developer.disruptive-technologies.com/docs/service-accounts/introduction-to-service-accounts) credentials, set the following environment variables.
 ```bash
 export DT_SERVICE_ACCOUNT_KEY_ID="<SERVICE_ACCOUNT_KEY_ID>"
 export DT_SERVICE_ACCOUNT_SECRET="<SERVICE_ACCOUNT_SECRET>"
@@ -10,7 +22,7 @@ export DT_SERVICE_ACCOUNT_EMAIL="<SERVICE_ACCOUNT_EMAIL>"
 ```
 
 ## Usage
-The CLI is structured in a `<NOUN>` -> `<VERB>` format.
+Call the `dt` command using a `dt <NOUN> <VERB>` format.
 
 - List all available projects.
 ```bash
