@@ -22,7 +22,7 @@ export DT_SERVICE_ACCOUNT_EMAIL="<SERVICE_ACCOUNT_EMAIL>"
 ```
 
 ## Usage
-Call the `dt` command using a `dt <NOUN> <VERB>` format.
+Call the `dt` command using a `dt <NOUN> <VERB>` syntax.
 
 - List all available projects.
 ```bash
