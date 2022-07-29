@@ -52,3 +52,20 @@ class DTDeviceMock(DTMock):
                                   **kwargs,
                                   ):
         return [dt.errors.LabelUpdateError(err) for err in self.res]
+
+
+class DTDataconnectorMock(DTMock):
+
+    def __init__(self, mocker):
+        super().__init__(mocker)
+
+        self.dataconnector_get_patcher = self._mocker.patch(
+            'disruptive.DataConnector.get_data_connector',
+            side_effect=self._patched_dataconnector_get,
+        )
+
+    def _patched_dataconnector_get(self,
+                                   data_connector_id,
+                                   project_id,
+                                   **kwargs):
+        return dt.DataConnector(self.res)

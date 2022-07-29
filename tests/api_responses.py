@@ -32,6 +32,30 @@ touch_sensor = {
     }
 }
 
+dataconnector = {
+    "name": "projects/c11u9p094l47cdv1o3pg/'\
+        'dataconnectors/c3e56nnimbf5a5nfag00",
+    "displayName": "ngrok",
+    "type": "HTTP_PUSH",
+    "status": "ACTIVE",
+    "events": [
+        "touch",
+        "temperature",
+        "humidity"
+    ],
+    "labels": [
+        "name",
+        "nlc"
+    ],
+    "httpConfig": {
+        "url": "https://testurl.io/path",
+        "signatureSecret": "test-secret",
+        "headers": {
+            "my-header": "my-value"
+        }
+    }
+}
+
 transfer_device_error = {
     "device": "projects/c0md3mm0c7pet3vico8g/devices/emucpuc989qdqebrvv29so0",
     "status": {
