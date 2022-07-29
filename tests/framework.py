@@ -64,8 +64,16 @@ class DTDataconnectorMock(DTMock):
             side_effect=self._patched_dataconnector_get,
         )
 
+        self.dataconnector_list_patcher = self._mocker.patch(
+            'disruptive.DataConnector.list_data_connectors',
+            side_effect=self._patched_dataconnector_list,
+        )
+
     def _patched_dataconnector_get(self,
                                    data_connector_id,
                                    project_id,
                                    **kwargs):
         return dt.DataConnector(self.res)
+
+    def _patched_dataconnector_list(self, project_id, **kwargs):
+        return [dt.DataConnector(res) for res in self.res]
