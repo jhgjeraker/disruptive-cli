@@ -42,8 +42,8 @@ class TestDevice():
             ),
             TestCase(
                 name='missing device-id',
-                give_res={},
                 give_args=[],
+                give_res={},
                 want_n_cols=0,
                 want_n_rows=0,
                 want_row_type=None,
