@@ -1,5 +1,5 @@
 # v0.2.0
-## Added
+### Added
 - [#11](https://github.com/jhgjeraker/disruptive-cli/pull/11) Support for new Claim API.
 
 # v0.1.0
