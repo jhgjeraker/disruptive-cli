@@ -1,5 +1,5 @@
 import json
-from typing import Callable, List, Optional
+from typing import Callable, List, Optional, Any
 
 import disruptive
 
@@ -111,11 +111,11 @@ class Table():
             line += ' ' * self.cfg['output']['padding']
         return line[:-self.cfg['output']['padding']]
 
-    def _json_entry_func(self, obj: object, header: bool = False) -> str:
+    def _json_entry_func(self, obj: Any, header: bool = False) -> str:
         if header:
             return ''
 
-        if isinstance(obj, disruptive.outputs.OutputBase):
+        if hasattr(obj, 'raw'):
             return json.dumps(obj.raw)
         else:
             return ''

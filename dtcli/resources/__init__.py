@@ -7,3 +7,4 @@ import dtcli.resources.serviceaccount as serviceaccount  # noqa
 import dtcli.resources.organization as organization  # noqa
 import dtcli.resources.role as role  # noqa
 import dtcli.resources.dataconnector as dataconnector  # noqa
+import dtcli.resources.claim as claim  # noqa
