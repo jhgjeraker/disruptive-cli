@@ -7,3 +7,4 @@ import dtcli.commands.role as role  # noqa
 import dtcli.commands.event as event  # noqa
 import dtcli.commands.emulator as emulator  # noqa
 import dtcli.commands.config as config  # noqa
+import dtcli.commands.claim as claim  # noqa
