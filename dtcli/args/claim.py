@@ -23,8 +23,8 @@ CLAIM = dtcli.parser.CmdArgs([
     dtcli.parser.Arg(
         key='dry_run',
         flags=['--dry-run'],
+        metavar='',
         format=dtcli.format.to_bool,
-        action='store_true',
     ),
 ])
 
