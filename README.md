@@ -11,7 +11,7 @@ The package is hosted on PyPI and is available through pip.
 pip install --upgrade disruptive-cli
 ```
 
-Supports Python 3.7, 3.8, 3.9, and 3.10.
+Supports Python 3.7, 3.8, 3.9, 3.10, and 3.11.
 
 ## Authentication
 Using [Service Account](https://developer.disruptive-technologies.com/docs/service-accounts/introduction-to-service-accounts) credentials, set the following environment variables.
