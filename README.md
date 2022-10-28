@@ -11,7 +11,7 @@ The package is hosted on PyPI and is available through pip.
 pip install --upgrade disruptive-cli
 ```
 
-Supports Python 3.7, 3.8, 3.9, 3.10, and 3.11.
+Supports Python 3.7+.
 
 ## Authentication
 Using [Service Account](https://developer.disruptive-technologies.com/docs/service-accounts/introduction-to-service-accounts) credentials, set the following environment variables.
@@ -22,7 +22,7 @@ export DT_SERVICE_ACCOUNT_EMAIL="<SERVICE_ACCOUNT_EMAIL>"
 ```
 
 ## Usage
-Call the `dt` command using a `dt <NOUN> <VERB>` syntax.
+Call the `dt` command using a `dt NOUN VERB` syntax.
 
 - List all available projects.
 ```bash
