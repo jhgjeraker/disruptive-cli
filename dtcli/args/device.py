@@ -51,7 +51,7 @@ LIST = dtcli.parser.CmdArgs([
         flags=['--label-filters'],
         metavar='',
         help='comma-separated key=value labels',
-        format=dtcli.format.to_string,
+        format=dtcli.format.str2dict,
     )
 ])
 
