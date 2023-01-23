@@ -1,3 +1,10 @@
+# v0.3.0
+### Added
+- [#14](https://github.com/jhgjeraker/disruptive-cli/pull/14) Added completion for bash.
+
+### Fixed
+- [#15](https://github.com/jhgjeraker/disruptive-cli/pull/15) config resource assertion fix
+
 # v0.2.2
 ### Fixed
 - [17d6c62](https://github.com/jhgjeraker/disruptive-cli/commit/17d6c629eaf5a158609a2a3a5b5451d3032a320d) Flag --label-filters should be `dict`, not `str`.
