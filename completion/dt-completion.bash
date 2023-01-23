@@ -38,6 +38,9 @@ _dt_complete()
             "claim")
                 COMPREPLY=( $(compgen -W "claim info" -- $cur) )
                 ;;
+            "config")
+                COMPREPLY=( $(compgen -W "default padding" -- $cur) )
+                ;;
             *)
                 ;;
         esac

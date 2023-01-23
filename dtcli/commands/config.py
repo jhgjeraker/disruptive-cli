@@ -2,6 +2,7 @@ from typing import Dict
 from argparse import _SubParsersAction, ArgumentParser
 
 import dtcli
+from dtcli.table import Table
 
 
 def add(subparser: _SubParsersAction) -> Dict[str, ArgumentParser]:
@@ -35,10 +36,11 @@ def add(subparser: _SubParsersAction) -> Dict[str, ArgumentParser]:
     return {'config': config_parser}
 
 
-def do(parsers: dict, cfg: dict, **kwargs: dict) -> None:
+def do(parsers: dict, cfg: dict, **kwargs: dict) -> Table:
     if kwargs['config'] == 'default':
-        dtcli.resources.config.set_default()
+        return dtcli.resources.config.set_default()
     elif kwargs['config'] == 'padding':
-        dtcli.resources.config.set_padding(**kwargs)
+        return dtcli.resources.config.set_padding(**kwargs)
     else:
         print(parsers['config'].format_help())
+        return Table.empty()
