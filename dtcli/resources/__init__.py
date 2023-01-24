@@ -3,8 +3,8 @@ import dtcli.resources.project as project  # noqa
 import dtcli.resources.event as event  # noqa
 import dtcli.resources.config as config  # noqa
 import dtcli.resources.emulator as emulator  # noqa
-import dtcli.resources.serviceaccount as serviceaccount  # noqa
+import dtcli.resources.service_account as service_account  # noqa
 import dtcli.resources.organization as organization  # noqa
 import dtcli.resources.role as role  # noqa
-import dtcli.resources.dataconnector as dataconnector  # noqa
+import dtcli.resources.data_connector as data_connector  # noqa
 import dtcli.resources.claim as claim  # noqa

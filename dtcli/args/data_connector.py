@@ -3,7 +3,7 @@ import dtcli
 GET = dtcli.parser.CmdArgs([
     dtcli.parser.Arg(
         key='data_connector_id',
-        flags=['dataconnector-id'],
+        flags=['data-connector-id'],
         help='target data connector id',
         format=dtcli.format.to_string,
     ),
@@ -148,7 +148,7 @@ UPDATE_HTTP_PUSH = dtcli.parser.CmdArgs([
 DELETE = dtcli.parser.CmdArgs([
     dtcli.parser.Arg(
         key='data_connector_id',
-        flags=['dataconnector-id'],
+        flags=['data-connector-id'],
         help='target data connector id',
         format=dtcli.format.to_string,
     ),
@@ -163,7 +163,7 @@ DELETE = dtcli.parser.CmdArgs([
 SYNC = dtcli.parser.CmdArgs([
     dtcli.parser.Arg(
         key='data_connector_id',
-        flags=['dataconnector-id'],
+        flags=['data-connector-id'],
         help='target data connector id',
         format=dtcli.format.to_string,
     ),
@@ -178,7 +178,7 @@ SYNC = dtcli.parser.CmdArgs([
 METRICS = dtcli.parser.CmdArgs([
     dtcli.parser.Arg(
         key='data_connector_id',
-        flags=['dataconnector-id'],
+        flags=['data-connector-id'],
         help='target data connector id',
         format=dtcli.format.to_string,
     ),

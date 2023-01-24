@@ -8,13 +8,13 @@ _dt_complete()
     prev=${COMP_WORDS[COMP_CWORD-1]}
 
     if [ $COMP_CWORD -eq 1 ]; then
-        COMPREPLY=( $(compgen -W "device dataconnector project organization serviceaccount role event emulator claim config" -- $cur) )
+        COMPREPLY=( $(compgen -W "device data-connector project organization service-account role event emulator claim config" -- $cur) )
     elif [ $COMP_CWORD -eq 2 ]; then
         case "${COMP_WORDS[COMP_CWORD-1]}" in
             "device")
                 COMPREPLY=( $(compgen -W "get list transfer label" -- $cur) )
                 ;;
-            "dataconnector")
+            "data-connector")
                 COMPREPLY=( $(compgen -W "get list create update delete sync metrics" -- $cur) )
                 ;;
             "project")
@@ -23,7 +23,7 @@ _dt_complete()
             "organization")
                 COMPREPLY=( $(compgen -W "get list permissions member" -- $cur) )
                 ;;
-            "serviceaccount")
+            "service-account")
                 COMPREPLY=( $(compgen -W "get list create update delete key" -- $cur) )
                 ;;
             "role")
@@ -53,7 +53,7 @@ _dt_complete()
                         ;;
                 esac
                 ;;
-            "dataconnector")
+            "data-connector")
                 case "${COMP_WORDS[COMP_CWORD-1]}" in
                     "create")
                         COMPREPLY=( $(compgen -W "http-push" -- $cur) )
@@ -77,7 +77,7 @@ _dt_complete()
                         ;;
                 esac
                 ;;
-            "serviceaccount")
+            "service-account")
                 case "${COMP_WORDS[COMP_CWORD-1]}" in
                     "key")
                         COMPREPLY=( $(compgen -W "get list create delete" -- $cur) )
