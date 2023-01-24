@@ -1,3 +1,7 @@
+# Unreleased
+### Added
+- [#16](https://github.com/jhgjeraker/disruptive-cli/pull/16) Emulator publish for desk occupancy event.
+
 # v0.3.0
 ### Added
 - [#14](https://github.com/jhgjeraker/disruptive-cli/pull/14) Added completion for bash.
