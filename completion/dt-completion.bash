@@ -87,7 +87,7 @@ _dt_complete()
             "emulator")
                 case "${COMP_WORDS[COMP_CWORD-1]}" in
                     "publish")
-                        COMPREPLY=( $(compgen -W "touch temperature object-present humidity object-present-count touch-count water-present network-status battery-status connection-status ethernet-status cellular-status co2 pressure motion" -- $cur) )
+                        COMPREPLY=( $(compgen -W "touch temperature object-present humidity object-present-count touch-count water-present network-status battery-status connection-status ethernet-status cellular-status co2 pressure motion desk-occupancy" -- $cur) )
                         ;;
                 esac
                 ;;

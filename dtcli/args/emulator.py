@@ -485,3 +485,37 @@ PUBLISH_MOTION = dtcli.parser.CmdArgs([
         format=dtcli.format.to_string,
     ),
 ])
+
+PUBLISH_DESK_OCCUPANCY = dtcli.parser.CmdArgs([
+    dtcli.parser.Arg(
+        key='device_id',
+        flags=['device-id'],
+        help='target cloud connector identifier',
+        format=dtcli.format.to_string,
+    ),
+    dtcli.parser.Arg(
+        key='project_id',
+        flags=['project-id'],
+        help='target project identifier',
+        format=dtcli.format.to_string,
+    ),
+    dtcli.parser.Arg(
+        key='state',
+        flags=['state'],
+        help='either "OCCUPIED" or "NOT_OCCUPIED"',
+        format=dtcli.format.to_string,
+    ),
+    dtcli.parser.Arg(
+        key='remarks',
+        flags=['--remarks'],
+        help='comma-separated list of remarks (INCOMPLETE_DATA)',
+        format=dtcli.format.str2list,
+    ),
+    dtcli.parser.Arg(
+        key='timestamp',
+        flags=['--timestamp'],
+        help='event timestamp',
+        metavar='',
+        format=dtcli.format.to_string,
+    ),
+])
