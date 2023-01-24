@@ -59,6 +59,12 @@ def args_replace_dash(args: dict) -> dict:
     pruned = {}
     for key in args.keys():
         pruned[key.replace('-', '_')] = args[key]
+
+    # Special handling for the 'command' value, which we also
+    # convert to underscore for consistency.
+    if pruned['command'] is not None:
+        pruned['command'] = pruned['command'].replace('-', '_')
+
     return pruned
 
 

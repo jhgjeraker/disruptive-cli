@@ -50,12 +50,12 @@ def _keys(keys: list,
 
 
 def sa_get(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.args.serviceaccount.GET.reparse(**kwargs)
+    ok, args = dtcli.args.service_account.GET.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
     return _service_accounts(
-        service_accounts=dtcli.args.serviceaccount.GET.call(
+        service_accounts=dtcli.args.service_account.GET.call(
             method=dt.ServiceAccount.get_service_account,
             method_args=args,
         ),
@@ -65,12 +65,12 @@ def sa_get(cfg: dict, **kwargs: Any) -> Table:
 
 
 def sa_list(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.args.serviceaccount.LIST.reparse(**kwargs)
+    ok, args = dtcli.args.service_account.LIST.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
     return _service_accounts(
-        service_accounts=dtcli.args.serviceaccount.LIST.call(
+        service_accounts=dtcli.args.service_account.LIST.call(
             method=dt.ServiceAccount.list_service_accounts,
             method_args=args,
         ),
@@ -80,12 +80,12 @@ def sa_list(cfg: dict, **kwargs: Any) -> Table:
 
 
 def sa_create(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.args.serviceaccount.CREATE.reparse(**kwargs)
+    ok, args = dtcli.args.service_account.CREATE.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
     return _service_accounts(
-        service_accounts=dtcli.args.serviceaccount.CREATE.call(
+        service_accounts=dtcli.args.service_account.CREATE.call(
             method=dt.ServiceAccount.create_service_account,
             method_args=args,
         ),
@@ -95,12 +95,12 @@ def sa_create(cfg: dict, **kwargs: Any) -> Table:
 
 
 def sa_update(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.args.serviceaccount.UPDATE.reparse(**kwargs)
+    ok, args = dtcli.args.service_account.UPDATE.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
     return _service_accounts(
-        service_accounts=dtcli.args.serviceaccount.UPDATE.call(
+        service_accounts=dtcli.args.service_account.UPDATE.call(
             method=dt.ServiceAccount.update_service_account,
             method_args=args,
         ),
@@ -110,11 +110,11 @@ def sa_update(cfg: dict, **kwargs: Any) -> Table:
 
 
 def sa_delete(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.args.serviceaccount.DELETE.reparse(**kwargs)
+    ok, args = dtcli.args.service_account.DELETE.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
-    dtcli.args.serviceaccount.DELETE.call(
+    dtcli.args.service_account.DELETE.call(
         method=dt.ServiceAccount.delete_service_account,
         method_args=args,
     )
@@ -123,12 +123,12 @@ def sa_delete(cfg: dict, **kwargs: Any) -> Table:
 
 
 def sa_key_get(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.args.serviceaccount.KEY_GET.reparse(**kwargs)
+    ok, args = dtcli.args.service_account.KEY_GET.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
     return _keys(
-        keys=dtcli.args.serviceaccount.KEY_GET.call(
+        keys=dtcli.args.service_account.KEY_GET.call(
             method=dt.ServiceAccount.get_key,
             method_args=args,
         ),
@@ -138,12 +138,12 @@ def sa_key_get(cfg: dict, **kwargs: Any) -> Table:
 
 
 def sa_key_list(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.args.serviceaccount.KEY_LIST.reparse(**kwargs)
+    ok, args = dtcli.args.service_account.KEY_LIST.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
     return _keys(
-        keys=dtcli.args.serviceaccount.KEY_LIST.call(
+        keys=dtcli.args.service_account.KEY_LIST.call(
             method=dt.ServiceAccount.list_keys,
             method_args=args,
         ),
@@ -153,12 +153,12 @@ def sa_key_list(cfg: dict, **kwargs: Any) -> Table:
 
 
 def sa_key_create(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.args.serviceaccount.KEY_CREATE.reparse(**kwargs)
+    ok, args = dtcli.args.service_account.KEY_CREATE.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
     return _keys(
-        keys=dtcli.args.serviceaccount.KEY_CREATE.call(
+        keys=dtcli.args.service_account.KEY_CREATE.call(
             method=dt.ServiceAccount.create_key,
             method_args=args,
         ),
@@ -168,11 +168,11 @@ def sa_key_create(cfg: dict, **kwargs: Any) -> Table:
 
 
 def sa_key_delete(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.args.serviceaccount.KEY_DELETE.reparse(**kwargs)
+    ok, args = dtcli.args.service_account.KEY_DELETE.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
-    dtcli.args.serviceaccount.KEY_DELETE.call(
+    dtcli.args.service_account.KEY_DELETE.call(
         method=dt.ServiceAccount.delete_key,
         method_args=args,
     )

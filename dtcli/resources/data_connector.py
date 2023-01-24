@@ -6,10 +6,10 @@ import dtcli
 from dtcli.table import Table, Column
 
 
-def _dataconnectors(dataconnectors: List[dt.DataConnector],
-                    cfg: dict,
-                    **kwargs: Any,
-                    ) -> Table:
+def _data_connectors(data_connectors: List[dt.DataConnector],
+                     cfg: dict,
+                     **kwargs: Any,
+                     ) -> Table:
 
     table = Table(
         default_columns=[
@@ -26,8 +26,8 @@ def _dataconnectors(dataconnectors: List[dt.DataConnector],
         cfg=cfg,
         opts=kwargs,
     )
-    table.expand_rows(dataconnectors)
-    table.new_entries(dataconnectors)
+    table.expand_rows(data_connectors)
+    table.new_entries(data_connectors)
 
     return table
 
@@ -53,12 +53,12 @@ def _metrics(metrics: List[dt.DataConnector],
 
 
 def dcon_get(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.args.dataconnector.GET.reparse(**kwargs)
+    ok, args = dtcli.args.data_connector.GET.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
-    return _dataconnectors(
-        dataconnectors=dtcli.args.dataconnector.GET.call(
+    return _data_connectors(
+        data_connectors=dtcli.args.data_connector.GET.call(
             method=dt.DataConnector.get_data_connector,
             method_args=args,
         ),
@@ -68,12 +68,12 @@ def dcon_get(cfg: dict, **kwargs: Any) -> Table:
 
 
 def dcon_list(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.args.dataconnector.LIST.reparse(**kwargs)
+    ok, args = dtcli.args.data_connector.LIST.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
-    return _dataconnectors(
-        dataconnectors=dtcli.args.dataconnector.LIST.call(
+    return _data_connectors(
+        data_connectors=dtcli.args.data_connector.LIST.call(
             method=dt.DataConnector.list_data_connectors,
             method_args=args,
         ),
@@ -83,7 +83,7 @@ def dcon_list(cfg: dict, **kwargs: Any) -> Table:
 
 
 def dcon_create_http_push(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.args.dataconnector.CREATE_HTTP_PUSH.reparse(**kwargs)
+    ok, args = dtcli.args.data_connector.CREATE_HTTP_PUSH.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
@@ -95,8 +95,8 @@ def dcon_create_http_push(cfg: dict, **kwargs: Any) -> Table:
             args.pop(key)
     args['config'] = dt.DataConnector.HttpPushConfig(**http_push_config_args)
 
-    return _dataconnectors(
-        dataconnectors=dtcli.args.dataconnector.CREATE_HTTP_PUSH.call(
+    return _data_connectors(
+        data_connectors=dtcli.args.data_connector.CREATE_HTTP_PUSH.call(
             method=dt.DataConnector.create_data_connector,
             method_args=args,
         ),
@@ -106,7 +106,7 @@ def dcon_create_http_push(cfg: dict, **kwargs: Any) -> Table:
 
 
 def dcon_update_http_push(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.args.dataconnector.UPDATE_HTTP_PUSH.reparse(**kwargs)
+    ok, args = dtcli.args.data_connector.UPDATE_HTTP_PUSH.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
@@ -118,8 +118,8 @@ def dcon_update_http_push(cfg: dict, **kwargs: Any) -> Table:
             args.pop(key)
     args['config'] = dt.DataConnector.HttpPushConfig(**http_push_config_args)
 
-    return _dataconnectors(
-        dataconnectors=dtcli.args.dataconnector.UPDATE_HTTP_PUSH.call(
+    return _data_connectors(
+        data_connectors=dtcli.args.data_connector.UPDATE_HTTP_PUSH.call(
             method=dt.DataConnector.update_data_connector,
             method_args=args,
         ),
@@ -129,11 +129,11 @@ def dcon_update_http_push(cfg: dict, **kwargs: Any) -> Table:
 
 
 def dcon_delete(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.args.dataconnector.DELETE.reparse(**kwargs)
+    ok, args = dtcli.args.data_connector.DELETE.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
-    dtcli.args.dataconnector.DELETE.call(
+    dtcli.args.data_connector.DELETE.call(
         method=dt.DataConnector.delete_data_connector,
         method_args=args,
     )
@@ -142,11 +142,11 @@ def dcon_delete(cfg: dict, **kwargs: Any) -> Table:
 
 
 def dcon_sync(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.args.dataconnector.SYNC.reparse(**kwargs)
+    ok, args = dtcli.args.data_connector.SYNC.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
-    dtcli.args.dataconnector.SYNC.call(
+    dtcli.args.data_connector.SYNC.call(
         method=dt.DataConnector.sync_data_connector,
         method_args=args,
     )
@@ -155,12 +155,12 @@ def dcon_sync(cfg: dict, **kwargs: Any) -> Table:
 
 
 def dcon_metrics(cfg: dict, **kwargs: Any) -> Table:
-    ok, args = dtcli.args.dataconnector.METRICS.reparse(**kwargs)
+    ok, args = dtcli.args.data_connector.METRICS.reparse(**kwargs)
     if not ok:
         return Table.empty()
 
     return _metrics(
-        metrics=dtcli.args.dataconnector.METRICS.call(
+        metrics=dtcli.args.data_connector.METRICS.call(
             method=dt.DataConnector.get_metrics,
             method_args=args,
         ),

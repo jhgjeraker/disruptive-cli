@@ -83,10 +83,10 @@ def main() -> Table:
 
     parsers = {}
     parsers.update(dtcli.commands.device.add(subparser, _common_opts))
-    parsers.update(dtcli.commands.dataconnector.add(subparser, _common_opts))
+    parsers.update(dtcli.commands.data_connector.add(subparser, _common_opts))
     parsers.update(dtcli.commands.project.add(subparser, _common_opts))
     parsers.update(dtcli.commands.organization.add(subparser, _common_opts))
-    parsers.update(dtcli.commands.serviceaccount.add(subparser, _common_opts))
+    parsers.update(dtcli.commands.service_account.add(subparser, _common_opts))
     parsers.update(dtcli.commands.role.add(subparser, _common_opts))
     parsers.update(dtcli.commands.event.add(subparser, _common_opts))
     parsers.update(dtcli.commands.emulator.add(subparser, _common_opts))
