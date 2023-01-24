@@ -8,7 +8,7 @@ from dtcli.table import Table
 def add(subparser: _SubParsersAction) -> Dict[str, ArgumentParser]:
     config_parser = subparser.add_parser(
         name='config',
-        help='configure CLI behavior',
+        help='configure cli behavior',
         formatter_class=dtcli.format.SubcommandHelpFormatter,
     )
     config_subparser = config_parser.add_subparsers(

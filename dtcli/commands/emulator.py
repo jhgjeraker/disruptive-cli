@@ -187,7 +187,7 @@ def add(subparser: _SubParsersAction,
 
     emulator_parser = subparser.add_parser(
         name='emulator',
-        help='Interact with the Emulator resource.',
+        help='interact with your emulated devices',
         formatter_class=dtcli.format.SubcommandHelpFormatter,
     )
     emulator_subparser = emulator_parser.add_subparsers(

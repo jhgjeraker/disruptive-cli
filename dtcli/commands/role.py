@@ -11,7 +11,7 @@ def add(subparser: _SubParsersAction,
 
     role_parser = subparser.add_parser(
         name='role',
-        help='Interact with the Role resource.',
+        help='interact with your roles',
         formatter_class=dtcli.format.SubcommandHelpFormatter,
     )
     # Note that the dest argument should usually just be "role" here.

@@ -24,7 +24,7 @@ def create_add(subparser: _SubParsersAction,
     # create http-push
     http_push_parser = create_subparser.add_parser(
         name='http-push',
-        help='create a new HTTP_PUSH data connector',
+        help='create a new http-push data connector',
     )
     dtcli.args.data_connector.CREATE_HTTP_PUSH.to_parser(http_push_parser)
     common_opts(http_push_parser)
@@ -52,7 +52,7 @@ def update_add(subparser: _SubParsersAction,
     # update http-push
     http_push_parser = update_subparser.add_parser(
         name='http-push',
-        help='update a HTTP_PUSH data connector',
+        help='update a http-push data connector',
     )
     dtcli.args.data_connector.UPDATE_HTTP_PUSH.to_parser(http_push_parser)
     common_opts(http_push_parser)
@@ -67,7 +67,7 @@ def add(subparser: _SubParsersAction,
 
     data_connector_parser = subparser.add_parser(
         name='data-connector',
-        help='Interact with the Data Connector resource.',
+        help='interact with your data connectors',
         formatter_class=dtcli.format.SubcommandHelpFormatter,
     )
     data_connector_subparser = data_connector_parser.add_subparsers(

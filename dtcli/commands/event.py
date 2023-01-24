@@ -11,7 +11,7 @@ def add(subparser: _SubParsersAction,
 
     event_parser = subparser.add_parser(
         name='event',
-        help='Fetch events for one- or more devices.',
+        help='list or stream events from your devices',
         formatter_class=dtcli.format.SubcommandHelpFormatter,
     )
 
@@ -25,7 +25,7 @@ def add(subparser: _SubParsersAction,
     # List Events
     list_parser = event_subparser.add_parser(
         name='list',
-        help='List events from one- or more devices.',
+        help='list events from one or more devices',
     )
     dtcli.args.event.LIST.to_parser(list_parser)
     common_opts(list_parser)
@@ -34,7 +34,7 @@ def add(subparser: _SubParsersAction,
     # Stream Events
     stream_parser = event_subparser.add_parser(
         name='stream',
-        help='Stream events from one- or more devices.',
+        help='stream events from one or more devices',
     )
     dtcli.args.event.STREAM.to_parser(stream_parser)
     common_opts(stream_parser)

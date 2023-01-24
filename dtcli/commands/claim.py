@@ -11,7 +11,7 @@ def add(subparser: _SubParsersAction,
 
     claim_parser = subparser.add_parser(
         name='claim',
-        help='Interact with the Claim resource.',
+        help='configure or get device claim info',
         formatter_class=dtcli.format.SubcommandHelpFormatter,
     )
     claim_subparser = claim_parser.add_subparsers(
@@ -24,7 +24,7 @@ def add(subparser: _SubParsersAction,
     # claim claim
     claim_item_parser = claim_subparser.add_parser(
         name='claim',
-        help='Claim kits and devices.',
+        help='claim kits and devices',
     )
     dtcli.args.claim.CLAIM.to_parser(claim_item_parser)
     common_opts(claim_item_parser)
@@ -33,7 +33,7 @@ def add(subparser: _SubParsersAction,
     # claim info
     claim_info_parser = claim_subparser.add_parser(
         name='info',
-        help='Get claim info about a kit or device.',
+        help='get claim info about a kit or device',
     )
     dtcli.args.claim.INFO.to_parser(claim_info_parser)
     common_opts(claim_info_parser)

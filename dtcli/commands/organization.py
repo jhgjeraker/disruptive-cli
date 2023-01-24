@@ -76,7 +76,7 @@ def add(subparser: _SubParsersAction,
 
     organization_parser = subparser.add_parser(
         name='organization',
-        help='Interact with the Organization resource.',
+        help='interact with your organization',
         formatter_class=dtcli.format.SubcommandHelpFormatter,
     )
     organization_subparser = organization_parser.add_subparsers(

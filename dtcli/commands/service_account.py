@@ -67,7 +67,7 @@ def add(subparser: _SubParsersAction,
 
     service_account_parser = subparser.add_parser(
         name='service-account',
-        help='Interact with the Service Account resource.',
+        help='interact with your service accounts',
         formatter_class=dtcli.format.SubcommandHelpFormatter,
     )
     service_account_subparser = service_account_parser.add_subparsers(

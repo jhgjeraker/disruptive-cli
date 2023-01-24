@@ -49,7 +49,7 @@ def add(subparser: _SubParsersAction,
 
     device_parser = subparser.add_parser(
         name='device',
-        help='Interact with the Device resource.',
+        help='interact with your devices',
         formatter_class=dtcli.format.SubcommandHelpFormatter,
     )
     device_subparser = device_parser.add_subparsers(
@@ -62,7 +62,7 @@ def add(subparser: _SubParsersAction,
     # device get
     get_parser = device_subparser.add_parser(
         name='get',
-        help='Get a single device.',
+        help='get a single device',
     )
     dtcli.args.device.GET.to_parser(get_parser)
     common_opts(get_parser)
@@ -71,7 +71,7 @@ def add(subparser: _SubParsersAction,
     # Device List
     list_parser = device_subparser.add_parser(
         name='list',
-        help='Get one or more devices.',
+        help='get one or more devices',
     )
     dtcli.args.device.LIST.to_parser(list_parser)
     common_opts(list_parser)
@@ -80,7 +80,7 @@ def add(subparser: _SubParsersAction,
     # Devices Transfer
     transfer_parser = device_subparser.add_parser(
         name='transfer',
-        help='Transfer one or more devices.'
+        help='transfer one or more devices'
     )
     dtcli.args.device.TRANSFER.to_parser(transfer_parser)
     common_opts(transfer_parser)

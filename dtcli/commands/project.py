@@ -69,7 +69,7 @@ def member_add(subparser: _SubParsersAction,
     # member invite-url
     invite_url_parser = member_subparser.add_parser(
         name='invite-url',
-        help='get member invite URL',
+        help='get member invite url',
     )
     dtcli.args.project.MEMBER_INVITE_URL.to_parser(invite_url_parser)
     common_opts(invite_url_parser)
@@ -85,7 +85,7 @@ def add(subparser: _SubParsersAction,
 
     project_parser = subparser.add_parser(
         name='project',
-        help='Interact with the Project resource.',
+        help='interact with your projects',
         formatter_class=dtcli.format.SubcommandHelpFormatter,
     )
     project_subparser = project_parser.add_subparsers(

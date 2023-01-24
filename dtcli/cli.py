@@ -11,40 +11,40 @@ def _common_opts(parser: ArgumentParser) -> None:
     table_group.add_argument(
         '-i', '--interactive',
         action='store_true',
-        help='Enabled interactive mode if available.',
+        help='enables interactive mode if available',
     )
     table_group = parser.add_argument_group('table')
     table_group.add_argument(
         '--include',
         metavar='',
-        help='Exclusively include named columns.',
+        help='exclusively include named columns',
     )
     table_group.add_argument(
         '--full',
         action='store_true',
-        help='Show all available columns.',
+        help='show hidden columns',
     )
     table_group.add_argument(
         '--no-header',
         action='store_true',
-        help='Excludes table header from output.',
+        help='excludes table header from output',
     )
 
     format_group = parser.add_argument_group('formatting')
     format_group.add_argument(
         '--csv',
         action='store_true',
-        help='Output formatted as comma-separated values.',
+        help='output as comma-separated values',
     )
     format_group.add_argument(
         '--tsv',
         action='store_true',
-        help='Output formatted as tab-separated values.',
+        help='output as tab-separated values',
     )
     format_group.add_argument(
         '--json',
         action='store_true',
-        help='Output formatted as individual JSON entries.',
+        help='output as individual JSON entries',
     )
 
 
