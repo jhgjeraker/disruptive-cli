@@ -1,4 +1,4 @@
-# Unreleased
+# v0.4.0
 ### Added
 - [#16](https://github.com/jhgjeraker/disruptive-cli/pull/16) Emulator publish for desk occupancy event.
 
