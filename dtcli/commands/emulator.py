@@ -166,6 +166,16 @@ def publish_add(subparser: _SubParsersAction,
         to_parser(motion_parser)
     common_opts(motion_parser)
 
+    # ----------------------
+    # publish desk-occupancy
+    motion_parser = publish_subparser.add_parser(
+        name='desk-occupancy',
+        help='publish deskOccupancy event',
+    )
+    dtcli.args.emulator.PUBLISH_DESK_OCCUPANCY.\
+        to_parser(motion_parser)
+    common_opts(motion_parser)
+
     assert isinstance(publish_parser, ArgumentParser)
 
     return publish_parser
@@ -258,6 +268,8 @@ def do(parsers: Dict[str, ArgumentParser],
             return dtcli.resources.emulator.publish_pressure(**kwargs)
         elif kwargs['publish'] == 'motion':
             return dtcli.resources.emulator.publish_motion(**kwargs)
+        elif kwargs['publish'] == 'desk-occupancy':
+            return dtcli.resources.emulator.publish_desk_occupancy(**kwargs)
         else:
             print(parsers['publish'].format_help())
     else:

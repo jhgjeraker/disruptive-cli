@@ -366,3 +366,24 @@ def publish_motion(**kwargs: Any) -> Table:
     )
 
     return Table.empty()
+
+
+def publish_desk_occupancy(**kwargs: Any) -> Table:
+    ok, args = dtcli.args.emulator.PUBLISH_DESK_OCCUPANCY.reparse(**kwargs)
+    if not ok:
+        return Table.empty()
+
+    # Create an instance of DeskOccupancy that is injected into args.
+    data_args = {}
+    for key in ['timestamp', 'state', 'remarks']:
+        if key in args:
+            data_args[key] = args[key]
+            args.pop(key)
+    args['data'] = dt.events.DeskOccupancy(**data_args)
+
+    dtcli.args.emulator.PUBLISH_DESK_OCCUPANCY.call(
+        method=dt.Emulator.publish_event,
+        method_args=args
+    )
+
+    return Table.empty()
