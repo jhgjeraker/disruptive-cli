@@ -71,3 +71,46 @@ label_set_error = {
         "message": "illegal key",
     },
 }
+
+project = {
+    "name": "projects/c10u7p094l47cdv013pg",
+    "displayName": "test-project",
+    "organization": "organizations/c11hhmq0ss90036gu51g",
+    "organizationDisplayName": "test-org",
+    "sensorCount": 12,
+    "cloudConnectorCount": 1,
+    "inventory": False
+}
+
+projects = [
+    project,
+    project,
+    project,
+    project,
+]
+
+project_permissions = [
+    'sensor.read',
+    'serviceaccount.key.delete',
+    'dataconnector.read',
+    'membership.update',
+    'serviceaccount.delete',
+]
+
+member_pending_user = {
+    "name": "projects/c14u8u090l47cdv1o3pg/members/20744",
+    "displayName": "some-email@addr.no",
+    "roles": [
+      "roles/project.user"
+    ],
+    "status": "PENDING",
+    "email": "some-email@addr.no",
+    "accountType": "USER",
+    "createTime": "2023-02-07T10:47:06.993125Z"
+}
+
+members = [
+    member_pending_user,
+    member_pending_user,
+    member_pending_user,
+]
