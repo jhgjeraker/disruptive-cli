@@ -2,10 +2,8 @@ import sys
 from typing import Any, List
 from dataclasses import dataclass
 
-import pytest
-
-import dtcli
 import tests.api_responses as responses
+import tests.framework as framework
 
 
 class TestDevice():
@@ -42,8 +40,8 @@ class TestDevice():
             ),
             TestCase(
                 name='missing device-id',
-                give_res={},
                 give_args=[],
+                give_res={},
                 want_n_cols=0,
                 want_n_rows=0,
                 want_row_type=None,
@@ -54,18 +52,7 @@ class TestDevice():
         for test in tests:
             sys.argv = ['main.py', 'device', 'get'] + test.give_args
             dt_device_mock.res = test.give_res
-
-            if test.want_error is None:
-                table = dtcli.cli.main()
-
-                assert test.want_n_rows == table.n_rows, test.name
-                assert test.want_n_cols == table.n_columns, test.name
-
-                for row in table.rows:
-                    assert isinstance(row, test.want_row_type), test.name
-            else:
-                with pytest.raises(test.want_error):
-                    dtcli.cli.main()
+            framework.table_test(test)
 
     def test_device_list(self, dt_device_mock):
         @dataclass
@@ -137,18 +124,7 @@ class TestDevice():
         for test in tests:
             sys.argv = ['main.py', 'device', 'list'] + test.give_args
             dt_device_mock.res = test.give_res
-
-            if test.want_error is None:
-                table = dtcli.cli.main()
-
-                assert test.want_n_rows == table.n_rows, test.name
-                assert test.want_n_cols == table.n_columns, test.name
-
-                for row in table.rows:
-                    assert isinstance(row, test.want_row_type), test.name
-            else:
-                with pytest.raises(test.want_error):
-                    dtcli.cli.main()
+            framework.table_test(test)
 
     def test_device_transfer(self, dt_device_mock):
         @dataclass
@@ -193,19 +169,7 @@ class TestDevice():
         for test in tests:
             sys.argv = ['main.py', 'device', 'transfer'] + test.give_args
             dt_device_mock.res = test.give_res
-
-            if test.want_error is None:
-                table = dtcli.cli.main()
-
-                assert test.want_n_rows == table.n_rows, test.name
-                assert test.want_n_cols == table.n_columns, test.name
-
-                for row in table.rows:
-                    assert isinstance(row, test.want_row_type), test.name
-
-            else:
-                with pytest.raises(test.want_error):
-                    dtcli.cli.main()
+            framework.table_test(test)
 
     def test_device_label_set(self, dt_device_mock):
         @dataclass
@@ -266,16 +230,4 @@ class TestDevice():
         for test in tests:
             sys.argv = ['main.py', 'device', 'label', 'set'] + test.give_args
             dt_device_mock.res = test.give_res
-
-            if test.want_error is None:
-                table = dtcli.cli.main()
-
-                assert test.want_n_rows == table.n_rows, test.name
-                assert test.want_n_cols == table.n_columns, test.name
-
-                for row in table.rows:
-                    assert isinstance(row, test.want_row_type), test.name
-
-            else:
-                with pytest.raises(test.want_error):
-                    dtcli.cli.main()
+            framework.table_test(test)
