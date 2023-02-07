@@ -156,3 +156,94 @@ class DTDataconnectorMock(DTMock):
                                        project_id: str,
                                        **kwargs):
         return None
+
+
+class DTProjectMock(DTMock):
+
+    def __init__(self, mocker):
+        super().__init__(mocker)
+
+        self.project_get_patcher = self._mocker.patch(
+            'disruptive.Project.get_project',
+            side_effect=self._patched_project_get,
+        )
+        self.project_list_patcher = self._mocker.patch(
+            'disruptive.Project.list_projects',
+            side_effect=self._patched_project_list,
+        )
+        self.project_create_patcher = self._mocker.patch(
+            'disruptive.Project.create_project',
+            side_effect=self._patched_project_create,
+        )
+        self.project_update_patcher = self._mocker.patch(
+            'disruptive.Project.update_project',
+            side_effect=self._patched_project_update,
+        )
+        self.project_delete_patcher = self._mocker.patch(
+            'disruptive.Project.delete_project',
+            side_effect=self._patched_project_delete,
+        )
+        self.project_permissions_patcher = self._mocker.patch(
+            'disruptive.Project.list_permissions',
+            side_effect=self._patched_project_permissions,
+        )
+        self.project_member_add_patcher = self._mocker.patch(
+            'disruptive.Project.add_member',
+            side_effect=self._patched_project_member_add,
+        )
+        self.project_member_remove_patcher = self._mocker.patch(
+            'disruptive.Project.remove_member',
+            side_effect=self._patched_project_member_remove,
+        )
+        self.project_member_get_patcher = self._mocker.patch(
+            'disruptive.Project.get_member',
+            side_effect=self._patched_project_member_get,
+        )
+        self.project_member_update_patcher = self._mocker.patch(
+            'disruptive.Project.update_member',
+            side_effect=self._patched_project_member_update,
+        )
+        self.project_member_list_patcher = self._mocker.patch(
+            'disruptive.Project.list_members',
+            side_effect=self._patched_project_member_list,
+        )
+        self.project_member_invite_url_patcher = self._mocker.patch(
+            'disruptive.Project.get_member_invite_url',
+            side_effect=self._patched_project_member_invite_url,
+        )
+
+    def _patched_project_get(self, project_id, **kwargs):
+        return dt.Project(self.res)
+
+    def _patched_project_list(self, **kwargs):
+        return [dt.Project(res) for res in self.res]
+
+    def _patched_project_create(self, **kwargs):
+        return dt.Project(self.res)
+
+    def _patched_project_update(self, **kwargs):
+        return None
+
+    def _patched_project_delete(self, **kwargs):
+        return None
+
+    def _patched_project_permissions(self, **kwargs):
+        return self.res
+
+    def _patched_project_member_add(self, **kwargs):
+        return dt.Member(self.res)
+
+    def _patched_project_member_remove(self, **kwargs):
+        return None
+
+    def _patched_project_member_get(self, **kwargs):
+        return dt.Member(self.res)
+
+    def _patched_project_member_update(self, **kwargs):
+        return dt.Member(self.res)
+
+    def _patched_project_member_list(self, **kwargs):
+        return [dt.Member(res) for res in self.res]
+
+    def _patched_project_member_invite_url(self, **kwargs):
+        return self.res
