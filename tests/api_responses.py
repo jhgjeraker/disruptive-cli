@@ -114,3 +114,32 @@ members = [
     member_pending_user,
     member_pending_user,
 ]
+
+service_account = {
+    "name": "projects/c15u8p094147udv103pg/serviceaccounts/c952Pftnladgo0bnhjt1",
+    "email": "c852pttnlAdg01bmhito@c14u9p094l57wdu103pi.serviceaccount.d21s.com",
+    "displayName": "test-sa",
+    "enableBasicAuth": True,
+    "createTime": "2022-02-14T10:19:43.392171Z",
+    "updateTime": "2022-03-28T08:57:23.416978Z"
+}
+
+service_accounts = [
+    service_account,
+    service_account,
+    service_account,
+]
+
+service_account_key = {
+    "name": "projects/c14i2po94i42cdu1u3pg/serviceaccounts/c852ufbnladgi0buhjt0/keys/iflp4uhv2tbg01bf5600",
+    "id": "iflp4uhv2tbg01bf5600",
+    "createTime": "2023-02-14T13:54:02.543389Z"
+}
+
+service_account_keys = [
+    service_account_key,
+    service_account_key,
+    service_account_key,
+    service_account_key,
+    service_account_key,
+]

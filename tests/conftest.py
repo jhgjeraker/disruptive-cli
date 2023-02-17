@@ -21,3 +21,8 @@ def dt_dataconnector_mock(mocker):
 @pytest.fixture()
 def dt_project_mock(mocker):
     return fw.DTProjectMock(mocker)
+
+
+@pytest.fixture()
+def dt_serviceaccount_mock(mocker):
+    return fw.DTServiceAccountMock(mocker)
