@@ -380,3 +380,17 @@ class DTOrganizationMock(DTMock):
 
     def _patched_organization_member_invite_url(self, **kwargs):
         return self.res
+
+
+class DTEventMock(DTMock):
+
+    def __init__(self, mocker):
+        super().__init__(mocker)
+
+        self.event_list_patcher = self._mocker.patch(
+            'disruptive.EventHistory.list_events',
+            side_effect=self._patched_event_list,
+        )
+
+    def _patched_event_list(self, **kwargs):
+        return dt.events.Event.from_mixed_list(self.res)

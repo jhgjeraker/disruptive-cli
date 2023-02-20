@@ -182,3 +182,53 @@ service_account_keys = [
     service_account_key,
     service_account_key,
 ]
+
+temperature_event = {
+    "eventId": "cfp1104dbbioigt17s30",
+    "targetName": "projects/c43bu3eb9da7puhjoor0/devices/bl7ukshbutbg109kco1u",
+    "eventType": "temperature",
+    "data": {
+        "temperature": {
+            "value": 17.1,
+            "updateTime": "2023-02-19T13:14:04.227000Z",
+            "samples": [
+                {
+                    "value": 17.1,
+                    "sampleTime": "2023-02-19T13:14:04.227000Z"
+                }
+            ]
+        }
+    },
+    "timestamp": "2023-02-19T13:14:04.227000Z"
+}
+
+network_status_event = {
+    "eventId": "cfp1104dbbioigt17s30",
+    "targetName": "projects/c43bu3eb9da7puhjoor0/devices/bl7ukshbutbg109kco1u",
+    "eventType": "networkStatus",
+    "data": {
+        "networkStatus": {
+            "signalStrength": 76,
+            "rssi": -64,
+            "updateTime": "2023-02-19T13:14:04.227000Z",
+            "cloudConnectors": [
+                {
+                    "id": "bbefuu1c01111540t77g",
+                    "signalStrength": 76,
+                    "rssi": -64
+                }
+            ],
+            "transmissionMode": "LOW_POWER_STANDARD_MODE"
+        }
+    },
+    "timestamp": "2023-02-19T13:14:04.227000Z"
+}
+
+events_list = [
+    temperature_event,
+    network_status_event,
+    temperature_event,
+    network_status_event,
+    temperature_event,
+    network_status_event,
+]

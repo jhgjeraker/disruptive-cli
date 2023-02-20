@@ -31,3 +31,8 @@ def dt_serviceaccount_mock(mocker):
 @pytest.fixture()
 def dt_organization_mock(mocker):
     return fw.DTOrganizationMock(mocker)
+
+
+@pytest.fixture()
+def dt_event_mock(mocker):
+    return fw.DTEventMock(mocker)
