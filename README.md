@@ -36,6 +36,12 @@ dt device get <DEVICE_ID>
 
 See `dt -h` for additional commands.
 
+### Completion
+Bash completion is currently supported. Copy the completion script in `disruptive-cli/completion` to your place of choice in path, then source it from either `.bashrc`, `.bash_profile`, or `.profile` depending on your environment.
+```
+source '/usr/local/bin/dt-completion.bash'
+```
+
 ## Formatting
 A tabular human readable output is prioritized.
 
