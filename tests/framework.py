@@ -247,3 +247,73 @@ class DTProjectMock(DTMock):
 
     def _patched_project_member_invite_url(self, **kwargs):
         return self.res
+
+
+class DTServiceAccountMock(DTMock):
+
+    def __init__(self, mocker):
+        super().__init__(mocker)
+
+        self.serviceaccount_get_patcher = self._mocker.patch(
+            'disruptive.ServiceAccount.get_service_account',
+            side_effect=self._patched_serviceaccount_get,
+        )
+        self.serviceaccount_list_patcher = self._mocker.patch(
+            'disruptive.ServiceAccount.list_service_accounts',
+            side_effect=self._patched_serviceaccount_list,
+        )
+        self.serviceaccount_create_patcher = self._mocker.patch(
+            'disruptive.ServiceAccount.create_service_account',
+            side_effect=self._patched_serviceaccount_create,
+        )
+        self.serviceaccount_update_patcher = self._mocker.patch(
+            'disruptive.ServiceAccount.update_service_account',
+            side_effect=self._patched_serviceaccount_update,
+        )
+        self.serviceaccount_delete_patcher = self._mocker.patch(
+            'disruptive.ServiceAccount.delete_service_account',
+            side_effect=self._patched_serviceaccount_delete,
+        )
+        self.serviceaccount_key_get_patcher = self._mocker.patch(
+            'disruptive.ServiceAccount.get_key',
+            side_effect=self._patched_serviceaccount_key_get,
+        )
+        self.serviceaccount_key_create_patcher = self._mocker.patch(
+            'disruptive.ServiceAccount.create_key',
+            side_effect=self._patched_serviceaccount_key_create,
+        )
+        self.serviceaccount_key_list_patcher = self._mocker.patch(
+            'disruptive.ServiceAccount.list_keys',
+            side_effect=self._patched_serviceaccount_key_list,
+        )
+        self.serviceaccount_key_delete_patcher = self._mocker.patch(
+            'disruptive.ServiceAccount.delete_key',
+            side_effect=self._patched_serviceaccount_key_delete,
+        )
+
+    def _patched_serviceaccount_get(self, **kwargs):
+        return dt.ServiceAccount(self.res)
+
+    def _patched_serviceaccount_list(self, **kwargs):
+        return [dt.ServiceAccount(res) for res in self.res]
+
+    def _patched_serviceaccount_create(self, **kwargs):
+        return dt.ServiceAccount(self.res)
+
+    def _patched_serviceaccount_update(self, **kwargs):
+        return dt.ServiceAccount(self.res)
+
+    def _patched_serviceaccount_delete(self, **kwargs):
+        return self.res
+
+    def _patched_serviceaccount_key_get(self, **kwargs):
+        return dt.Key(self.res)
+
+    def _patched_serviceaccount_key_create(self, **kwargs):
+        return dt.Key(self.res)
+
+    def _patched_serviceaccount_key_list(self, **kwargs):
+        return [dt.Key(res) for res in self.res]
+
+    def _patched_serviceaccount_key_delete(self, **kwargs):
+        return self.res
