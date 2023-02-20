@@ -36,3 +36,8 @@ def dt_organization_mock(mocker):
 @pytest.fixture()
 def dt_event_mock(mocker):
     return fw.DTEventMock(mocker)
+
+
+@pytest.fixture()
+def dt_role_mock(mocker):
+    return fw.DTRoleMock(mocker)

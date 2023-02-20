@@ -232,3 +232,48 @@ events_list = [
     temperature_event,
     network_status_event,
 ]
+
+role_project_user = {
+    "name": "roles/project.user",
+    "displayName": "Project user",
+    "description": "Users cannot change anything, just view the data in the Project",
+    "permissions": [
+        "project.read",
+        "membership.read",
+        "sensor.read",
+        "device.read",
+        "dataconnector.read",
+        "serviceaccount.read",
+        "serviceaccount.key.read",
+        "emulator.read"
+    ]
+}
+
+role_project_developer = {
+    "name": "roles/project.developer",
+    "displayName": "Project developer",
+    "description": "Allows editing devices and Project settings",
+    "permissions": [
+        "project.read",
+        "membership.read",
+        "sensor.read",
+        "sensor.update",
+        "device.read",
+        "device.update",
+        "dataconnector.create",
+        "dataconnector.read",
+        "dataconnector.update",
+        "dataconnector.delete",
+        "serviceaccount.read",
+        "serviceaccount.key.read",
+        "emulator.read",
+        "emulator.update",
+        "emulator.create",
+        "emulator.delete"
+    ]
+}
+
+roles = [
+    role_project_user,
+    role_project_developer,
+]

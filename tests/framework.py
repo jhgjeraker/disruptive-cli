@@ -394,3 +394,24 @@ class DTEventMock(DTMock):
 
     def _patched_event_list(self, **kwargs):
         return dt.events.Event.from_mixed_list(self.res)
+
+
+class DTRoleMock(DTMock):
+
+    def __init__(self, mocker):
+        super().__init__(mocker)
+
+        self.role_get_patcher = self._mocker.patch(
+            'disruptive.Role.get_role',
+            side_effect=self._patched_role_get,
+        )
+        self.role_list_patcher = self._mocker.patch(
+            'disruptive.Role.list_roles',
+            side_effect=self._patched_role_list,
+        )
+
+    def _patched_role_get(self, **kwargs):
+        return dt.Role(self.res)
+
+    def _patched_role_list(self, **kwargs):
+        return [dt.Role(res) for res in self.res]
