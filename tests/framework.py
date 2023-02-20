@@ -380,3 +380,66 @@ class DTOrganizationMock(DTMock):
 
     def _patched_organization_member_invite_url(self, **kwargs):
         return self.res
+
+
+class DTEventMock(DTMock):
+
+    def __init__(self, mocker):
+        super().__init__(mocker)
+
+        self.event_list_patcher = self._mocker.patch(
+            'disruptive.EventHistory.list_events',
+            side_effect=self._patched_event_list,
+        )
+
+    def _patched_event_list(self, **kwargs):
+        return dt.events.Event.from_mixed_list(self.res)
+
+
+class DTRoleMock(DTMock):
+
+    def __init__(self, mocker):
+        super().__init__(mocker)
+
+        self.role_get_patcher = self._mocker.patch(
+            'disruptive.Role.get_role',
+            side_effect=self._patched_role_get,
+        )
+        self.role_list_patcher = self._mocker.patch(
+            'disruptive.Role.list_roles',
+            side_effect=self._patched_role_list,
+        )
+
+    def _patched_role_get(self, **kwargs):
+        return dt.Role(self.res)
+
+    def _patched_role_list(self, **kwargs):
+        return [dt.Role(res) for res in self.res]
+
+
+class DTEmulatorMock(DTMock):
+
+    def __init__(self, mocker):
+        super().__init__(mocker)
+
+        self.emulator_create_patcher = self._mocker.patch(
+            'disruptive.Emulator.create_device',
+            side_effect=self._patched_emulator_create,
+        )
+        self.emulator_delete_patcher = self._mocker.patch(
+            'disruptive.Emulator.delete_device',
+            side_effect=self._patched_emulator_delete,
+        )
+        self.emulator_publish_patcher = self._mocker.patch(
+            'disruptive.Emulator.publish_event',
+            side_effect=self._patched_emulator_publish,
+        )
+
+    def _patched_emulator_create(self, **kwargs):
+        return dt.Device(self.res)
+
+    def _patched_emulator_delete(self, **kwargs):
+        return self.res
+
+    def _patched_emulator_publish(self, **kwargs):
+        return self.res
