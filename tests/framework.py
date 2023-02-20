@@ -317,3 +317,66 @@ class DTServiceAccountMock(DTMock):
 
     def _patched_serviceaccount_key_delete(self, **kwargs):
         return self.res
+
+
+class DTOrganizationMock(DTMock):
+
+    def __init__(self, mocker):
+        super().__init__(mocker)
+
+        self.organization_get_patcher = self._mocker.patch(
+            'disruptive.Organization.get_organization',
+            side_effect=self._patched_organization_get,
+        )
+        self.organization_list_patcher = self._mocker.patch(
+            'disruptive.Organization.list_organizations',
+            side_effect=self._patched_organization_list,
+        )
+        self.organization_permissions_patcher = self._mocker.patch(
+            'disruptive.Organization.list_permissions',
+            side_effect=self._patched_organization_permissions,
+        )
+        self.organization_member_add_patcher = self._mocker.patch(
+            'disruptive.Organization.add_member',
+            side_effect=self._patched_organization_add_member,
+        )
+        self.organization_member_remove_patcher = self._mocker.patch(
+            'disruptive.Organization.remove_member',
+            side_effect=self._patched_organization_remove_member,
+        )
+        self.organization_member_get_patcher = self._mocker.patch(
+            'disruptive.Organization.get_member',
+            side_effect=self._patched_organization_get_member,
+        )
+        self.organization_member_list_patcher = self._mocker.patch(
+            'disruptive.Organization.list_members',
+            side_effect=self._patched_organization_list_members,
+        )
+        self.organization_member_invite_url_patcher = self._mocker.patch(
+            'disruptive.Organization.get_member_invite_url',
+            side_effect=self._patched_organization_member_invite_url,
+        )
+
+    def _patched_organization_get(self, **kwargs):
+        return dt.Organization(self.res)
+
+    def _patched_organization_list(self, **kwargs):
+        return [dt.Organization(res) for res in self.res]
+
+    def _patched_organization_permissions(self, **kwargs):
+        return [res for res in self.res]
+
+    def _patched_organization_add_member(self, **kwargs):
+        return dt.Member(self.res)
+
+    def _patched_organization_remove_member(self, **kwargs):
+        return self.res
+
+    def _patched_organization_get_member(self, **kwargs):
+        return dt.Member(self.res)
+
+    def _patched_organization_list_members(self, **kwargs):
+        return [dt.Member(res) for res in self.res]
+
+    def _patched_organization_member_invite_url(self, **kwargs):
+        return self.res
