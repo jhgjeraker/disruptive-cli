@@ -391,9 +391,16 @@ class DTEventMock(DTMock):
             'disruptive.EventHistory.list_events',
             side_effect=self._patched_event_list,
         )
+        self.event_stream_patcher = self._mocker.patch(
+            'disruptive.Stream.event_stream',
+            side_effect=self._patched_event_stream,
+        )
 
     def _patched_event_list(self, **kwargs):
         return dt.events.Event.from_mixed_list(self.res)
+
+    def _patched_event_stream(self, **kwargs):
+        return self.res
 
 
 class DTRoleMock(DTMock):
