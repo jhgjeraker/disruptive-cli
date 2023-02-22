@@ -59,3 +59,40 @@ class TestEvent():
             sys.argv = ['main.py', 'event', 'list'] + test.give_args
             dt_event_mock.res = test.give_res
             framework.table_test(test)
+
+    def test_event_stream(self, dt_event_mock):
+        @dataclass
+        class TestCase:
+            name: str
+            give_args: List[str]
+            give_res: List[dict]
+            want_n_rows: int
+            want_n_cols: int
+            want_row_type: Any
+            want_error: Any
+
+        tests = [
+            TestCase(
+                name='minimal',
+                give_args=['project-id'],
+                give_res=responses.events_list,
+                want_n_rows=6,
+                want_n_cols=3,
+                want_row_type=str,
+                want_error=None,
+            ),
+            TestCase(
+                name='--full',
+                give_args=['project-id', '--full'],
+                give_res=responses.events_list,
+                want_n_rows=6,
+                want_n_cols=5,
+                want_row_type=str,
+                want_error=None,
+            ),
+        ]
+
+        for test in tests:
+            sys.argv = ['main.py', 'event', 'stream'] + test.give_args
+            dt_event_mock.res = test.give_res
+            framework.table_test(test)
