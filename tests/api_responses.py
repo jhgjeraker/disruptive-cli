@@ -277,3 +277,35 @@ roles = [
     role_project_user,
     role_project_developer,
 ]
+
+claim_device = {
+    "type": "DEVICE",
+    "device": {
+        "deviceId": "cbvatvi87d5i8s51aagg",
+        "deviceType": "temperature",
+        "productNumber": "102058",
+        "isClaimed": False
+    }
+}
+
+claim_kit = {
+    "type": "KIT",
+    "kit": {
+        "kitId": "abc-01-abc",
+        "displayName": "Starter Kit EU",
+        "devices": [
+            {
+                "deviceId": "cbvb8pi87d5iup9au4n0",
+                "deviceType": "temperature",
+                "productNumber": "102058",
+                "isClaimed": False
+            },
+            {
+                "deviceId": "cbvlo5a87d5gsoh5tak0",
+                "deviceType": "proximity",
+                "productNumber": "102075",
+                "isClaimed": True
+            }
+        ]
+    }
+}

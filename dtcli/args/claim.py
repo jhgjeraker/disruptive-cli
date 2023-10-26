@@ -36,4 +36,12 @@ INFO = dtcli.parser.CmdArgs([
         xid=False,
         format=dtcli.format.to_string,
     ),
+    dtcli.parser.Arg(
+        key='organization_id',
+        flags=['--organization-id'],
+        xid=True,
+        help='identifier of target organization',
+        metavar='',
+        format=dtcli.format.to_string,
+    ),
 ])
