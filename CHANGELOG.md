@@ -1,3 +1,10 @@
+# v0.5.0
+### Added
+- [#24](https://github.com/jhgjeraker/disruptive-cli/pull/24) Added --organization-id to claim-info.
+
+### Changed
+- [#25](https://github.com/jhgjeraker/disruptive-cli/pull/25) Python 3.7 is end-of-life and has been deprecated.
+
 # v0.4.0
 ### Added
 - [#16](https://github.com/jhgjeraker/disruptive-cli/pull/16) Emulator publish for desk occupancy event.
