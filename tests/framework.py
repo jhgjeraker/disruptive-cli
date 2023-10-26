@@ -450,3 +450,17 @@ class DTEmulatorMock(DTMock):
 
     def _patched_emulator_publish(self, **kwargs):
         return self.res
+
+
+class DTClaimMock(DTMock):
+
+    def __init__(self, mocker):
+        super().__init__(mocker)
+
+        self.claim_info_patcher = self._mocker.patch(
+            'disruptive.Claim.claim_info',
+            side_effect=self._patched_claim_info,
+        )
+
+    def _patched_claim_info(self, **kwargs):
+        return dt.Claim(self.res)

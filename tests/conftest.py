@@ -46,3 +46,8 @@ def dt_role_mock(mocker):
 @pytest.fixture()
 def dt_emulator_mock(mocker):
     return fw.DTEmulatorMock(mocker)
+
+
+@pytest.fixture()
+def dt_claim_mock(mocker):
+    return fw.DTClaimMock(mocker)
