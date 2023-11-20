@@ -1,4 +1,4 @@
-__VERSION__ = '0.5.0'
+__VERSION__ = '0.5.1'
 
 import dtcli.cli as cli  # noqa
 import dtcli.format as format  # noqa

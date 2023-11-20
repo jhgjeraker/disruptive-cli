@@ -1,3 +1,7 @@
+# v0.5.1
+### Added
+- [#26](https://github.com/jhgjeraker/disruptive-cli/pull/26) Python 3.12 support.
+
 # v0.5.0
 ### Added
 - [#24](https://github.com/jhgjeraker/disruptive-cli/pull/24) Added --organization-id to claim-info.
